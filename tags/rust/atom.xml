@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title> - rust</title>
-    <link rel="self" type="application/atom+xml" href="https://errphoenix.github.io/anisotropic-site/tags/rust/atom.xml"/>
-    <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/"/>
+    <link rel="self" type="application/atom+xml" href="https://anisotropic.lol/tags/rust/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://anisotropic.lol/"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>2023-07-29T00:00:00+00:00</updated>
-    <id>https://errphoenix.github.io/anisotropic-site/tags/rust/atom.xml</id>
+    <id>https://anisotropic.lol/tags/rust/atom.xml</id>
     <entry xml:lang="en">
         <title>Internal rate of return calculation</title>
         <published>2023-07-29T00:00:00+00:00</published>
@@ -17,10 +17,10 @@
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/calculating-internal-interest-rate/"/>
+        <id>https://anisotropic.lol/blog/calculating-internal-interest-rate/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/">&lt;p&gt;The internal rate of return (IRR) is a potent financial measure used in financial analysis, accounting, and portfolio management to gauge the profitability of investments.
+        <content type="html" xml:base="https://anisotropic.lol/blog/calculating-internal-interest-rate/">&lt;p&gt;The internal rate of return (IRR) is a potent financial measure used in financial analysis, accounting, and portfolio management to gauge the profitability of investments.
 It&#39;s like the heartbeat of an investment - an indicator of health, the higher it is, the better the investment.
 This powerful tool can help investors compare different investment options, assisting in making informed decisions about where to allocate their capital.
 Especially when cash flows are irregular, as often is the case in real-world scenarios, IRR becomes invaluable.
@@ -84,8 +84,8 @@ It&#39;s where our $irr$ satisfies the condition $\mathit{NPV} = 0$.
 For our data, it is somewhere between $0.35$ and $0.40$, or $35\%$ and $40\%$.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;figure class=&quot;mt-4&quot;&gt;&lt;span class=&quot;light-dark-image inline-block&quot;&gt;
-      &lt;img class=&quot;block image-shortcode&quot; src=&quot;https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/irr-npv-function-light.webp&quot; alt=&quot;Plot of the NPV as a function of the rate with the values from the table&quot; width=&quot;560.0&quot; height=&quot;360.0&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
-      &lt;img class=&quot;block image-shortcode&quot; src=&quot;https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/irr-npv-function-dark.webp&quot; alt=&quot;Plot of the NPV as a function of the rate with the values from the table&quot; width=&quot;560.0&quot; height=&quot;360.0&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
+      &lt;img class=&quot;block image-shortcode&quot; src=&quot;https://anisotropic.lol/blog/calculating-internal-interest-rate/irr-npv-function-light.webp&quot; alt=&quot;Plot of the NPV as a function of the rate with the values from the table&quot; width=&quot;560.0&quot; height=&quot;360.0&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
+      &lt;img class=&quot;block image-shortcode&quot; src=&quot;https://anisotropic.lol/blog/calculating-internal-interest-rate/irr-npv-function-dark.webp&quot; alt=&quot;Plot of the NPV as a function of the rate with the values from the table&quot; width=&quot;560.0&quot; height=&quot;360.0&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
     &lt;/span&gt;
     &lt;figcaption class=&quot;italic&quot;&gt;Downward-sloping NPV curve&lt;/figcaption&gt;
 &lt;/figure&gt;

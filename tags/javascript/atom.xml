@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title> - javascript</title>
-    <link rel="self" type="application/atom+xml" href="https://errphoenix.github.io/anisotropic-site/tags/javascript/atom.xml"/>
-    <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/"/>
+    <link rel="self" type="application/atom+xml" href="https://anisotropic.lol/tags/javascript/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://anisotropic.lol/"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>2026-02-11T00:00:00+00:00</updated>
-    <id>https://errphoenix.github.io/anisotropic-site/tags/javascript/atom.xml</id>
+    <id>https://anisotropic.lol/tags/javascript/atom.xml</id>
     <entry xml:lang="en">
         <title>Adding audio to your blog</title>
         <published>2026-02-11T00:00:00+00:00</published>
@@ -17,10 +17,10 @@
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/audio-player-shortcode/"/>
+        <id>https://anisotropic.lol/blog/audio-player-shortcode/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/">&lt;p&gt;There are two practical ways to add audio to a blog: use the native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; element or render a custom player with JavaScript.
+        <content type="html" xml:base="https://anisotropic.lol/blog/audio-player-shortcode/">&lt;p&gt;There are two practical ways to add audio to a blog: use the native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; element or render a custom player with JavaScript.
 The &lt;a rel=&quot;external&quot; href=&quot;https://www.getzola.org/&quot;&gt;Zola&lt;/a&gt; theme &lt;a rel=&quot;external&quot; href=&quot;https://github.com/thomasweitzel/zolarwind&quot;&gt;Zolarwind&lt;/a&gt; provides two components that map to those choices: &lt;code&gt;audio_simple&lt;/code&gt; uses the native element, &lt;code&gt;audio&lt;/code&gt; uses a custom player.
 Both are usable as-is, and the choice comes down to how much control you want over the player UI.&lt;/p&gt;
 &lt;h2 id=&quot;the-baseline-native-audio&quot;&gt;The baseline native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt;&lt;/h2&gt;
@@ -88,9 +88,9 @@ The native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; controls are not used;
             &lt;/div&gt;
         &lt;/div&gt;
         &lt;div class=&quot;speaker-div1 flex-none pl-2 hover:text-fail-600&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;&lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/howler.js&quot; integrity=&quot;sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/audio-player.js&quot; integrity=&quot;sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/audio-init.js&quot; integrity=&quot;sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+    &lt;/div&gt;&lt;script src=&quot;https://anisotropic.lol/js/audio/howler.js&quot; integrity=&quot;sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://anisotropic.lol/js/audio/audio-player.js&quot; integrity=&quot;sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://anisotropic.lol/js/audio/audio-init.js&quot; integrity=&quot;sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc&quot;&gt;&lt;/script&gt;&lt;/div&gt;
 &lt;p&gt;I prefer the &lt;code&gt;audio&lt;/code&gt; component, because I want a stable player UI across browsers.
 &lt;code&gt;audio_simple&lt;/code&gt; stays in the toolbox because it keeps the setup small and uses no extra JavaScript.&lt;/p&gt;
 &lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
@@ -112,10 +112,10 @@ The native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; controls are not used;
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/game-of-fifteen/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/game-of-fifteen/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/game-of-fifteen/"/>
+        <id>https://anisotropic.lol/blog/game-of-fifteen/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/game-of-fifteen/">&lt;p&gt;The Game of Fifteen is a sliding puzzle that consists of a square with tiles numbered from 1 to 15 in random order with one tile missing.
+        <content type="html" xml:base="https://anisotropic.lol/blog/game-of-fifteen/">&lt;p&gt;The Game of Fifteen is a sliding puzzle that consists of a square with tiles numbered from 1 to 15 in random order with one tile missing.
 To solve the puzzle, you must place the tiles in order by moving tiles to the empty space.&lt;/p&gt;
 &lt;h2 id=&quot;how-to-play&quot;&gt;How to play&lt;/h2&gt;
 &lt;p&gt;Play the game online by clicking/tapping on the tile you want to move.
@@ -206,10 +206,10 @@ You have to adjust the boards GUI or dynamically generate it - it&#39;s easy.&lt
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/tail-recursion-with-trampoline/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/tail-recursion-with-trampoline/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/tail-recursion-with-trampoline/"/>
+        <id>https://anisotropic.lol/blog/tail-recursion-with-trampoline/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/tail-recursion-with-trampoline/">&lt;p&gt;In case your platform lacks support for proper tail call optimization and you want to do functional programming, you might run into stack space problems.
+        <content type="html" xml:base="https://anisotropic.lol/blog/tail-recursion-with-trampoline/">&lt;p&gt;In case your platform lacks support for proper tail call optimization and you want to do functional programming, you might run into stack space problems.
 This can be mitigated, but you have to find a way yourself to make it work.
 The specific platform I&#39;m writing about here is &lt;a rel=&quot;external&quot; href=&quot;https://nodejs.org/en/about&quot;&gt;Node.js&lt;/a&gt;.
 After a little introduction, I show one well-known solution to the problem.&lt;/p&gt;

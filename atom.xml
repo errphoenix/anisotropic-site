@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title></title>
-    <link rel="self" type="application/atom+xml" href="https://errphoenix.github.io/anisotropic-site/atom.xml"/>
-    <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/"/>
+    <link rel="self" type="application/atom+xml" href="https://anisotropic.lol/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://anisotropic.lol/"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>2026-09-18T00:00:00+00:00</updated>
-    <id>https://errphoenix.github.io/anisotropic-site/atom.xml</id>
+    <id>https://anisotropic.lol/atom.xml</id>
     <entry xml:lang="en">
         <title>Razed&#39;s Continuous Real-time Deformation System</title>
         <published>2026-09-18T00:00:00+00:00</published>
@@ -17,10 +17,10 @@
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/razed-art1-cage/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/razed-art1-cage/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/razed-art1-cage/"/>
+        <id>https://anisotropic.lol/blog/razed-art1-cage/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/razed-art1-cage/">&lt;p&gt;Structures in Razed are arbitrarily shaped, they are expected to shatter, break, bend, and sway in any direction and intensity. The &quot;structural&quot; physics is approximated by a sparse lattice structure formed by nodes evaluated through an XPBD (eXtended Position-Based Dynamics) solver, where each node has some mass, integrity, and resistance values based on the integrity of the nearby structure &quot;fragments&quot; surrounding it and a coarse approximation of the intended structural material (e.g., a node located in a part of the structure that is intended to be in a weaker material, such as wood, would have a lower resistance and mass in comparison to a harder material like concrete).&lt;/p&gt;
+        <content type="html" xml:base="https://anisotropic.lol/blog/razed-art1-cage/">&lt;p&gt;Structures in Razed are arbitrarily shaped, they are expected to shatter, break, bend, and sway in any direction and intensity. The &quot;structural&quot; physics is approximated by a sparse lattice structure formed by nodes evaluated through an XPBD (eXtended Position-Based Dynamics) solver, where each node has some mass, integrity, and resistance values based on the integrity of the nearby structure &quot;fragments&quot; surrounding it and a coarse approximation of the intended structural material (e.g., a node located in a part of the structure that is intended to be in a weaker material, such as wood, would have a lower resistance and mass in comparison to a harder material like concrete).&lt;/p&gt;
 &lt;p&gt;In short, the sparse lattice provides a very cheap and sufficiently accurate approximation of the structural physics at the core of a structure, but that is only one part of the simulation: as the structures deforms, its &quot;fragments&quot; must deform in response.&lt;/p&gt;
 &lt;p&gt;Razed&#39;s deformation system was something I iterated on multiple times, and I&#39;ll describe each iteration below.&lt;/p&gt;
 &lt;h2 id=&quot;1-trivial-lbs-like-deformation&quot;&gt;1. Trivial LBS-like deformation&lt;/h2&gt;
@@ -98,10 +98,10 @@ $$\text{\small where $s^n_i$ is the current position of the node}$$&lt;/p&gt;
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/audio-player-shortcode/"/>
+        <id>https://anisotropic.lol/blog/audio-player-shortcode/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/">&lt;p&gt;There are two practical ways to add audio to a blog: use the native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; element or render a custom player with JavaScript.
+        <content type="html" xml:base="https://anisotropic.lol/blog/audio-player-shortcode/">&lt;p&gt;There are two practical ways to add audio to a blog: use the native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; element or render a custom player with JavaScript.
 The &lt;a rel=&quot;external&quot; href=&quot;https://www.getzola.org/&quot;&gt;Zola&lt;/a&gt; theme &lt;a rel=&quot;external&quot; href=&quot;https://github.com/thomasweitzel/zolarwind&quot;&gt;Zolarwind&lt;/a&gt; provides two components that map to those choices: &lt;code&gt;audio_simple&lt;/code&gt; uses the native element, &lt;code&gt;audio&lt;/code&gt; uses a custom player.
 Both are usable as-is, and the choice comes down to how much control you want over the player UI.&lt;/p&gt;
 &lt;h2 id=&quot;the-baseline-native-audio&quot;&gt;The baseline native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt;&lt;/h2&gt;
@@ -169,9 +169,9 @@ The native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; controls are not used;
             &lt;/div&gt;
         &lt;/div&gt;
         &lt;div class=&quot;speaker-div1 flex-none pl-2 hover:text-fail-600&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;&lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/howler.js&quot; integrity=&quot;sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/audio-player.js&quot; integrity=&quot;sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/audio-init.js&quot; integrity=&quot;sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+    &lt;/div&gt;&lt;script src=&quot;https://anisotropic.lol/js/audio/howler.js&quot; integrity=&quot;sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://anisotropic.lol/js/audio/audio-player.js&quot; integrity=&quot;sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://anisotropic.lol/js/audio/audio-init.js&quot; integrity=&quot;sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc&quot;&gt;&lt;/script&gt;&lt;/div&gt;
 &lt;p&gt;I prefer the &lt;code&gt;audio&lt;/code&gt; component, because I want a stable player UI across browsers.
 &lt;code&gt;audio_simple&lt;/code&gt; stays in the toolbox because it keeps the setup small and uses no extra JavaScript.&lt;/p&gt;
 &lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
@@ -193,10 +193,10 @@ The native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; controls are not used;
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/pages/search/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/pages/search/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/pages/search/"/>
+        <id>https://anisotropic.lol/pages/search/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/pages/search/"></content>
+        <content type="html" xml:base="https://anisotropic.lol/pages/search/"></content>
         
     </entry>
     <entry xml:lang="en">
@@ -210,10 +210,10 @@ The native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; controls are not used;
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/mermaid/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/mermaid/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/mermaid/"/>
+        <id>https://anisotropic.lol/blog/mermaid/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/mermaid/">&lt;h2 id=&quot;what-are-mermaid-diagrams&quot;&gt;What are Mermaid diagrams?&lt;/h2&gt;
+        <content type="html" xml:base="https://anisotropic.lol/blog/mermaid/">&lt;h2 id=&quot;what-are-mermaid-diagrams&quot;&gt;What are Mermaid diagrams?&lt;/h2&gt;
 &lt;p&gt;&lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org&quot;&gt;Mermaid&lt;/a&gt; is a syntax similar to Markdown where you can use text to describe and automatically generate diagrams.
 With Mermaid, you can generate
 &lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org/syntax/flowchart.html&quot;&gt;Flow charts&lt;/a&gt;,
@@ -321,10 +321,10 @@ For example, wrap each component tag in &lt;code&gt;{% raw %}&lt;/code&gt; and &
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/calculating-internal-interest-rate/"/>
+        <id>https://anisotropic.lol/blog/calculating-internal-interest-rate/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/">&lt;p&gt;The internal rate of return (IRR) is a potent financial measure used in financial analysis, accounting, and portfolio management to gauge the profitability of investments.
+        <content type="html" xml:base="https://anisotropic.lol/blog/calculating-internal-interest-rate/">&lt;p&gt;The internal rate of return (IRR) is a potent financial measure used in financial analysis, accounting, and portfolio management to gauge the profitability of investments.
 It&#39;s like the heartbeat of an investment - an indicator of health, the higher it is, the better the investment.
 This powerful tool can help investors compare different investment options, assisting in making informed decisions about where to allocate their capital.
 Especially when cash flows are irregular, as often is the case in real-world scenarios, IRR becomes invaluable.
@@ -388,8 +388,8 @@ It&#39;s where our $irr$ satisfies the condition $\mathit{NPV} = 0$.
 For our data, it is somewhere between $0.35$ and $0.40$, or $35\%$ and $40\%$.&lt;/li&gt;
 &lt;/ul&gt;
 &lt;figure class=&quot;mt-4&quot;&gt;&lt;span class=&quot;light-dark-image inline-block&quot;&gt;
-      &lt;img class=&quot;block image-shortcode&quot; src=&quot;https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/irr-npv-function-light.webp&quot; alt=&quot;Plot of the NPV as a function of the rate with the values from the table&quot; width=&quot;560.0&quot; height=&quot;360.0&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
-      &lt;img class=&quot;block image-shortcode&quot; src=&quot;https://errphoenix.github.io/anisotropic-site/blog/calculating-internal-interest-rate/irr-npv-function-dark.webp&quot; alt=&quot;Plot of the NPV as a function of the rate with the values from the table&quot; width=&quot;560.0&quot; height=&quot;360.0&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
+      &lt;img class=&quot;block image-shortcode&quot; src=&quot;https://anisotropic.lol/blog/calculating-internal-interest-rate/irr-npv-function-light.webp&quot; alt=&quot;Plot of the NPV as a function of the rate with the values from the table&quot; width=&quot;560.0&quot; height=&quot;360.0&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
+      &lt;img class=&quot;block image-shortcode&quot; src=&quot;https://anisotropic.lol/blog/calculating-internal-interest-rate/irr-npv-function-dark.webp&quot; alt=&quot;Plot of the NPV as a function of the rate with the values from the table&quot; width=&quot;560.0&quot; height=&quot;360.0&quot; loading=&quot;lazy&quot; decoding=&quot;async&quot;&gt;
     &lt;/span&gt;
     &lt;figcaption class=&quot;italic&quot;&gt;Downward-sloping NPV curve&lt;/figcaption&gt;
 &lt;/figure&gt;
@@ -608,10 +608,10 @@ Remember, IRR is not just a number but an insight into the potential of an inves
           <name>Unknown</name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/pages/attributions/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/pages/attributions/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/pages/attributions/"/>
+        <id>https://anisotropic.lol/pages/attributions/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/pages/attributions/">&lt;h2 id=&quot;content-management-system&quot;&gt;Content management system&lt;/h2&gt;
+        <content type="html" xml:base="https://anisotropic.lol/pages/attributions/">&lt;h2 id=&quot;content-management-system&quot;&gt;Content management system&lt;/h2&gt;
 &lt;p&gt;&lt;a rel=&quot;external&quot; href=&quot;https://www.getzola.org/&quot;&gt;Zola&lt;/a&gt; is my choice for managing content and creating a static website from it.
 It is your one-stop static site engine.&lt;/p&gt;
 &lt;h2 id=&quot;cascading-style-sheets&quot;&gt;Cascading style sheets&lt;/h2&gt;
@@ -690,10 +690,10 @@ It is your one-stop static site engine.&lt;/p&gt;
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/game-of-fifteen/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/game-of-fifteen/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/game-of-fifteen/"/>
+        <id>https://anisotropic.lol/blog/game-of-fifteen/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/game-of-fifteen/">&lt;p&gt;The Game of Fifteen is a sliding puzzle that consists of a square with tiles numbered from 1 to 15 in random order with one tile missing.
+        <content type="html" xml:base="https://anisotropic.lol/blog/game-of-fifteen/">&lt;p&gt;The Game of Fifteen is a sliding puzzle that consists of a square with tiles numbered from 1 to 15 in random order with one tile missing.
 To solve the puzzle, you must place the tiles in order by moving tiles to the empty space.&lt;/p&gt;
 &lt;h2 id=&quot;how-to-play&quot;&gt;How to play&lt;/h2&gt;
 &lt;p&gt;Play the game online by clicking/tapping on the tile you want to move.
@@ -784,10 +784,10 @@ You have to adjust the boards GUI or dynamically generate it - it&#39;s easy.&lt
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/pages/terms/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/pages/terms/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/pages/terms/"/>
+        <id>https://anisotropic.lol/pages/terms/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/pages/terms/">&lt;p&gt;&lt;em&gt;Last updated: February 9, 2026&lt;/em&gt;&lt;/p&gt;
+        <content type="html" xml:base="https://anisotropic.lol/pages/terms/">&lt;p&gt;&lt;em&gt;Last updated: February 9, 2026&lt;/em&gt;&lt;/p&gt;
 &lt;h2 id=&quot;general-character-of-the-website&quot;&gt;General character of the website&lt;/h2&gt;
 &lt;p&gt;This website is a &lt;strong&gt;private, non-commercial blog&lt;/strong&gt; with mostly informational content. It can be used &lt;strong&gt;without registration&lt;/strong&gt;
 and &lt;strong&gt;without providing personal data&lt;/strong&gt;.&lt;/p&gt;
@@ -812,7 +812,7 @@ If legal violations become known, the links will be removed promptly.&lt;/p&gt;
 &lt;p&gt;Any further use requires my prior consent.&lt;/p&gt;
 &lt;h2 id=&quot;privacy&quot;&gt;Privacy&lt;/h2&gt;
 &lt;p&gt;Information about the processing of personal data and browser storage can be found in the
-&lt;a href=&quot;https://errphoenix.github.io/anisotropic-site/pages/privacy/&quot;&gt;privacy policy&lt;/a&gt;.&lt;/p&gt;
+&lt;a href=&quot;https://anisotropic.lol/pages/privacy/&quot;&gt;privacy policy&lt;/a&gt;.&lt;/p&gt;
 &lt;h2 id=&quot;applicable-law&quot;&gt;Applicable law&lt;/h2&gt;
 &lt;p&gt;These notes and the use of this website are governed by the laws of the Federal Republic of Germany.&lt;/p&gt;
 &lt;h2 id=&quot;closing-note&quot;&gt;Closing note&lt;/h2&gt;
@@ -831,10 +831,10 @@ If legal violations become known, the links will be removed promptly.&lt;/p&gt;
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/tail-recursion-with-trampoline/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/blog/tail-recursion-with-trampoline/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/blog/tail-recursion-with-trampoline/"/>
+        <id>https://anisotropic.lol/blog/tail-recursion-with-trampoline/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/tail-recursion-with-trampoline/">&lt;p&gt;In case your platform lacks support for proper tail call optimization and you want to do functional programming, you might run into stack space problems.
+        <content type="html" xml:base="https://anisotropic.lol/blog/tail-recursion-with-trampoline/">&lt;p&gt;In case your platform lacks support for proper tail call optimization and you want to do functional programming, you might run into stack space problems.
 This can be mitigated, but you have to find a way yourself to make it work.
 The specific platform I&#39;m writing about here is &lt;a rel=&quot;external&quot; href=&quot;https://nodejs.org/en/about&quot;&gt;Node.js&lt;/a&gt;.
 After a little introduction, I show one well-known solution to the problem.&lt;/p&gt;
@@ -1033,10 +1033,10 @@ Since tail-recursive functions are particularly useful in functional programming
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/pages/privacy/"/>
-        <id>https://errphoenix.github.io/anisotropic-site/pages/privacy/</id>
+        <link rel="alternate" type="text/html" href="https://anisotropic.lol/pages/privacy/"/>
+        <id>https://anisotropic.lol/pages/privacy/</id>
         
-        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/pages/privacy/">&lt;h2 id=&quot;general-notes&quot;&gt;General notes&lt;/h2&gt;
+        <content type="html" xml:base="https://anisotropic.lol/pages/privacy/">&lt;h2 id=&quot;general-notes&quot;&gt;General notes&lt;/h2&gt;
 &lt;p&gt;Protecting your personal data matters. This website is a &lt;strong&gt;static information site&lt;/strong&gt; and can be used &lt;strong&gt;without providing personal data&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;I do &lt;strong&gt;not&lt;/strong&gt; actively collect personal data unless optional features are used, in particular:&lt;/p&gt;
 &lt;ul&gt;
