@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="generator" content="Zola v0.23.5">
+
+  
+  
+    <meta name="description" content="Documenting the development of Razed&#39;s deformation system.">
+  
+
+
+  <title>
+    
+      
+  
+  
+    Razed&#39;s Continuous Real-time Deformation System | anisotropic
+  
+
+    
+  </title>
+  
+  
+    <link rel="canonical" href="https://example.org/blog/razed-art1-cage/" />
+  
+
+  <link rel="stylesheet" href="https://example.org/css/generated.css">
+  
+  
+  
+<link rel="stylesheet" id="code-highlighting-light" href="https://example.org/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
+<link rel="stylesheet" id="code-highlighting-dark" href="https://example.org/giallo-dark.css" integrity="sha384-wBRtfVoniCE66QxHWGQ5FfeY2FVH6BfaeZ3HI/2foTW0BdomliX8zJCXaUF3AR+v" disabled>
+
+
+  
+    <link rel="icon" href="https://example.org/img/yin-yang.svg" />
+  
+
+  
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://example.org/atom.xml" />
+  
+
+  <script defer src="https://example.org/js/zolarwind/logic.js" integrity="sha384-XH2tq2oOnPBlH115yPIJ9+CEYbCxU/Ap6b+5NY214ERXB9j5kFcequfsqiHhg8BD"></script>
+<script defer src="https://example.org/js/blog_select.js"></script>
+
+<link rel="stylesheet" id="code-highlighting-light" href="https://example.org/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
+<link rel="stylesheet" id="code-highlighting-dark" href="https://example.org/giallo-dark.css" integrity="sha384-wBRtfVoniCE66QxHWGQ5FfeY2FVH6BfaeZ3HI/2foTW0BdomliX8zJCXaUF3AR+v" disabled>
+<link rel="stylesheet" href="https://example.org/js/katex/katex.min.css" integrity="sha384-1vdNCNel6Tx/NQa8IR1mGOGKsbGreCkOPfbtPPnUURJ5Tu2PRVfQ/7KLZC+Pi1p1">
+<script defer src="https://example.org/js/katex/katex.min.js" integrity="sha384-ycJ6GAwiS15LoUPipwJOrWTvkUHl/YqELValBwI5I4awP1EeEQJYarj+w85ntcz7"></script>
+<script defer src="https://example.org/js/katex/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"></script>
+<script defer src="https://example.org/js/katex-config.js" integrity="sha384-nvMU92JREtcI6oa8M5sYH7zIpj3Sj8Lm+jqpbEM3qFFZnbRTncJiX0qgBmStmTdZ"></script>
+  
+</head>
+<body>
+     
+
+<header class="sticky top-0 w-full z-10">
+    <nav class="bg-neutral-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="pt-4 pb-3">
+                <a href="https://example.org" aria-label="Go to homepage"
+                    class="text-6xl odibee-sans-regular text-neutral-100 hover:text-neutral-400 transition"
+                >
+                    anisotropic
+                </a>
+                <div class="-mr-2 flex items-center space-x-1 md:hidden">
+                    <button
+                        id="toggleMobileMenu"
+                        class="icon inline-flex items-center justify-center p-2 rounded-md text-neutral-200 hover:text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:bg-neutral-200 focus:text-neutral-800"
+                        aria-label="Menu"
+                    >
+                        <span id="mobile-icon-menu-unselected">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                        </span>
+                        <span id="mobile-icon-menu-selected" class="hidden">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </nav>
+</header>
+
+  <main id="content">
+    
+
+
+
+
+
+<div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+  <article
+      id="blog-content"
+      data-title="Razed&#39;s Continuous Real-time Deformation System"
+      class="prose"
+      data-clipboard-copy="Copy to clipboard"
+      data-clipboard-copied="Copied to clipboard"
+      data-clipboard-error="Error copying to clipboard"
+  >    
+    <div class="flex h-64">
+      <div class="flex flex-col justify-between w-1/2">
+        <div>
+          <h1>Razed&#39;s Continuous Real-time Deformation System</h1>
+          <time datetime="2026-09-18">September 18, 2026</time>
+          <div>
+            <div class="text-sm my-1">
+              1,111 words &middot;
+              5 minutes reading time
+            </div>
+            
+  
+    
+    <ul class="tags-list text-sm leading-5 font-medium text-primary-600 flex flex-wrap gap-2 m-0 p-0 list-none" aria-label="tag">
+      
+        <li class="badge badge-primary">
+          <a href="https://example.org/tags/something/">something</a>
+        </li>
+      
+    </ul>
+  
+
+  
+          </div>
+         </div>
+        <span class="my-auto mt-6 justify-self-center">
+          Documenting the development of Razed&#39;s deformation system.
+        </span>
+      </div>
+      <div class="rounded-md shadow-md mx-auto overflow-hidden">
+        <img src="https://example.org/img/default-banner.webp" alt="Razed&#39;s Continuous Real-time Deformation System" fetchpriority="high" loading="eager">
+      </div>
+    </div>
+      
+    
+    <div>
+      <p>Structures in Razed are arbitrarily shaped, they are expected to shatter, break, bend, and sway in any direction and intensity. The "structural" physics is approximated by a sparse lattice structure formed by nodes evaluated through an XPBD (eXtended Position-Based Dynamics) solver, where each node has some mass, integrity, and resistance values based on the integrity of the nearby structure "fragments" surrounding it and a coarse approximation of the intended structural material (e.g., a node located in a part of the structure that is intended to be in a weaker material, such as wood, would have a lower resistance and mass in comparison to a harder material like concrete).</p>
+<p>In short, the sparse lattice provides a very cheap and sufficiently accurate approximation of the structural physics at the core of a structure, but that is only one part of the simulation: as the structures deforms, its "fragments" must deform in response.</p>
+<p>Razed's deformation system was something I iterated on multiple times, and I'll describe each iteration below.</p>
+<h2 id="1-trivial-lbs-like-deformation">1. Trivial LBS-like deformation</h2>
+<p>The first iteration of the deformation system was essentially an application of Linear-Blend-Skinning between an individual fragment and <code>N</code> nearby lattice nodes.</p>
+<p>Each fragment was associated to <code>N</code> nodes, and for each vertex of the fragment's mesh a quadratic IDW (Inverse Distance Weight) was computed as:</p>
+<p>$$ w_i = \frac{1}{(p - p^n_i) \cdot (p - p^n_i)}\ $$
+$$ \text{\small where $p$ is the position of the vertex, and $p^n_i$ is the position of the $i$ node at initialisation} $$</p>
+<p>(Note the use of the dot product to produce a squared length)</p>
+<p>This would be used during deformation to weight that node's positional offset (in respect to its position at initialisation):
+$$\text{For each vertex:}$$
+$$\Delta p=\sum_{i=0}^{N-1}{w_{i}(s^n_i - p^n_i)}$$
+$$\text{\small where $s^n_i$ is the current position of the node}$$</p>
+<p>This was done per-vertex, using the <code>N</code> nearest nodes associated to the fragment (found at fragment creation in a one-time spatial query). The weight was computed in that same vertex shader, which means that a bunch of bind-time data was stored at all times and frequently read by the vertex shader. The fragment is associated to its mesh merely by ID, and meshes are not unique per-fragment (in addition to their data no longer being present on the CPU by this point), so I preferred computing weights in real-time rather than pre-computing them.</p>
+<p>This approach extremely simple although a little suboptimal in terms of efficiency. In any case, it did not properly work, as the lattice was too sparse to directly apply its positional changes to the much more dense fragments and caused severe artifacts.</p>
+<h2 id="2-extension-of-iter-1-with-intermediate-dense-volume-representation">2. Extension of iter. 1 with intermediate dense volume representation</h2>
+<p>The previous approach was extended by the introduction of an intermediate layer between the structural lattice and visual fragments.</p>
+<p>The cage layer is essentially a dense 3-dimensional array of points that cover the entire volume of the structure. I usually call these "deform points".</p>
+<p>At creation, the maximum AABB extents of the structure are computed and, based on the desired density of the deformation cage, the array is generated. For each deform point, the 4 nearest lattice nodes were selected and associated to it with a quadratic IDW, computed the same way as before. For each fragment, a spatial query fetches the 8 nearest deform points. These points form a cuboid around the fragment, which acts like a deformation cage for it. The LBS application of the previous iteration moved from $lattice \rightarrow fragment$ to $lattice \rightarrow cage$, which proved to be more stable than the previous approach.</p>
+<img class="float-left max-w-1/2 max-h-1/2 mr-2" src="ill-aabb-trilinear-interp.png" width="25%" height="25%">
+<p>While the $lattice \rightarrow cage$ deformation remains the same process described in iteration 1, the new $cage \rightarrow fragment$ deformation worked differently: for each vertex, trilinear interpolation with the fragment's associated cage is performed in the vertex shader. A series of interpolation factors, that act like the vertex's normlized cage-local coordinates, are computed for each vertex in that same vertex shader invocation from an AABB of the cage's bind-time corners (the corners of the cage at the time of its creation).</p>
+<p>$$\text{For every vertex:}$$</p>
+<p>$$ \mathbf{w}=\begin{pmatrix}
+\frac{s_x}{x_1 - x_0}\
+\frac{s_y}{y_1 - y_0}\
+\frac{s_z}{z_1 - z_0}
+\end{pmatrix}$$
+<sub>where $s$ is the local vertex position and $x,y,z$ indicates the corresponding axis of the cage as an AABB, denominated as 0 for the min extent and 1 for the max extent</sub></p>
+<p>On the left a graphic shows how the normalized cage-local coordinates are calculated: the white box is the cage's bind-time AABB as formed by the 8 deform points associated to the fragment; the yellow dot is the local vertex position; the colored axes are local to the cage and are used to determine the interpolation weights.</p>
+<p>Initially, the final interpolation used yet <em>another</em> AABB using the real-time cage corners to construct it. This worked, but completely eliminated any distortion or shear. Unlike the bind-time cage corners, which are guaranteed to be an AABB anyways, once the cage deforms it can no longer be represented that way.</p>
+<p>Instead, it was more accurate to perform the interpolation per-edge, using the $\mathbf{w}$ normalized cage-local coordinates, like in the graphic shown to the right (there the cage is assumed to not have deformed at all, purely for simplicity):</p>
+<img class="float-right" src="ill-real-trilinear-interp.png" width="24%" height="24%">
+<pre class="giallo z-l-code z-d-code" ><code data-lang="glsl"><span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p000 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">-x, -y, -z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p100 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">+x, -y, -z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p010 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">-x, +y, -z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p110 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">+x, +y, -z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p001 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">-x, -y, +z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p101 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">+x, -y, +z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p011 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">-x, +y, +z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p111 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">+x, +y, +z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> interpolate 3d volume to a 2d plane Q</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> only variates along the Y axis</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> q00 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-1 z-d-14"> mix</span><span>(</span><span>p000</span><span class="z-d-9">,</span><span> p100</span><span class="z-d-9">,</span><span> w.x</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> q10 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-1 z-d-14"> mix</span><span>(</span><span>p010</span><span class="z-d-9">,</span><span> p110</span><span class="z-d-9">,</span><span> w.x</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> q01 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-1 z-d-14"> mix</span><span>(</span><span>p001</span><span class="z-d-9">,</span><span> p101</span><span class="z-d-9">,</span><span> w.x</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> q11 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-1 z-d-14"> mix</span><span>(</span><span>p011</span><span class="z-d-9">,</span><span> p111</span><span class="z-d-9">,</span><span> w.x</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> interpolate 2d plane to edge R</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> only variates along the Z axis</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> r0 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-1 z-d-14"> mix</span><span>(</span><span>q00</span><span class="z-d-9">,</span><span> q10</span><span class="z-d-9">,</span><span> w.y</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> r1 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-1 z-d-14"> mix</span><span>(</span><span>q01</span><span class="z-d-9">,</span><span> q11</span><span class="z-d-9">,</span><span> w.y</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> interpolate final point from edge</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> s </span><span class="z-l-9 z-d-16">=</span><span class="z-l-1 z-d-14"> mix</span><span>(</span><span>r0</span><span class="z-d-9">,</span><span> r1</span><span class="z-d-9">,</span><span> w.z</span><span>)</span><span class="z-d-9">;</span></span></code></pre><div class="flex items-center space-x-8">
+	<img src="i2-debug-viz.png" width="28%">
+	<div class="w-2/3">
+		On the left an example of the deformation using this version of the system. The green lines highlight the constraints between the sparse lattice nodes, the magenta dots represent cage deformation points.<br/><br/>
+		As it can be observed, while the deformation now gives a somewhat plausible idea, there is still something off: while the fragments themselves seem to correctly deform according to the cages, the cages dont properly deform according to the sparse lattice. This can be seen, for example, for that one single magenta dot at the right <i>outside</i> of the structure. This makes it evident that the $lattice \rightarrow cage$ LBS-like deformation is not the correct procedure.<br/><br/>
+		Despite this, I kept this system for a couple of months while working on other parts of Razed and the engine, before addressing the issue again, as documented in the next sections.
+	</div>
+</div>
+<h2 id="3-wip">3. WIP</h2>
+<p>$$</p>
+
+    </div>
+  </article>
+</div>
+
+  
+
+  
+
+  <script type="application/ld+json">
+{
+   "@context": "https://schema.org"
+  ,"@type": "BlogPosting"
+  ,"mainEntityOfPage": {
+     "@type": "WebPage"
+    ,"@id": "https://example.org/blog/razed-art1-cage/"
+  }
+  ,"headline": "Razed's Continuous Real-time Deformation System"
+  ,"datePublished": "2026-09-18"
+  ,"dateModified": "2026-09-18"
+
+  ,"author": [
+    
+      {
+         "@type": "Person"
+        ,"name": "anisotropic"
+      }
+      
+    
+  ]
+  ,"publisher": {
+     "@type": "Person"
+    ,"name": "anisotropic"
+  }
+  
+  ,"description": "Documenting the development of Razed's deformation system."
+  ,"articleBody": "Structures in Razed are arbitrarily shaped, they are expected to shatter, break, bend, and sway in any direction and intensity. The \"structural\" physics is approximated by a sparse lattice structure formed by nodes evaluated through an XPBD (eXtended Position-Based Dynamics) solver, where each node has some mass, integrity, and resistance values based on the integrity of the nearby structure \"fragments\" surrounding it and a coarse approximation of the intended structural material (e.g., a node located in a part of the structure that is intended to be in a weaker material, such as wood, would have a lower resistance and mass in comparison to a harder material like concrete).\nIn short, the sparse lattice provides a very cheap and sufficiently accurate approximation of the structural physics at the core of a structure, but that is only one part of the simulation: as the structures deforms, its \"fragments\" must deform in response.\nRazed's deformation system was something I iterated on multiple times, and I'll describe each iteration below.\n1. Trivial LBS-like deformation\nThe first iteration of the deformation system was essentially an application of Linear-Blend-Skinning between an individual fragment and N nearby lattice nodes.\nEach fragment was associated to N nodes, and for each vertex of the fragment's mesh a quadratic IDW (Inverse Distance Weight) was computed as:\n$$ w_i = \\frac{1}{(p - p^n_i) \\cdot (p - p^n_i)}\\ $$\n$$ \\text{\\small where $p$ is the position of the vertex, and $p^n_i$ is the position of the $i$ node at initialisation} $$\n(Note the use of the dot product to produce a squared length)\nThis would be used during deformation to weight that node's positional offset (in respect to its position at initialisation):\n$$\\text{For each vertex:}$$\n$$\\Delta p=\\sum_{i=0}^{N-1}{w_{i}(s^n_i - p^n_i)}$$\n$$\\text{\\small where $s^n_i$ is the current position of the node}$$\nThis was done per-vertex, using the N nearest nodes associated to the fragment (found at fragment creation in a one-time spatial query). The weight was computed in that same vertex shader, which means that a bunch of bind-time data was stored at all times and frequently read by the vertex shader. The fragment is associated to its mesh merely by ID, and meshes are not unique per-fragment (in addition to their data no longer being present on the CPU by this point), so I preferred computing weights in real-time rather than pre-computing them.\nThis approach extremely simple although a little suboptimal in terms of efficiency. In any case, it did not properly work, as the lattice was too sparse to directly apply its positional changes to the much more dense fragments and caused severe artifacts.\n2. Extension of iter. 1 with intermediate dense volume representation\nThe previous approach was extended by the introduction of an intermediate layer between the structural lattice and visual fragments.\nThe cage layer is essentially a dense 3-dimensional array of points that cover the entire volume of the structure. I usually call these \"deform points\".\nAt creation, the maximum AABB extents of the structure are computed and, based on the desired density of the deformation cage, the array is generated. For each deform point, the 4 nearest lattice nodes were selected and associated to it with a quadratic IDW, computed the same way as before. For each fragment, a spatial query fetches the 8 nearest deform points. These points form a cuboid around the fragment, which acts like a deformation cage for it. The LBS application of the previous iteration moved from $lattice \\rightarrow fragment$ to $lattice \\rightarrow cage$, which proved to be more stable than the previous approach.\n\nWhile the $lattice \\rightarrow cage$ deformation remains the same process described in iteration 1, the new $cage \\rightarrow fragment$ deformation worked differently: for each vertex, trilinear interpolation with the fragment's associated cage is performed in the vertex shader. A series of interpolation factors, that act like the vertex's normlized cage-local coordinates, are computed for each vertex in that same vertex shader invocation from an AABB of the cage's bind-time corners (the corners of the cage at the time of its creation).\n$$\\text{For every vertex:}$$\n$$ \\mathbf{w}=\\begin{pmatrix}\n\\frac{s_x}{x_1 - x_0}\\\n\\frac{s_y}{y_1 - y_0}\\\n\\frac{s_z}{z_1 - z_0}\n\\end{pmatrix}$$\nwhere $s$ is the local vertex position and $x,y,z$ indicates the corresponding axis of the cage as an AABB, denominated as 0 for the min extent and 1 for the max extent\nOn the left a graphic shows how the normalized cage-local coordinates are calculated: the white box is the cage's bind-time AABB as formed by the 8 deform points associated to the fragment; the yellow dot is the local vertex position; the colored axes are local to the cage and are used to determine the interpolation weights.\nInitially, the final interpolation used yet another AABB using the real-time cage corners to construct it. This worked, but completely eliminated any distortion or shear. Unlike the bind-time cage corners, which are guaranteed to be an AABB anyways, once the cage deforms it can no longer be represented that way.\nInstead, it was more accurate to perform the interpolation per-edge, using the $\\mathbf{w}$ normalized cage-local coordinates, like in the graphic shown to the right (there the cage is assumed to not have deformed at all, purely for simplicity):\n\nvec3 p000 = /*-x, -y, -z corner*/\nvec3 p100 = /*+x, -y, -z corner*/\nvec3 p010 = /*-x, +y, -z corner*/\nvec3 p110 = /*+x, +y, -z corner*/\nvec3 p001 = /*-x, -y, +z corner*/\nvec3 p101 = /*+x, -y, +z corner*/\nvec3 p011 = /*-x, +y, +z corner*/\nvec3 p111 = /*+x, +y, +z corner*/\n\n// interpolate 3d volume to a 2d plane Q\n// only variates along the Y axis\nvec3 q00 = mix(p000, p100, w.x);\nvec3 q10 = mix(p010, p110, w.x);\nvec3 q01 = mix(p001, p101, w.x);\nvec3 q11 = mix(p011, p111, w.x);\n\n// interpolate 2d plane to edge R\n// only variates along the Z axis\nvec3 r0 = mix(q00, q10, w.y);\nvec3 r1 = mix(q01, q11, w.y);\n\n// interpolate final point from edge\nvec3 s = mix(r0, r1, w.z);\n\t\n\t\n\t\tOn the left an example of the deformation using this version of the system. The green lines highlight the constraints between the sparse lattice nodes, the magenta dots represent cage deformation points.\n\t\tAs it can be observed, while the deformation now gives a somewhat plausible idea, there is still something off: while the fragments themselves seem to correctly deform according to the cages, the cages dont properly deform according to the sparse lattice. This can be seen, for example, for that one single magenta dot at the right outside of the structure. This makes it evident that the $lattice \\rightarrow cage$ LBS-like deformation is not the correct procedure.\n\t\tDespite this, I kept this system for a couple of months while working on other parts of Razed and the engine, before addressing the issue again, as documented in the next sections.\n\t\n\n3. WIP\n$$\n"
+  
+}
+</script>
+
+
+
+  </main>
+  <footer>
+    <div class="w-3/4 h-px bg-neutral-400 ml-auto mr-auto"><div/>
+    <div class="pt-3 text-2xl flex justify-center odibee-sans-regular">
+        anisotropic
+    </div>
+    <!-- Social Media Icons -->
+    
+    <ul class="mt-4 flex justify-center space-x-8">
+         
+        <li>
+            <a
+                
+                href="https://github.com/errphoenix"
+                title="Github"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">github</span>
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 1024 1024"><path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)"/></svg>
+            </a>
+        </li>
+          
+        <li>
+            <a
+                
+                href=""
+                title="Discord: an1sotropic"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">discord: an1sotropic</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16"> <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/></svg>
+            </a>
+        </li>
+         
+    </ul>
+    
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center">
+         
+    </div>
+</footer>
+
+</body>
+</html>

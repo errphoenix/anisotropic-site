@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="generator" content="Zola v0.23.5">
+
+  
+  
+    <meta name="description" content="A playable online game. Not every possible starting position is solvable, so we have to take special care.">
+  
+
+
+  <title>
+    
+      
+  
+  
+    The Game of Fifteen | anisotropic
+  
+
+    
+  </title>
+  
+  
+    <link rel="canonical" href="https://example.org/blog/game-of-fifteen/" />
+  
+
+  <link rel="stylesheet" href="https://example.org/css/generated.css">
+  
+  
+  
+<link rel="stylesheet" id="code-highlighting-light" href="https://example.org/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
+<link rel="stylesheet" id="code-highlighting-dark" href="https://example.org/giallo-dark.css" integrity="sha384-wBRtfVoniCE66QxHWGQ5FfeY2FVH6BfaeZ3HI/2foTW0BdomliX8zJCXaUF3AR+v" disabled>
+
+
+  
+    <link rel="icon" href="https://example.org/img/yin-yang.svg" />
+  
+
+  
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://example.org/atom.xml" />
+  
+
+  <script defer src="https://example.org/js/zolarwind/logic.js" integrity="sha384-XH2tq2oOnPBlH115yPIJ9+CEYbCxU/Ap6b+5NY214ERXB9j5kFcequfsqiHhg8BD"></script>
+<script defer src="https://example.org/js/blog_select.js"></script>
+
+<link rel="stylesheet" id="code-highlighting-light" href="https://example.org/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
+<link rel="stylesheet" id="code-highlighting-dark" href="https://example.org/giallo-dark.css" integrity="sha384-wBRtfVoniCE66QxHWGQ5FfeY2FVH6BfaeZ3HI/2foTW0BdomliX8zJCXaUF3AR+v" disabled>
+<link rel="stylesheet" href="https://example.org/js/katex/katex.min.css" integrity="sha384-1vdNCNel6Tx/NQa8IR1mGOGKsbGreCkOPfbtPPnUURJ5Tu2PRVfQ/7KLZC+Pi1p1">
+<script defer src="https://example.org/js/katex/katex.min.js" integrity="sha384-ycJ6GAwiS15LoUPipwJOrWTvkUHl/YqELValBwI5I4awP1EeEQJYarj+w85ntcz7"></script>
+<script defer src="https://example.org/js/katex/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"></script>
+<script defer src="https://example.org/js/katex-config.js" integrity="sha384-nvMU92JREtcI6oa8M5sYH7zIpj3Sj8Lm+jqpbEM3qFFZnbRTncJiX0qgBmStmTdZ"></script>
+  
+</head>
+<body>
+     
+
+<header class="sticky top-0 w-full z-10">
+    <nav class="bg-neutral-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="pt-4 pb-3">
+                <a href="https://example.org" aria-label="Go to homepage"
+                    class="text-6xl odibee-sans-regular text-neutral-100 hover:text-neutral-400 transition"
+                >
+                    anisotropic
+                </a>
+                <div class="-mr-2 flex items-center space-x-1 md:hidden">
+                    <button
+                        id="toggleMobileMenu"
+                        class="icon inline-flex items-center justify-center p-2 rounded-md text-neutral-200 hover:text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:bg-neutral-200 focus:text-neutral-800"
+                        aria-label="Menu"
+                    >
+                        <span id="mobile-icon-menu-unselected">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                        </span>
+                        <span id="mobile-icon-menu-selected" class="hidden">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </nav>
+</header>
+
+  <main id="content">
+    
+
+
+
+
+  
+
+
+<div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+  <article
+      id="blog-content"
+      data-title="The Game of Fifteen"
+      class="prose"
+      data-clipboard-copy="Copy to clipboard"
+      data-clipboard-copied="Copied to clipboard"
+      data-clipboard-error="Error copying to clipboard"
+  >    
+    <div class="flex h-64">
+      <div class="flex flex-col justify-between w-1/2">
+        <div>
+          <h1>The Game of Fifteen</h1>
+          <time datetime="2020-06-11">June 11, 2020</time>
+          <div>
+            <div class="text-sm my-1">
+              655 words &middot;
+              3 minutes reading time
+            </div>
+            
+  
+    
+    <ul class="tags-list text-sm leading-5 font-medium text-primary-600 flex flex-wrap gap-2 m-0 p-0 list-none" aria-label="tag">
+      
+        <li class="badge badge-primary">
+          <a href="https://example.org/tags/javascript/">javascript</a>
+        </li>
+      
+    </ul>
+  
+
+  
+          </div>
+         </div>
+        <span class="my-auto mt-6 justify-self-center">
+          A playable online game. Not every possible starting position is solvable, so we have to take special care.
+        </span>
+      </div>
+      <div class="rounded-md shadow-md mx-auto overflow-hidden">
+        <img src="https://example.org/blog/game-of-fifteen/banner.webp" alt="The Game of Fifteen" fetchpriority="high" loading="eager">
+      </div>
+    </div>
+      
+    
+    <div>
+      <p>The Game of Fifteen is a sliding puzzle that consists of a square with tiles numbered from 1 to 15 in random order with one tile missing.
+To solve the puzzle, you must place the tiles in order by moving tiles to the empty space.</p>
+<h2 id="how-to-play">How to play</h2>
+<p>Play the game online by clicking/tapping on the tile you want to move.
+Only tiles neighboring the empty space can be moved.
+Once you solve the puzzle, the tiles will not move anymore.
+Just play a new game by clicking the button.
+I can guarantee you that every game presented here is solvable.
+Read below for an explanation.</p>
+<p>Hint: if your browser doesn't display the board correctly, try clearing your browser cache and try again.</p>
+<div id="board">
+    <div class="m-4 grid grid-flow-row grid-cols-4 grid-rows-4 h-64 w-64 gap-1">
+        <div id="f0"  class=""></div>
+        <div id="f1"  class=""></div>
+        <div id="f2"  class=""></div>
+        <div id="f3"  class=""></div>
+        <div id="f4"  class=""></div>
+        <div id="f5"  class=""></div>
+        <div id="f6"  class=""></div>
+        <div id="f7"  class=""></div>
+        <div id="f8"  class=""></div>
+        <div id="f9"  class=""></div>
+        <div id="f10" class=""></div>
+        <div id="f11" class=""></div>
+        <div id="f12" class=""></div>
+        <div id="f13" class=""></div>
+        <div id="f14" class=""></div>
+        <div id="f15" class=""></div>
+    </div>
+</div>
+<div class="mt-4">
+    <button id="playButton" class="py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-neutral-950 bg-primary-300 shadow-sm hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950 active:bg-primary-600 transition duration-150 ease-in-out">
+        new game
+    </button>
+</div>
+<h2 id="parity-of-a-permutation">Parity of a permutation</h2>
+<p>For the Game of Fifteen, a permutation of the numbers 1 to 15 is a state of the game if read line by line - like a book.
+Some smart people have figured out, that an even parity (is dividable by 2, like 42) is an invariant of a solvable permutation of the Game of Fifteen.
+In computer science, an invariant is a condition that is always true, i.e. doesn't change for a section of code.</p>
+<p>The parity of a permutation is simply the number of inversions.
+An inversion happens when an element with a lower index has a higher value than a value at a higher index.</p>
+<p>Examples:</p>
+<ul>
+<li><code>1, 2, 3</code> has no inversions, all elements are in order</li>
+<li><code>2, 3, 1</code> has two inversions, because <code>2</code> is greater than <code>1</code> and <code>3</code> is greater than <code>1</code></li>
+<li><code>1, 3, 2</code> has only one inversion, <code>3</code> is greater than <code>2</code></li>
+</ul>
+<p>There are about 1.3 Trillion (Billion for us people in Central Europe) possible permutations of the numbers 1 to 15.
+Only half of them have an even parity.
+When we calculate a random permutation for the start of a game, it then makes sense to filter out all the permutations with an odd parity.
+Because we do not want to present an unsolvable game.</p>
+<p>Here is a fragment of source code that calculates the parity and checks if it's even for the examples from above.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> for (let i = 0; i &lt; limit; i += 1) {...} vs</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> range0(limit).forEach((i) =&gt; {...})</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> range0</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">limit</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> [</span><span class="z-l-9 z-d-16">...</span><span class="z-l-7 z-d-18">Array</span><span>(</span><span>limit</span><span>)</span><span class="z-d-16">.</span><span class="z-l-7 z-d-18">keys</span><span>(</span><span>)</span><span>]</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> isEvenPermutation</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">p</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span class="z-l-7 z-d-18"> parity</span><span>(</span><span>p</span><span>)</span><span class="z-l-9 z-d-16"> %</span><span class="z-l-1 z-d-11"> 2</span><span class="z-l-9 z-d-16"> ===</span><span class="z-l-1 z-d-11"> 0</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> parity</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">p</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span class="z-l-7 z-d-18"> range0</span><span>(</span><span>p</span><span class="z-d-16">.</span><span class="z-l-1">length</span><span>)</span></span>
+<span class="giallo-l"><span class="z-d-16">  .</span><span class="z-l-7 z-d-18">map</span><span>(</span><span>(</span><span class="z-l-8 z-d-11">i</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span class="z-l-7 z-d-18"> range0</span><span>(</span><span>p</span><span class="z-d-16">.</span><span class="z-l-1">length</span><span>)</span></span>
+<span class="giallo-l"><span class="z-d-16">    .</span><span class="z-l-7 z-d-18">filter</span><span>(</span><span>(</span><span class="z-l-8 z-d-11">j</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> i</span><span class="z-l-9 z-d-16"> &lt;</span><span> j</span><span class="z-l-9 z-d-16"> &amp;&amp;</span><span> p</span><span>[</span><span>i</span><span>]</span><span class="z-l-9 z-d-16"> &gt;</span><span> p</span><span>[</span><span>j</span><span>]</span><span>)</span></span>
+<span class="giallo-l"><span class="z-d-16">    .</span><span class="z-l-1">length</span></span>
+<span class="giallo-l"><span>  )</span></span>
+<span class="giallo-l"><span class="z-d-16">  .</span><span class="z-l-7 z-d-18">reduce</span><span>(</span><span>(</span><span class="z-l-8 z-d-11">agg</span><span class="z-d-9">,</span><span class="z-l-8 z-d-11"> v</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> agg</span><span class="z-l-9 z-d-16"> +</span><span> v</span><span class="z-d-9">,</span><span class="z-l-1 z-d-11"> 0</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> true, 0 inversions</span></span>
+<span class="giallo-l"><span>console</span><span class="z-d-16">.</span><span class="z-l-7 z-d-18">log</span><span>(</span><span class="z-l-7 z-d-18">isEvenPermutation</span><span>(</span><span>[</span><span class="z-l-1 z-d-11">1</span><span class="z-d-9">,</span><span class="z-l-1 z-d-11"> 2</span><span class="z-d-9">,</span><span class="z-l-1 z-d-11"> 3</span><span>]</span><span>)</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> true, 2 inversions</span></span>
+<span class="giallo-l"><span>console</span><span class="z-d-16">.</span><span class="z-l-7 z-d-18">log</span><span>(</span><span class="z-l-7 z-d-18">isEvenPermutation</span><span>(</span><span>[</span><span class="z-l-1 z-d-11">2</span><span class="z-d-9">,</span><span class="z-l-1 z-d-11"> 3</span><span class="z-d-9">,</span><span class="z-l-1 z-d-11"> 1</span><span>]</span><span>)</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> false, 1 inversion</span></span>
+<span class="giallo-l"><span>console</span><span class="z-d-16">.</span><span class="z-l-7 z-d-18">log</span><span>(</span><span class="z-l-7 z-d-18">isEvenPermutation</span><span>(</span><span>[</span><span class="z-l-1 z-d-11">1</span><span class="z-d-9">,</span><span class="z-l-1 z-d-11"> 3</span><span class="z-d-9">,</span><span class="z-l-1 z-d-11"> 2</span><span>]</span><span>)</span><span>)</span><span class="z-d-9">;</span></span></code></pre><h2 id="source-code">Source code</h2>
+<p>I have created this <a rel="external" href="https://gist.github.com/thomasweitzel/3fd3197616f0299a2935972edd68bd4a">GitHub Gist</a> with the complete HTML page including the JavaScript source code.
+It runs in the browser and uses just <a rel="external" href="https://tailwindcss.com">Tailwind CSS</a> for styling and plain ES6-style JavaScript.
+The source code can be used for all square board sizes, not only 4 by 4.
+You have to adjust the boards GUI or dynamically generate it - it's easy.</p>
+<div class="hidden bg-primary-300 bg-primary-500 bg-primary-600 bg-primary-800 bg-primary-950 bg-warn-700 text-neutral-950 text-fail-200 border-primary-700 border-warn-600 border-transparent focus:ring-primary-500 focus:ring-offset-neutral-950"></div>
+<script src="game-of-fifteen.js" integrity="sha384-JxrdBI5c+wPKQv/3jeIZHhvFK5u658hFW/SaEFvVQZkE3Obo6boo+t3mu8dXS/ts"></script>
+
+    </div>
+  </article>
+</div>
+
+  
+
+  
+
+  <script type="application/ld+json">
+{
+   "@context": "https://schema.org"
+  ,"@type": "BlogPosting"
+  ,"mainEntityOfPage": {
+     "@type": "WebPage"
+    ,"@id": "https://example.org/blog/game-of-fifteen/"
+  }
+  ,"headline": "The Game of Fifteen"
+  ,"datePublished": "2020-06-11"
+  ,"dateModified": "2020-06-11"
+
+  ,"author": [
+    
+      {
+         "@type": "Person"
+        ,"name": "Thomas Weitzel"
+      }
+      
+    
+  ]
+  ,"publisher": {
+     "@type": "Person"
+    ,"name": "Thomas Weitzel"
+  }
+  
+  ,"description": "A playable online game. Not every possible starting position is solvable, so we have to take special care."
+  ,"articleBody": "The Game of Fifteen is a sliding puzzle that consists of a square with tiles numbered from 1 to 15 in random order with one tile missing.\nTo solve the puzzle, you must place the tiles in order by moving tiles to the empty space.\nHow to play\nPlay the game online by clicking/tapping on the tile you want to move.\nOnly tiles neighboring the empty space can be moved.\nOnce you solve the puzzle, the tiles will not move anymore.\nJust play a new game by clicking the button.\nI can guarantee you that every game presented here is solvable.\nRead below for an explanation.\nHint: if your browser doesn't display the board correctly, try clearing your browser cache and try again.\n\n    \n        \n        \n        \n        \n        \n        \n        \n        \n        \n        \n        \n        \n        \n        \n        \n        \n    \n\n\n    \n        new game\n    \n\nParity of a permutation\nFor the Game of Fifteen, a permutation of the numbers 1 to 15 is a state of the game if read line by line - like a book.\nSome smart people have figured out, that an even parity (is dividable by 2, like 42) is an invariant of a solvable permutation of the Game of Fifteen.\nIn computer science, an invariant is a condition that is always true, i.e. doesn't change for a section of code.\nThe parity of a permutation is simply the number of inversions.\nAn inversion happens when an element with a lower index has a higher value than a value at a higher index.\nExamples:\n\n1, 2, 3 has no inversions, all elements are in order\n2, 3, 1 has two inversions, because 2 is greater than 1 and 3 is greater than 1\n1, 3, 2 has only one inversion, 3 is greater than 2\n\nThere are about 1.3 Trillion (Billion for us people in Central Europe) possible permutations of the numbers 1 to 15.\nOnly half of them have an even parity.\nWhen we calculate a random permutation for the start of a game, it then makes sense to filter out all the permutations with an odd parity.\nBecause we do not want to present an unsolvable game.\nHere is a fragment of source code that calculates the parity and checks if it's even for the examples from above.\n// for (let i = 0; i &lt; limit; i += 1) {...} vs\n// range0(limit).forEach((i) =&gt; {...})\nconst range0 = (limit) =&gt; [...Array(limit).keys()];\n\nconst isEvenPermutation = (p) =&gt; parity(p) % 2 === 0;\n\nconst parity = (p) =&gt; range0(p.length)\n  .map((i) =&gt; range0(p.length)\n    .filter((j) =&gt; i &lt; j &amp;&amp; p[i] &gt; p[j])\n    .length\n  )\n  .reduce((agg, v) =&gt; agg + v, 0);\n\n// true, 0 inversions\nconsole.log(isEvenPermutation([1, 2, 3]));\n// true, 2 inversions\nconsole.log(isEvenPermutation([2, 3, 1]));\n// false, 1 inversion\nconsole.log(isEvenPermutation([1, 3, 2]));Source code\nI have created this GitHub Gist with the complete HTML page including the JavaScript source code.\nIt runs in the browser and uses just Tailwind CSS for styling and plain ES6-style JavaScript.\nThe source code can be used for all square board sizes, not only 4 by 4.\nYou have to adjust the boards GUI or dynamically generate it - it's easy.\n\n\n"
+  
+    ,"image": "https://example.org/blog/game-of-fifteen/banner.webp"
+  
+}
+</script>
+
+
+
+  </main>
+  <footer>
+    <div class="w-3/4 h-px bg-neutral-400 ml-auto mr-auto"><div/>
+    <div class="pt-3 text-2xl flex justify-center odibee-sans-regular">
+        anisotropic
+    </div>
+    <!-- Social Media Icons -->
+    
+    <ul class="mt-4 flex justify-center space-x-8">
+         
+        <li>
+            <a
+                
+                href="https://github.com/errphoenix"
+                title="Github"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">github</span>
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 1024 1024"><path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)"/></svg>
+            </a>
+        </li>
+          
+        <li>
+            <a
+                
+                href=""
+                title="Discord: an1sotropic"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">discord: an1sotropic</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16"> <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/></svg>
+            </a>
+        </li>
+         
+    </ul>
+    
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center">
+         
+    </div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title> - audio</title>
+    <link rel="self" type="application/atom+xml" href="https://example.org/tags/audio/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://example.org"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-02-11T00:00:00+00:00</updated>
+    <id>https://example.org/tags/audio/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Adding audio to your blog</title>
+        <published>2026-02-11T00:00:00+00:00</published>
+        <updated>2026-02-11T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            Thomas Weitzel
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://example.org/blog/audio-player-shortcode/"/>
+        <id>https://example.org/blog/audio-player-shortcode/</id>
+        
+        <content type="html" xml:base="https://example.org/blog/audio-player-shortcode/">&lt;p&gt;There are two practical ways to add audio to a blog: use the native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; element or render a custom player with JavaScript.
+The &lt;a rel=&quot;external&quot; href=&quot;https://www.getzola.org/&quot;&gt;Zola&lt;/a&gt; theme &lt;a rel=&quot;external&quot; href=&quot;https://github.com/thomasweitzel/zolarwind&quot;&gt;Zolarwind&lt;/a&gt; provides two components that map to those choices: &lt;code&gt;audio_simple&lt;/code&gt; uses the native element, &lt;code&gt;audio&lt;/code&gt; uses a custom player.
+Both are usable as-is, and the choice comes down to how much control you want over the player UI.&lt;/p&gt;
+&lt;h2 id=&quot;the-baseline-native-audio&quot;&gt;The baseline native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;You get built-in controls and good accessibility.
+If you are fine with browser-native styling, this is the fastest path.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-1&quot;&gt;audio&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-18&quot;&gt; controls&lt;/span&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-2&quot;&gt;  &amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-1&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-18&quot;&gt; src&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;audio.mp3&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-18&quot;&gt; type&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;audio/mpeg&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-1&quot;&gt;audio&lt;/span&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;audio controls&gt;
+  &lt;source src=&quot;audio.mp3&quot; type=&quot;audio/mpeg&quot;&gt;
+&lt;/audio&gt;
+&lt;p&gt;The tradeoff is consistency. Browsers style the element differently, and you get limited control over the UI.&lt;/p&gt;
+&lt;h2 id=&quot;audio-simple-component&quot;&gt;&lt;code&gt;audio_simple&lt;/code&gt; component&lt;/h2&gt;
+&lt;p&gt;This wraps the native element and keeps the setup small.
+It uses no JavaScript, like the baseline audio element, but adds a small amount of CSS for layout.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{{&amp;lt;audio_simple&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  config&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span&gt;{config}&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  src&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;audio.mp3&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  title&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Audio in your blog&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  year&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;2026&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  artist&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Female Speaker&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  label&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Blog of Thomas Weitzel&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;/&amp;gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div class=&quot;container max-w-md my-6 py-6 px-6 text-black dark:text-black bg-gradient-to-tr from-ok-600 to-primary-800 rounded-2xl overflow-hidden&quot;&gt;
+    &lt;div class=&quot;text-center relative&quot;&gt;
+        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; fill=&quot;none&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;1.5&quot; stroke=&quot;currentColor&quot; class=&quot;h-16 w-16 inline-block&quot;&gt;
+            &lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z&quot; /&gt;
+        &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mb-6 text-center relative&quot;&gt;
+        &lt;h2 class=&quot;inline-block font-medium&quot;&gt;Audio in your blog&lt;/h2&gt;
+        &lt;p class=&quot;inline-block font-medium text-sm&quot;&gt;Female Speaker | Blog of Thomas Weitzel | 2026&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;audio controls src=&quot;audio.mp3&quot; style=&quot;width: 100%&quot;&gt;Your browser does not support the audio element.&lt;/audio&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;custom-player&quot;&gt;Custom player&lt;/h2&gt;
+&lt;p&gt;If you want a consistent player UI across browsers, the &lt;code&gt;audio&lt;/code&gt; component renders a custom player with JavaScript.
+The native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; controls are not used; the UI is fully custom.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{{&amp;lt;audio&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  config&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span&gt;{config}&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  src&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;audio.mp3&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  length&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;0:48&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  title&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Audio in your blog&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  year&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;2026&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  artist&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Female Speaker&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  label&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Blog of Thomas Weitzel&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;/&amp;gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div
+  class=&quot;container max-w-md my-6 py-6 px-6 text-black dark:text-black bg-gradient-to-tr from-primary-600 to-warn-800 rounded-2xl overflow-hidden&quot;
+  data-audio-id=&quot;1&quot;
+  data-audio-src=&quot;audio.mp3&quot;
+&gt;
+    &lt;div class=&quot;text-center relative&quot;&gt;
+        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; fill=&quot;none&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;1.5&quot; stroke=&quot;currentColor&quot; class=&quot;h-16 w-16 inline-block&quot;&gt;
+            &lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z&quot; /&gt;
+        &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mb-6 text-center relative&quot;&gt;
+        &lt;h2 class=&quot;inline-block font-medium&quot;&gt;Audio in your blog&lt;/h2&gt;
+        &lt;p class=&quot;inline-block font-medium text-sm&quot;&gt;Female Speaker | Blog of Thomas Weitzel | 2026&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;audio-controls1 flex space-x-1&quot;&gt;
+        &lt;div class=&quot;play-div1 flex-none hover:text-fail-600&quot;&gt;Loading ...&lt;/div&gt;
+        &lt;div class=&quot;time-div1 flex-none pr-2&quot;&gt;00:00 | 0:48&lt;/div&gt;
+        &lt;div class=&quot;flex-auto cursor-pointer select-none mt-2&quot;&gt;
+            &lt;div class=&quot;progress-container1 w-full bg-primary-700 rounded-full h-2 dark:bg-neutral-200&quot;&gt;
+                &lt;div class=&quot;progress-bar1 bg-neutral-800 h-2 rounded-full hover:bg-fail-600&quot; style=&quot;width: 0%&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;speaker-div1 flex-none pl-2 hover:text-fail-600&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;&lt;script src=&quot;https://example.org/js/audio/howler.js&quot; integrity=&quot;sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://example.org/js/audio/audio-player.js&quot; integrity=&quot;sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://example.org/js/audio/audio-init.js&quot; integrity=&quot;sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+&lt;p&gt;I prefer the &lt;code&gt;audio&lt;/code&gt; component, because I want a stable player UI across browsers.
+&lt;code&gt;audio_simple&lt;/code&gt; stays in the toolbox because it keeps the setup small and uses no extra JavaScript.&lt;/p&gt;
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The components expect local assets, not remote URLs.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;zola serve&lt;/code&gt; does not support range requests as of 0.22.1, so Chrome cannot seek properly. Use a static server for testing.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+        
+    </entry>
+</feed>

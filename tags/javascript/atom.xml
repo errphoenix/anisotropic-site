@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title> - javascript</title>
+    <link rel="self" type="application/atom+xml" href="https://example.org/tags/javascript/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://example.org"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-02-11T00:00:00+00:00</updated>
+    <id>https://example.org/tags/javascript/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Adding audio to your blog</title>
+        <published>2026-02-11T00:00:00+00:00</published>
+        <updated>2026-02-11T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            Thomas Weitzel
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://example.org/blog/audio-player-shortcode/"/>
+        <id>https://example.org/blog/audio-player-shortcode/</id>
+        
+        <content type="html" xml:base="https://example.org/blog/audio-player-shortcode/">&lt;p&gt;There are two practical ways to add audio to a blog: use the native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; element or render a custom player with JavaScript.
+The &lt;a rel=&quot;external&quot; href=&quot;https://www.getzola.org/&quot;&gt;Zola&lt;/a&gt; theme &lt;a rel=&quot;external&quot; href=&quot;https://github.com/thomasweitzel/zolarwind&quot;&gt;Zolarwind&lt;/a&gt; provides two components that map to those choices: &lt;code&gt;audio_simple&lt;/code&gt; uses the native element, &lt;code&gt;audio&lt;/code&gt; uses a custom player.
+Both are usable as-is, and the choice comes down to how much control you want over the player UI.&lt;/p&gt;
+&lt;h2 id=&quot;the-baseline-native-audio&quot;&gt;The baseline native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;You get built-in controls and good accessibility.
+If you are fine with browser-native styling, this is the fastest path.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;html&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-1&quot;&gt;audio&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-18&quot;&gt; controls&lt;/span&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-2&quot;&gt;  &amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-1&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-18&quot;&gt; src&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;audio.mp3&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-18&quot;&gt; type&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;audio/mpeg&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;z-l-3 z-d-1&quot;&gt;audio&lt;/span&gt;&lt;span class=&quot;z-d-2&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;audio controls&gt;
+  &lt;source src=&quot;audio.mp3&quot; type=&quot;audio/mpeg&quot;&gt;
+&lt;/audio&gt;
+&lt;p&gt;The tradeoff is consistency. Browsers style the element differently, and you get limited control over the UI.&lt;/p&gt;
+&lt;h2 id=&quot;audio-simple-component&quot;&gt;&lt;code&gt;audio_simple&lt;/code&gt; component&lt;/h2&gt;
+&lt;p&gt;This wraps the native element and keeps the setup small.
+It uses no JavaScript, like the baseline audio element, but adds a small amount of CSS for layout.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{{&amp;lt;audio_simple&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  config&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span&gt;{config}&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  src&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;audio.mp3&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  title&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Audio in your blog&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  year&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;2026&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  artist&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Female Speaker&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  label&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Blog of Thomas Weitzel&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;/&amp;gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div class=&quot;container max-w-md my-6 py-6 px-6 text-black dark:text-black bg-gradient-to-tr from-ok-600 to-primary-800 rounded-2xl overflow-hidden&quot;&gt;
+    &lt;div class=&quot;text-center relative&quot;&gt;
+        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; fill=&quot;none&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;1.5&quot; stroke=&quot;currentColor&quot; class=&quot;h-16 w-16 inline-block&quot;&gt;
+            &lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z&quot; /&gt;
+        &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mb-6 text-center relative&quot;&gt;
+        &lt;h2 class=&quot;inline-block font-medium&quot;&gt;Audio in your blog&lt;/h2&gt;
+        &lt;p class=&quot;inline-block font-medium text-sm&quot;&gt;Female Speaker | Blog of Thomas Weitzel | 2026&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;audio controls src=&quot;audio.mp3&quot; style=&quot;width: 100%&quot;&gt;Your browser does not support the audio element.&lt;/audio&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;custom-player&quot;&gt;Custom player&lt;/h2&gt;
+&lt;p&gt;If you want a consistent player UI across browsers, the &lt;code&gt;audio&lt;/code&gt; component renders a custom player with JavaScript.
+The native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; controls are not used; the UI is fully custom.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{{&amp;lt;audio&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  config&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span&gt;{config}&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  src&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;audio.mp3&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  length&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;0:48&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  title&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Audio in your blog&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  year&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;2026&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  artist&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Female Speaker&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  label&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;Blog of Thomas Weitzel&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;/&amp;gt;}}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div
+  class=&quot;container max-w-md my-6 py-6 px-6 text-black dark:text-black bg-gradient-to-tr from-primary-600 to-warn-800 rounded-2xl overflow-hidden&quot;
+  data-audio-id=&quot;1&quot;
+  data-audio-src=&quot;audio.mp3&quot;
+&gt;
+    &lt;div class=&quot;text-center relative&quot;&gt;
+        &lt;svg xmlns=&quot;http://www.w3.org/2000/svg&quot; fill=&quot;none&quot; viewBox=&quot;0 0 24 24&quot; stroke-width=&quot;1.5&quot; stroke=&quot;currentColor&quot; class=&quot;h-16 w-16 inline-block&quot;&gt;
+            &lt;path stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot; d=&quot;M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z&quot; /&gt;
+        &lt;/svg&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;mb-6 text-center relative&quot;&gt;
+        &lt;h2 class=&quot;inline-block font-medium&quot;&gt;Audio in your blog&lt;/h2&gt;
+        &lt;p class=&quot;inline-block font-medium text-sm&quot;&gt;Female Speaker | Blog of Thomas Weitzel | 2026&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;audio-controls1 flex space-x-1&quot;&gt;
+        &lt;div class=&quot;play-div1 flex-none hover:text-fail-600&quot;&gt;Loading ...&lt;/div&gt;
+        &lt;div class=&quot;time-div1 flex-none pr-2&quot;&gt;00:00 | 0:48&lt;/div&gt;
+        &lt;div class=&quot;flex-auto cursor-pointer select-none mt-2&quot;&gt;
+            &lt;div class=&quot;progress-container1 w-full bg-primary-700 rounded-full h-2 dark:bg-neutral-200&quot;&gt;
+                &lt;div class=&quot;progress-bar1 bg-neutral-800 h-2 rounded-full hover:bg-fail-600&quot; style=&quot;width: 0%&quot;&gt;&lt;/div&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;speaker-div1 flex-none pl-2 hover:text-fail-600&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;&lt;script src=&quot;https://example.org/js/audio/howler.js&quot; integrity=&quot;sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://example.org/js/audio/audio-player.js&quot; integrity=&quot;sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://example.org/js/audio/audio-init.js&quot; integrity=&quot;sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+&lt;p&gt;I prefer the &lt;code&gt;audio&lt;/code&gt; component, because I want a stable player UI across browsers.
+&lt;code&gt;audio_simple&lt;/code&gt; stays in the toolbox because it keeps the setup small and uses no extra JavaScript.&lt;/p&gt;
+&lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The components expect local assets, not remote URLs.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;zola serve&lt;/code&gt; does not support range requests as of 0.22.1, so Chrome cannot seek properly. Use a static server for testing.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>The Game of Fifteen</title>
+        <published>2020-06-11T00:00:00+00:00</published>
+        <updated>2020-06-11T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            Thomas Weitzel
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://example.org/blog/game-of-fifteen/"/>
+        <id>https://example.org/blog/game-of-fifteen/</id>
+        
+        <content type="html" xml:base="https://example.org/blog/game-of-fifteen/">&lt;p&gt;The Game of Fifteen is a sliding puzzle that consists of a square with tiles numbered from 1 to 15 in random order with one tile missing.
+To solve the puzzle, you must place the tiles in order by moving tiles to the empty space.&lt;/p&gt;
+&lt;h2 id=&quot;how-to-play&quot;&gt;How to play&lt;/h2&gt;
+&lt;p&gt;Play the game online by clicking/tapping on the tile you want to move.
+Only tiles neighboring the empty space can be moved.
+Once you solve the puzzle, the tiles will not move anymore.
+Just play a new game by clicking the button.
+I can guarantee you that every game presented here is solvable.
+Read below for an explanation.&lt;/p&gt;
+&lt;p&gt;Hint: if your browser doesn&#39;t display the board correctly, try clearing your browser cache and try again.&lt;/p&gt;
+&lt;div id=&quot;board&quot;&gt;
+    &lt;div class=&quot;m-4 grid grid-flow-row grid-cols-4 grid-rows-4 h-64 w-64 gap-1&quot;&gt;
+        &lt;div id=&quot;f0&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f1&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f2&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f3&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f4&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f5&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f6&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f7&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f8&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f9&quot;  class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f10&quot; class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f11&quot; class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f12&quot; class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f13&quot; class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f14&quot; class=&quot;&quot;&gt;&lt;/div&gt;
+        &lt;div id=&quot;f15&quot; class=&quot;&quot;&gt;&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;mt-4&quot;&gt;
+    &lt;button id=&quot;playButton&quot; class=&quot;py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-neutral-950 bg-primary-300 shadow-sm hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950 active:bg-primary-600 transition duration-150 ease-in-out&quot;&gt;
+        new game
+    &lt;/button&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;parity-of-a-permutation&quot;&gt;Parity of a permutation&lt;/h2&gt;
+&lt;p&gt;For the Game of Fifteen, a permutation of the numbers 1 to 15 is a state of the game if read line by line - like a book.
+Some smart people have figured out, that an even parity (is dividable by 2, like 42) is an invariant of a solvable permutation of the Game of Fifteen.
+In computer science, an invariant is a condition that is always true, i.e. doesn&#39;t change for a section of code.&lt;/p&gt;
+&lt;p&gt;The parity of a permutation is simply the number of inversions.
+An inversion happens when an element with a lower index has a higher value than a value at a higher index.&lt;/p&gt;
+&lt;p&gt;Examples:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;1, 2, 3&lt;/code&gt; has no inversions, all elements are in order&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;2, 3, 1&lt;/code&gt; has two inversions, because &lt;code&gt;2&lt;/code&gt; is greater than &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;3&lt;/code&gt; is greater than &lt;code&gt;1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1, 3, 2&lt;/code&gt; has only one inversion, &lt;code&gt;3&lt;/code&gt; is greater than &lt;code&gt;2&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;There are about 1.3 Trillion (Billion for us people in Central Europe) possible permutations of the numbers 1 to 15.
+Only half of them have an even parity.
+When we calculate a random permutation for the start of a game, it then makes sense to filter out all the permutations with an odd parity.
+Because we do not want to present an unsolvable game.&lt;/p&gt;
+&lt;p&gt;Here is a fragment of source code that calculates the parity and checks if it&#39;s even for the examples from above.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; for (let i = 0; i &amp;lt; limit; i += 1) {...} vs&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; range0(limit).forEach((i) =&amp;gt; {...})&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; range0&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;limit&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; [&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;Array&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;limit&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-16&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;keys&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span&gt;]&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; isEvenPermutation&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;p&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; parity&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;p&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 2&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; ===&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 0&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; parity&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;p&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; range0&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;p&lt;/span&gt;&lt;span class=&quot;z-d-16&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;z-l-1&quot;&gt;length&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-16&quot;&gt;  .&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;map&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;i&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; range0&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;p&lt;/span&gt;&lt;span class=&quot;z-d-16&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;z-l-1&quot;&gt;length&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-16&quot;&gt;    .&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;filter&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;j&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; i&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span&gt; j&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;amp;&amp;amp;&lt;/span&gt;&lt;span&gt; p&lt;/span&gt;&lt;span&gt;[&lt;/span&gt;&lt;span&gt;i&lt;/span&gt;&lt;span&gt;]&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;gt;&lt;/span&gt;&lt;span&gt; p&lt;/span&gt;&lt;span&gt;[&lt;/span&gt;&lt;span&gt;j&lt;/span&gt;&lt;span&gt;]&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-16&quot;&gt;    .&lt;/span&gt;&lt;span class=&quot;z-l-1&quot;&gt;length&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;  )&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-d-16&quot;&gt;  .&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;reduce&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;agg&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt; v&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; agg&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; +&lt;/span&gt;&lt;span&gt; v&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 0&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; true, 0 inversions&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;console&lt;/span&gt;&lt;span class=&quot;z-d-16&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;log&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;isEvenPermutation&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;[&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 2&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 3&lt;/span&gt;&lt;span&gt;]&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; true, 2 inversions&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;console&lt;/span&gt;&lt;span class=&quot;z-d-16&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;log&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;isEvenPermutation&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;[&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 3&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;]&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; false, 1 inversion&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;console&lt;/span&gt;&lt;span class=&quot;z-d-16&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;log&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;isEvenPermutation&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;[&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 3&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 2&lt;/span&gt;&lt;span&gt;]&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;source-code&quot;&gt;Source code&lt;/h2&gt;
+&lt;p&gt;I have created this &lt;a rel=&quot;external&quot; href=&quot;https://gist.github.com/thomasweitzel/3fd3197616f0299a2935972edd68bd4a&quot;&gt;GitHub Gist&lt;/a&gt; with the complete HTML page including the JavaScript source code.
+It runs in the browser and uses just &lt;a rel=&quot;external&quot; href=&quot;https://tailwindcss.com&quot;&gt;Tailwind CSS&lt;/a&gt; for styling and plain ES6-style JavaScript.
+The source code can be used for all square board sizes, not only 4 by 4.
+You have to adjust the boards GUI or dynamically generate it - it&#39;s easy.&lt;/p&gt;
+&lt;div class=&quot;hidden bg-primary-300 bg-primary-500 bg-primary-600 bg-primary-800 bg-primary-950 bg-warn-700 text-neutral-950 text-fail-200 border-primary-700 border-warn-600 border-transparent focus:ring-primary-500 focus:ring-offset-neutral-950&quot;&gt;&lt;/div&gt;
+&lt;script src=&quot;game-of-fifteen.js&quot; integrity=&quot;sha384-JxrdBI5c+wPKQv/3jeIZHhvFK5u658hFW/SaEFvVQZkE3Obo6boo+t3mu8dXS/ts&quot;&gt;&lt;/script&gt;
+</content>
+        
+    </entry>
+    <entry xml:lang="en">
+        <title>Tail recursion with trampoline</title>
+        <published>2019-03-16T00:00:00+00:00</published>
+        <updated>2019-03-16T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            Thomas Weitzel
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://example.org/blog/tail-recursion-with-trampoline/"/>
+        <id>https://example.org/blog/tail-recursion-with-trampoline/</id>
+        
+        <content type="html" xml:base="https://example.org/blog/tail-recursion-with-trampoline/">&lt;p&gt;In case your platform lacks support for proper tail call optimization and you want to do functional programming, you might run into stack space problems.
+This can be mitigated, but you have to find a way yourself to make it work.
+The specific platform I&#39;m writing about here is &lt;a rel=&quot;external&quot; href=&quot;https://nodejs.org/en/about&quot;&gt;Node.js&lt;/a&gt;.
+After a little introduction, I show one well-known solution to the problem.&lt;/p&gt;
+&lt;p&gt;In functional programming, recursion is a fundamental concept for handling mutability.
+Pure functional languages like Haskell do not allow mutation of variables, so you have to come up with a different solution to the problem.
+What you do is called &lt;a rel=&quot;external&quot; href=&quot;https://alvinalexander.com/scala/functional-programming-simplified-book&quot;&gt;update as you copy&lt;/a&gt;.
+You create new variables by calculating their values from the values of existing ones.
+But you never assign a new value to a variable that already has one.&lt;/p&gt;
+&lt;h2 id=&quot;recursion&quot;&gt;Recursion&lt;/h2&gt;
+&lt;p&gt;To simplify the reasoning, I will assume that a function does not rely on or modify external state, i.e. values of variables outside of its body.
+Math is organized this way: &lt;code&gt;1 + 2 = 3&lt;/code&gt; independently of e.g. the current weather outside.
+It&#39;s always true, no matter what.&lt;/p&gt;
+&lt;p&gt;In order to write a useful recursive function, you have to make sure that it:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;eventually returns with a value (terminates)&lt;/li&gt;
+&lt;li&gt;calls itself&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;By using these criteria for a recursive function, you can see that it has to either call itself or terminate.
+When it terminates, it&#39;s done and you have a value.
+Otherwise it will call itself, and you get another stack frame with this call.
+Depending on the number of calls this function makes to itself, the used stack space grows and you might eventually run out of stack space.
+This is not a good thing!&lt;/p&gt;
+&lt;h2 id=&quot;tail-recursion&quot;&gt;Tail recursion&lt;/h2&gt;
+&lt;p&gt;What if you do not need the current stack frame anymore, once you make your recursive call?
+You could immediately forget it, throw it away, or reuse it, thereby saving stack space.
+But you have to make sure that you need no information from this stack frame once you have made your next call.
+This can be accomplished by returning the recursive call alone, not adding to it or modifying it once it returns, so the return value can be directly passed on.
+Now you have what&#39;s called a tail-recursive function.&lt;/p&gt;
+&lt;h2 id=&quot;tail-call-optimization&quot;&gt;Tail call optimization&lt;/h2&gt;
+&lt;p&gt;Once you have made sure that your function is tail-recursive, your runtime environment or compiler can optimize the calls in such a way,
+that the existing stack frame is reused by the next call.
+The stack thereby never grows and you have eliminated the potential for a stack overflow.
+But it&#39;s not enough that it can be optimized, it has to be actually done.
+That&#39;s where the problem starts.&lt;/p&gt;
+&lt;p&gt;Not every runtime environment or compiler performs tail call optimization.
+As of this writing two of the platforms that I use do not support tail call optimization out-of-the-box:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a rel=&quot;external&quot; href=&quot;https://nodejs.org/en&quot;&gt;Node.js&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Java Virtual Machine (JVM) with &lt;a rel=&quot;external&quot; href=&quot;https://openjdk.java.net/projects/jdk8u&quot;&gt;Java 8&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The JVM does support tail call optimization when used with Kotlin or Scala though.&lt;/p&gt;
+&lt;p&gt;Not all is lost: where tail call optimization is not directly supported you can implement a workaround that is straightforward.
+It&#39;s effective in saving you from stack overflow errors.
+The rest of this article shows you how to implement it.
+It&#39;s known under the name &lt;a rel=&quot;external&quot; href=&quot;https://en.wikipedia.org/wiki/Tail_call#Through_trampolining&quot;&gt;trampoline device&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;I use the factorial function and implement it in different ways, starting with a loop that mutates values.
+Factorial is defined for natural numbers without the 0 (1, 2, 3, ...).
+&lt;code&gt;Factorial(n)&lt;/code&gt; calculates the product of all numbers between &lt;code&gt;1&lt;/code&gt; and &lt;code&gt;n&lt;/code&gt;.
+It serves as an example that I chose because it&#39;s easy to understand.
+I&#39;ll then transform it to a recursive function and show you how to make this function tail-recursive.
+Afterwards I introduce the trampoline device and apply it to a function that is the modified tail-recursive function.
+Let&#39;s start.&lt;/p&gt;
+&lt;h2 id=&quot;loop&quot;&gt;Loop&lt;/h2&gt;
+&lt;p&gt;If you&#39;re an &lt;a rel=&quot;external&quot; href=&quot;https://en.wikipedia.org/wiki/Imperative_programming&quot;&gt;imperative programmer&lt;/a&gt;, you would implement the factorial function with a loop.
+You start with a variable &lt;code&gt;result&lt;/code&gt; that has the value &lt;code&gt;1&lt;/code&gt; and then have a for-loop that starts at &lt;code&gt;2&lt;/code&gt; and goes up to &lt;code&gt;n&lt;/code&gt;.
+In the body of the for-loop you modify &lt;code&gt;result&lt;/code&gt; and set it to a value that was its previous value multiplied by whatever value your loop-variable has.
+If you are done with the loop you return the &lt;code&gt;result&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; loopFactorial&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;n&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  let&lt;/span&gt;&lt;span&gt; result&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  for&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;let&lt;/span&gt;&lt;span&gt; i&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 2&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;span&gt; i&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;=&lt;/span&gt;&lt;span&gt; n&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;span&gt; i&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; +=&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span&gt; result&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; *=&lt;/span&gt;&lt;span&gt; i&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  return&lt;/span&gt;&lt;span&gt; result&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Something to note here is that your &lt;code&gt;result&lt;/code&gt; variable does not contain the result.
+It holds the result only when the execution reaches the return statement.
+How do you effectively name a variable that has different meanings during its life cycle?&lt;/p&gt;
+&lt;h2 id=&quot;recursive-with-info-left-on-the-stack&quot;&gt;Recursive with info left on the stack&lt;/h2&gt;
+&lt;p&gt;How do you slice a carrot?
+Although there are many possible ways to do it, one would be to cut off one slice from one end and then repeat the procedure with the rest of the carrot, until there&#39;s nothing left.
+You do the same with whatever is left until you reach the terminating condition.
+It&#39;s a recursive definition.
+And it&#39;s essentially what you do to calculate the factorial in a recursive way.&lt;/p&gt;
+&lt;p&gt;To calculate the factorial of &lt;code&gt;n&lt;/code&gt; you multiply &lt;code&gt;n&lt;/code&gt; with the factorial of &lt;code&gt;n - 1&lt;/code&gt;.
+You now have to calculate the factorial of &lt;code&gt;n - 1&lt;/code&gt;.
+And so on.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; stackFactorial&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;n&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  if&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; return&lt;/span&gt;&lt;span&gt; n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; *&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; stackFactorial&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; -&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  return&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You need the result of &lt;code&gt;stackFactorial(n - 1)&lt;/code&gt; before you can return from the function call, because you have to multiply it with &lt;code&gt;n&lt;/code&gt; before that can happen.
+What &lt;code&gt;n&lt;/code&gt; actually is, is stored in the context of your &lt;strong&gt;current&lt;/strong&gt; stack frame.
+The next call will have another stack frame, where &lt;code&gt;n&lt;/code&gt; has another value.
+Because you cannot forget the &lt;code&gt;n&lt;/code&gt; of the current call, the current stack frame has to stay around.&lt;/p&gt;
+&lt;p&gt;With large &lt;code&gt;n&lt;/code&gt; this can lead to a situation where you get an error and the entire process stops: &lt;code&gt;RangeError: Maximum call stack size exceeded&lt;/code&gt;.&lt;/p&gt;
+&lt;h2 id=&quot;recursive-without-info-left-on-the-stack&quot;&gt;Recursive without info left on the stack&lt;/h2&gt;
+&lt;p&gt;What can be done about it?
+As a first step, you can eliminate the need for the current stack frame once you made the next call.
+But you somehow have to preserve information that&#39;s needed.
+The solution is to pass all required information on to the next recursive call.&lt;/p&gt;
+&lt;p&gt;An extra parameter is needed to hold this information.
+It&#39;s commonly called an aggregator, or &lt;code&gt;agg&lt;/code&gt; for short.
+For multiplication you start at &lt;code&gt;1&lt;/code&gt; (identity, &lt;code&gt;n * 1 === n&lt;/code&gt; and &lt;code&gt;1 * n === n&lt;/code&gt;).
+Along the way, you multiply the aggregator with the current value of &lt;code&gt;n&lt;/code&gt;, thereby keeping track of how far you&#39;ve come with the product.
+The aggregator will look like this over time:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;1&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1 * n&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1 * n * (n - 1)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;1 * n * (n - 1) * (n - 2)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;When you finally hit &lt;code&gt;1&lt;/code&gt; for &lt;code&gt;n&lt;/code&gt;, you simply return the aggregator, because it already contains the correct result.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; tailFactorial&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt; agg&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  if&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; return&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; tailFactorial&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; -&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; agg&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; *&lt;/span&gt;&lt;span&gt; n&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  return&lt;/span&gt;&lt;span&gt; agg&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;As you can see, the call &lt;code&gt;tailFactorial(...)&lt;/code&gt; is directly returned, no information from the current stack frame is required anymore.&lt;/p&gt;
+&lt;h2 id=&quot;alternative-function-signature&quot;&gt;Alternative function signature&lt;/h2&gt;
+&lt;p&gt;Even though you invoke &lt;code&gt;tailFactorial(5)&lt;/code&gt;, the definition has two parameters, &lt;code&gt;n&lt;/code&gt; and &lt;code&gt;agg&lt;/code&gt;.
+The aggregator has a default value, so you need not provide it.
+But since it&#39;s exposed in the function&#39;s interface, someone can call &lt;code&gt;tailFactorial(5, 0)&lt;/code&gt; and get a wrong result.
+Because nobody should mess with &lt;code&gt;agg&lt;/code&gt;, it&#39;s better to hide it.&lt;/p&gt;
+&lt;p&gt;Wrap it with a function that only allows the parameter &lt;code&gt;n&lt;/code&gt; and make it an inner function of that wrapper function.
+Within that wrapper function, pass the call on to the inner function.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; Alternative way (not exposing the aggregator)&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; tailFactorialAlt&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;n&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; innerTailFactorial&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt; agg&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;    if&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;x&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; return&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; innerTailFactorial&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;x&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; -&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; agg&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; *&lt;/span&gt;&lt;span&gt; x&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;    return&lt;/span&gt;&lt;span&gt; agg&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;  }&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  return&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; innerTailFactorial&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;I will not use this alternative function signature, because it&#39;s too verbose and not helping me make my point.
+Still, I highly recommend that you do not expose parameters in your function interface that are neither needed nor intended for public access.&lt;/p&gt;
+&lt;h2 id=&quot;returning-a-function-without-calling-it&quot;&gt;Returning a function without calling it&lt;/h2&gt;
+&lt;p&gt;Instead of having the tail-recursive function make the tail call itself, it returns a function (with no arguments) that can call the recursive function with all arguments already in place.
+This is called a &lt;a rel=&quot;external&quot; href=&quot;https://en.wikipedia.org/wiki/Thunk#Functional_programming&quot;&gt;thunk&lt;/a&gt;.
+You then simply have someone to call that thunk, because the tail call is no longer made by the function.
+If it returns another function, you call it again. And again.
+Until the final value is returned.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; thunkFactorial&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt; agg&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  if&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; return&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; thunkFactorial&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; -&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; agg&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; *&lt;/span&gt;&lt;span&gt; n&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  return&lt;/span&gt;&lt;span&gt; agg&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Since the function returns either a value or another function without calling it, it is neither recursive nor tail-recursive anymore.
+The stack cannot grow and you will not run out of it.
+But if your first call does not give you the final result, you end up with just another function and not with the result.&lt;/p&gt;
+&lt;h2 id=&quot;device-for-pulling-out-functions-and-calling-them&quot;&gt;Device for pulling out functions and calling them&lt;/h2&gt;
+&lt;p&gt;Since you simply pull functions/thunks out of your factorial function until the final value is returned (instead of yet another function), you have to set up a device that&#39;s doing just that.
+The device is called a trampoline and it is handed a function that returns either thunks or a final value.
+If a call to that function results in another function, it is called for as long as the returned type is a function.
+Otherwise it returns the final result.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; trampoline&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt; fn&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;args&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  let&lt;/span&gt;&lt;span&gt; res&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; fn&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;...&lt;/span&gt;&lt;span&gt;args&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  while&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;res&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; instanceof&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-3&quot;&gt; Function&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span&gt; res&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; res&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  return&lt;/span&gt;&lt;span&gt; res&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&quot;putting-it-into-action&quot;&gt;Putting it into action&lt;/h2&gt;
+&lt;p&gt;You have two things right now, a function that is returning thunks and another function that can call these thunks for as long as needed, i.e. the final result is returned.
+The last thing that&#39;s left to do is to join these two functions together.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-1&quot;&gt; trampolineFactorial&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; trampoline&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;thunkFactorial&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; Example call&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt;trampolineFactorial&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt;5&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;All this is for Node.js and JavaScript.&lt;/p&gt;
+&lt;h2 id=&quot;tail-recursive-fibonacci-numbers&quot;&gt;Tail recursive Fibonacci numbers&lt;/h2&gt;
+&lt;p&gt;The Fibonacci sequence is defined like this: &lt;code&gt;F(0) = 0&lt;/code&gt; and &lt;code&gt;F(1) = 1&lt;/code&gt;.
+For all &lt;code&gt;n &amp;gt; 1&lt;/code&gt; you calculate them with &lt;code&gt;F(n) = F(n - 1) + F(n - 2)&lt;/code&gt;.
+This is a recursive definition.&lt;/p&gt;
+&lt;p&gt;What is different from the factorial example used above?
+You need two independent information, the two previous values of the function.
+When you want to solve the problem with tail recursion, instead of one aggregator parameter, you need to pass two aggregator parameters to the function: the two previous values.
+As a rule, you need an additional parameter for every additional information that you need in the body of your function.&lt;/p&gt;
+&lt;p&gt;Interestingly, &lt;code&gt;n&lt;/code&gt; is used as a counter, going down to &lt;code&gt;1&lt;/code&gt;, but the function works its way up to the higher values.
+For each call, the &lt;code&gt;previous&lt;/code&gt; value becomes the &lt;code&gt;current&lt;/code&gt; value from the previous call, while the &lt;code&gt;current&lt;/code&gt; value is set to &lt;code&gt;current + previous&lt;/code&gt;.
+Until the function terminates for &lt;code&gt;n === 1&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;const&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; F&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt;n&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt; previous&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 0&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-11&quot;&gt; current&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; =&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; =&amp;gt;&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  if&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; ===&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 0&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; return&lt;/span&gt;&lt;span&gt; previous&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  if&lt;/span&gt;&lt;span&gt; (&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; ===&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt; return&lt;/span&gt;&lt;span&gt; current&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;  return&lt;/span&gt;&lt;span class=&quot;z-l-7 z-d-18&quot;&gt; F&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;n&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; -&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-11&quot;&gt; 1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; current&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; current&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; +&lt;/span&gt;&lt;span&gt; previous&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;}&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can wrap it in a function with only one parameter for &lt;code&gt;n&lt;/code&gt;, which hides the aggregators &lt;code&gt;current&lt;/code&gt; and &lt;code&gt;next&lt;/code&gt; if you want.
+Like in the example above, the original function becomes an inner function of the wrapper function.&lt;/p&gt;
+&lt;p&gt;As I recently found out, Fibonacci numbers also have a &lt;a rel=&quot;external&quot; href=&quot;https://en.wikipedia.org/wiki/Fibonacci_number#Matrix_form&quot;&gt;closed-form expression&lt;/a&gt;:&lt;/p&gt;
+&lt;div class=&quot;math math-display&quot; role=&quot;math&quot;&gt;&amp;#92;[F&amp;#95;{n}={&amp;#92;cfrac {1}{&amp;#92;sqrt {5}}}&amp;#92;left({&amp;#92;cfrac {1+{&amp;#92;sqrt {5}}}{2}}&amp;#92;right)^{n}-{&amp;#92;cfrac {1}{&amp;#92;sqrt {5}}}&amp;#92;left({&amp;#92;cfrac {1-{&amp;#92;sqrt {5}}}{2}}&amp;#92;right)^{n}&amp;#92;]&lt;/div&gt;
+&lt;p&gt;As an aside: we were &lt;a rel=&quot;external&quot; href=&quot;https://www.mountaingoatsoftware.com/agile/planning-poker&quot;&gt;estimating story points&lt;/a&gt; during a sprint planing.
+Story points roughly follow the Fibonacci numbers, so it&#39;s natural that the topic pops up from time to time.
+Someone was asking if there was a closed-form expression for Fibonacci numbers, so we searched for an answer. And voilà ...&lt;/p&gt;
+&lt;p&gt;Using the trampoline device together with the modified tail-recursive Fibonacci function is left as an exercise for the reader.
+Hint: you have to modify the tail-recursive Fibonacci function to return a function/thunk instead of returning the result of a recursive function call.&lt;/p&gt;
+&lt;h2 id=&quot;final-thoughts&quot;&gt;Final thoughts&lt;/h2&gt;
+&lt;p&gt;I use the trampoline device because Node.js does not support tail call optimization (TCO).
+At one point I thought that Node.js would eventually support TCO through its use of Google&#39;s V8 engine. Google was actively working on supporting TCO in V8.
+But it turned out that Google is &lt;a rel=&quot;external&quot; href=&quot;https://www.chromestatus.com/feature/5516876633341952&quot;&gt;no longer pursuing&lt;/a&gt; this path.
+Since tail-recursive functions are particularly useful in functional programming, it&#39;s extremely frustrating to see so little progress.&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>

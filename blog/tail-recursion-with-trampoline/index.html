@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="generator" content="Zola v0.23.5">
+
+  
+  
+    <meta name="description" content="Node.js does not support tail call optimization, but a trampoline has the same effect.">
+  
+
+
+  <title>
+    
+      
+  
+  
+    Tail recursion with trampoline | anisotropic
+  
+
+    
+  </title>
+  
+  
+    <link rel="canonical" href="https://example.org/blog/tail-recursion-with-trampoline/" />
+  
+
+  <link rel="stylesheet" href="https://example.org/css/generated.css">
+  
+  
+  
+<link rel="stylesheet" id="code-highlighting-light" href="https://example.org/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
+<link rel="stylesheet" id="code-highlighting-dark" href="https://example.org/giallo-dark.css" integrity="sha384-wBRtfVoniCE66QxHWGQ5FfeY2FVH6BfaeZ3HI/2foTW0BdomliX8zJCXaUF3AR+v" disabled>
+
+
+  
+    <link rel="icon" href="https://example.org/img/yin-yang.svg" />
+  
+
+  
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://example.org/atom.xml" />
+  
+
+  <script defer src="https://example.org/js/zolarwind/logic.js" integrity="sha384-XH2tq2oOnPBlH115yPIJ9+CEYbCxU/Ap6b+5NY214ERXB9j5kFcequfsqiHhg8BD"></script>
+<script defer src="https://example.org/js/blog_select.js"></script>
+
+<link rel="stylesheet" id="code-highlighting-light" href="https://example.org/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
+<link rel="stylesheet" id="code-highlighting-dark" href="https://example.org/giallo-dark.css" integrity="sha384-wBRtfVoniCE66QxHWGQ5FfeY2FVH6BfaeZ3HI/2foTW0BdomliX8zJCXaUF3AR+v" disabled>
+<link rel="stylesheet" href="https://example.org/js/katex/katex.min.css" integrity="sha384-1vdNCNel6Tx/NQa8IR1mGOGKsbGreCkOPfbtPPnUURJ5Tu2PRVfQ/7KLZC+Pi1p1">
+<script defer src="https://example.org/js/katex/katex.min.js" integrity="sha384-ycJ6GAwiS15LoUPipwJOrWTvkUHl/YqELValBwI5I4awP1EeEQJYarj+w85ntcz7"></script>
+<script defer src="https://example.org/js/katex/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"></script>
+<script defer src="https://example.org/js/katex-config.js" integrity="sha384-nvMU92JREtcI6oa8M5sYH7zIpj3Sj8Lm+jqpbEM3qFFZnbRTncJiX0qgBmStmTdZ"></script>
+  
+</head>
+<body>
+     
+
+<header class="sticky top-0 w-full z-10">
+    <nav class="bg-neutral-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="pt-4 pb-3">
+                <a href="https://example.org" aria-label="Go to homepage"
+                    class="text-6xl odibee-sans-regular text-neutral-100 hover:text-neutral-400 transition"
+                >
+                    anisotropic
+                </a>
+                <div class="-mr-2 flex items-center space-x-1 md:hidden">
+                    <button
+                        id="toggleMobileMenu"
+                        class="icon inline-flex items-center justify-center p-2 rounded-md text-neutral-200 hover:text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:bg-neutral-200 focus:text-neutral-800"
+                        aria-label="Menu"
+                    >
+                        <span id="mobile-icon-menu-unselected">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                        </span>
+                        <span id="mobile-icon-menu-selected" class="hidden">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </nav>
+</header>
+
+  <main id="content">
+    
+
+
+
+
+  
+
+
+<div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+  <article
+      id="blog-content"
+      data-title="Tail recursion with trampoline"
+      class="prose"
+      data-clipboard-copy="Copy to clipboard"
+      data-clipboard-copied="Copied to clipboard"
+      data-clipboard-error="Error copying to clipboard"
+  >    
+    <div class="flex h-64">
+      <div class="flex flex-col justify-between w-1/2">
+        <div>
+          <h1>Tail recursion with trampoline</h1>
+          <time datetime="2019-03-16">March 16, 2019</time>
+          <div>
+            <div class="text-sm my-1">
+              2,017 words &middot;
+              9 minutes reading time
+            </div>
+            
+  
+    
+    <ul class="tags-list text-sm leading-5 font-medium text-primary-600 flex flex-wrap gap-2 m-0 p-0 list-none" aria-label="tag">
+      
+        <li class="badge badge-primary">
+          <a href="https://example.org/tags/javascript/">javascript</a>
+        </li>
+      
+    </ul>
+  
+
+  
+          </div>
+         </div>
+        <span class="my-auto mt-6 justify-self-center">
+          Node.js does not support tail call optimization, but a trampoline has the same effect.
+        </span>
+      </div>
+      <div class="rounded-md shadow-md mx-auto overflow-hidden">
+        <img src="https://example.org/blog/tail-recursion-with-trampoline/banner.webp" alt="Tail recursion with trampoline" fetchpriority="high" loading="eager">
+      </div>
+    </div>
+      
+    
+    <div>
+      <p>In case your platform lacks support for proper tail call optimization and you want to do functional programming, you might run into stack space problems.
+This can be mitigated, but you have to find a way yourself to make it work.
+The specific platform I'm writing about here is <a rel="external" href="https://nodejs.org/en/about">Node.js</a>.
+After a little introduction, I show one well-known solution to the problem.</p>
+<p>In functional programming, recursion is a fundamental concept for handling mutability.
+Pure functional languages like Haskell do not allow mutation of variables, so you have to come up with a different solution to the problem.
+What you do is called <a rel="external" href="https://alvinalexander.com/scala/functional-programming-simplified-book">update as you copy</a>.
+You create new variables by calculating their values from the values of existing ones.
+But you never assign a new value to a variable that already has one.</p>
+<h2 id="recursion">Recursion</h2>
+<p>To simplify the reasoning, I will assume that a function does not rely on or modify external state, i.e. values of variables outside of its body.
+Math is organized this way: <code>1 + 2 = 3</code> independently of e.g. the current weather outside.
+It's always true, no matter what.</p>
+<p>In order to write a useful recursive function, you have to make sure that it:</p>
+<ul>
+<li>eventually returns with a value (terminates)</li>
+<li>calls itself</li>
+</ul>
+<p>By using these criteria for a recursive function, you can see that it has to either call itself or terminate.
+When it terminates, it's done and you have a value.
+Otherwise it will call itself, and you get another stack frame with this call.
+Depending on the number of calls this function makes to itself, the used stack space grows and you might eventually run out of stack space.
+This is not a good thing!</p>
+<h2 id="tail-recursion">Tail recursion</h2>
+<p>What if you do not need the current stack frame anymore, once you make your recursive call?
+You could immediately forget it, throw it away, or reuse it, thereby saving stack space.
+But you have to make sure that you need no information from this stack frame once you have made your next call.
+This can be accomplished by returning the recursive call alone, not adding to it or modifying it once it returns, so the return value can be directly passed on.
+Now you have what's called a tail-recursive function.</p>
+<h2 id="tail-call-optimization">Tail call optimization</h2>
+<p>Once you have made sure that your function is tail-recursive, your runtime environment or compiler can optimize the calls in such a way,
+that the existing stack frame is reused by the next call.
+The stack thereby never grows and you have eliminated the potential for a stack overflow.
+But it's not enough that it can be optimized, it has to be actually done.
+That's where the problem starts.</p>
+<p>Not every runtime environment or compiler performs tail call optimization.
+As of this writing two of the platforms that I use do not support tail call optimization out-of-the-box:</p>
+<ul>
+<li><a rel="external" href="https://nodejs.org/en">Node.js</a></li>
+<li>Java Virtual Machine (JVM) with <a rel="external" href="https://openjdk.java.net/projects/jdk8u">Java 8</a></li>
+</ul>
+<p>The JVM does support tail call optimization when used with Kotlin or Scala though.</p>
+<p>Not all is lost: where tail call optimization is not directly supported you can implement a workaround that is straightforward.
+It's effective in saving you from stack overflow errors.
+The rest of this article shows you how to implement it.
+It's known under the name <a rel="external" href="https://en.wikipedia.org/wiki/Tail_call#Through_trampolining">trampoline device</a>.</p>
+<p>I use the factorial function and implement it in different ways, starting with a loop that mutates values.
+Factorial is defined for natural numbers without the 0 (1, 2, 3, ...).
+<code>Factorial(n)</code> calculates the product of all numbers between <code>1</code> and <code>n</code>.
+It serves as an example that I chose because it's easy to understand.
+I'll then transform it to a recursive function and show you how to make this function tail-recursive.
+Afterwards I introduce the trampoline device and apply it to a function that is the modified tail-recursive function.
+Let's start.</p>
+<h2 id="loop">Loop</h2>
+<p>If you're an <a rel="external" href="https://en.wikipedia.org/wiki/Imperative_programming">imperative programmer</a>, you would implement the factorial function with a loop.
+You start with a variable <code>result</code> that has the value <code>1</code> and then have a for-loop that starts at <code>2</code> and goes up to <code>n</code>.
+In the body of the for-loop you modify <code>result</code> and set it to a value that was its previous value multiplied by whatever value your loop-variable has.
+If you are done with the loop you return the <code>result</code>.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> loopFactorial</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">n</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  let</span><span> result</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-1 z-d-11"> 1</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  for</span><span> (</span><span class="z-l-9 z-d-17">let</span><span> i</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-1 z-d-11"> 2</span><span class="z-d-9">;</span><span> i</span><span class="z-l-9 z-d-16"> &lt;=</span><span> n</span><span class="z-d-9">;</span><span> i</span><span class="z-l-9 z-d-16"> +=</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span> result</span><span class="z-l-9 z-d-16"> *=</span><span> i</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  return</span><span> result</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span>}</span><span class="z-d-9">;</span></span></code></pre>
+<p>Something to note here is that your <code>result</code> variable does not contain the result.
+It holds the result only when the execution reaches the return statement.
+How do you effectively name a variable that has different meanings during its life cycle?</p>
+<h2 id="recursive-with-info-left-on-the-stack">Recursive with info left on the stack</h2>
+<p>How do you slice a carrot?
+Although there are many possible ways to do it, one would be to cut off one slice from one end and then repeat the procedure with the rest of the carrot, until there's nothing left.
+You do the same with whatever is left until you reach the terminating condition.
+It's a recursive definition.
+And it's essentially what you do to calculate the factorial in a recursive way.</p>
+<p>To calculate the factorial of <code>n</code> you multiply <code>n</code> with the factorial of <code>n - 1</code>.
+You now have to calculate the factorial of <code>n - 1</code>.
+And so on.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> stackFactorial</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">n</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  if</span><span> (</span><span>n</span><span class="z-l-9 z-d-16"> &gt;</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> return</span><span> n</span><span class="z-l-9 z-d-16"> *</span><span class="z-l-7 z-d-18"> stackFactorial</span><span>(</span><span>n</span><span class="z-l-9 z-d-16"> -</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  return</span><span class="z-l-1 z-d-11"> 1</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span>}</span><span class="z-d-9">;</span></span></code></pre>
+<p>You need the result of <code>stackFactorial(n - 1)</code> before you can return from the function call, because you have to multiply it with <code>n</code> before that can happen.
+What <code>n</code> actually is, is stored in the context of your <strong>current</strong> stack frame.
+The next call will have another stack frame, where <code>n</code> has another value.
+Because you cannot forget the <code>n</code> of the current call, the current stack frame has to stay around.</p>
+<p>With large <code>n</code> this can lead to a situation where you get an error and the entire process stops: <code>RangeError: Maximum call stack size exceeded</code>.</p>
+<h2 id="recursive-without-info-left-on-the-stack">Recursive without info left on the stack</h2>
+<p>What can be done about it?
+As a first step, you can eliminate the need for the current stack frame once you made the next call.
+But you somehow have to preserve information that's needed.
+The solution is to pass all required information on to the next recursive call.</p>
+<p>An extra parameter is needed to hold this information.
+It's commonly called an aggregator, or <code>agg</code> for short.
+For multiplication you start at <code>1</code> (identity, <code>n * 1 === n</code> and <code>1 * n === n</code>).
+Along the way, you multiply the aggregator with the current value of <code>n</code>, thereby keeping track of how far you've come with the product.
+The aggregator will look like this over time:</p>
+<ul>
+<li><code>1</code></li>
+<li><code>1 * n</code></li>
+<li><code>1 * n * (n - 1)</code></li>
+<li><code>1 * n * (n - 1) * (n - 2)</code></li>
+<li>etc.</li>
+</ul>
+<p>When you finally hit <code>1</code> for <code>n</code>, you simply return the aggregator, because it already contains the correct result.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> tailFactorial</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">n</span><span class="z-d-9">,</span><span class="z-l-8 z-d-11"> agg</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  if</span><span> (</span><span>n</span><span class="z-l-9 z-d-16"> &gt;</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> return</span><span class="z-l-7 z-d-18"> tailFactorial</span><span>(</span><span>n</span><span class="z-l-9 z-d-16"> -</span><span class="z-l-1 z-d-11"> 1</span><span class="z-d-9">,</span><span> agg</span><span class="z-l-9 z-d-16"> *</span><span> n</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  return</span><span> agg</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span>}</span><span class="z-d-9">;</span></span></code></pre>
+<p>As you can see, the call <code>tailFactorial(...)</code> is directly returned, no information from the current stack frame is required anymore.</p>
+<h2 id="alternative-function-signature">Alternative function signature</h2>
+<p>Even though you invoke <code>tailFactorial(5)</code>, the definition has two parameters, <code>n</code> and <code>agg</code>.
+The aggregator has a default value, so you need not provide it.
+But since it's exposed in the function's interface, someone can call <code>tailFactorial(5, 0)</code> and get a wrong result.
+Because nobody should mess with <code>agg</code>, it's better to hide it.</p>
+<p>Wrap it with a function that only allows the parameter <code>n</code> and make it an inner function of that wrapper function.
+Within that wrapper function, pass the call on to the inner function.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> Alternative way (not exposing the aggregator)</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> tailFactorialAlt</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">n</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  const</span><span class="z-l-7 z-d-18"> innerTailFactorial</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">x</span><span class="z-d-9">,</span><span class="z-l-8 z-d-11"> agg</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">    if</span><span> (</span><span>x</span><span class="z-l-9 z-d-16"> &gt;</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> return</span><span class="z-l-7 z-d-18"> innerTailFactorial</span><span>(</span><span>x</span><span class="z-l-9 z-d-16"> -</span><span class="z-l-1 z-d-11"> 1</span><span class="z-d-9">,</span><span> agg</span><span class="z-l-9 z-d-16"> *</span><span> x</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">    return</span><span> agg</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span>  }</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  return</span><span class="z-l-7 z-d-18"> innerTailFactorial</span><span>(</span><span>n</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span>}</span><span class="z-d-9">;</span></span></code></pre>
+<p>I will not use this alternative function signature, because it's too verbose and not helping me make my point.
+Still, I highly recommend that you do not expose parameters in your function interface that are neither needed nor intended for public access.</p>
+<h2 id="returning-a-function-without-calling-it">Returning a function without calling it</h2>
+<p>Instead of having the tail-recursive function make the tail call itself, it returns a function (with no arguments) that can call the recursive function with all arguments already in place.
+This is called a <a rel="external" href="https://en.wikipedia.org/wiki/Thunk#Functional_programming">thunk</a>.
+You then simply have someone to call that thunk, because the tail call is no longer made by the function.
+If it returns another function, you call it again. And again.
+Until the final value is returned.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> thunkFactorial</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">n</span><span class="z-d-9">,</span><span class="z-l-8 z-d-11"> agg</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  if</span><span> (</span><span>n</span><span class="z-l-9 z-d-16"> &gt;</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> return</span><span> (</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span class="z-l-7 z-d-18"> thunkFactorial</span><span>(</span><span>n</span><span class="z-l-9 z-d-16"> -</span><span class="z-l-1 z-d-11"> 1</span><span class="z-d-9">,</span><span> agg</span><span class="z-l-9 z-d-16"> *</span><span> n</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  return</span><span> agg</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span>}</span><span class="z-d-9">;</span></span></code></pre>
+<p>Since the function returns either a value or another function without calling it, it is neither recursive nor tail-recursive anymore.
+The stack cannot grow and you will not run out of it.
+But if your first call does not give you the final result, you end up with just another function and not with the result.</p>
+<h2 id="device-for-pulling-out-functions-and-calling-them">Device for pulling out functions and calling them</h2>
+<p>Since you simply pull functions/thunks out of your factorial function until the final value is returned (instead of yet another function), you have to set up a device that's doing just that.
+The device is called a trampoline and it is handed a function that returns either thunks or a final value.
+If a call to that function results in another function, it is called for as long as the returned type is a function.
+Otherwise it returns the final result.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> trampoline</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-8 z-d-11"> fn</span><span class="z-l-9 z-d-17"> =&gt;</span><span> (</span><span class="z-l-9 z-d-16">...</span><span class="z-l-8 z-d-11">args</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  let</span><span> res</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-7 z-d-18"> fn</span><span>(</span><span class="z-l-9 z-d-16">...</span><span>args</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  while</span><span> (</span><span>res</span><span class="z-l-9 z-d-16"> instanceof</span><span class="z-l-8 z-d-3"> Function</span><span>)</span><span> res</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-7 z-d-18"> res</span><span>(</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  return</span><span> res</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span>}</span><span class="z-d-9">;</span></span></code></pre><h2 id="putting-it-into-action">Putting it into action</h2>
+<p>You have two things right now, a function that is returning thunks and another function that can call these thunks for as long as needed, i.e. the final result is returned.
+The last thing that's left to do is to join these two functions together.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-1"> trampolineFactorial</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-7 z-d-18"> trampoline</span><span>(</span><span>thunkFactorial</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"></span>
+<span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> Example call</span></span>
+<span class="giallo-l"><span class="z-l-7 z-d-18">trampolineFactorial</span><span>(</span><span class="z-l-1 z-d-11">5</span><span>)</span><span class="z-d-9">;</span></span></code></pre>
+<p>All this is for Node.js and JavaScript.</p>
+<h2 id="tail-recursive-fibonacci-numbers">Tail recursive Fibonacci numbers</h2>
+<p>The Fibonacci sequence is defined like this: <code>F(0) = 0</code> and <code>F(1) = 1</code>.
+For all <code>n &gt; 1</code> you calculate them with <code>F(n) = F(n - 1) + F(n - 2)</code>.
+This is a recursive definition.</p>
+<p>What is different from the factorial example used above?
+You need two independent information, the two previous values of the function.
+When you want to solve the problem with tail recursion, instead of one aggregator parameter, you need to pass two aggregator parameters to the function: the two previous values.
+As a rule, you need an additional parameter for every additional information that you need in the body of your function.</p>
+<p>Interestingly, <code>n</code> is used as a counter, going down to <code>1</code>, but the function works its way up to the higher values.
+For each call, the <code>previous</code> value becomes the <code>current</code> value from the previous call, while the <code>current</code> value is set to <code>current + previous</code>.
+Until the function terminates for <code>n === 1</code>.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="javascript"><span class="giallo-l"><span class="z-l-9 z-d-17">const</span><span class="z-l-7 z-d-18"> F</span><span class="z-l-9 z-d-16"> =</span><span> (</span><span class="z-l-8 z-d-11">n</span><span class="z-d-9">,</span><span class="z-l-8 z-d-11"> previous</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-1 z-d-11"> 0</span><span class="z-d-9">,</span><span class="z-l-8 z-d-11"> current</span><span class="z-l-9 z-d-16"> =</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> =&gt;</span><span> {</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  if</span><span> (</span><span>n</span><span class="z-l-9 z-d-16"> ===</span><span class="z-l-1 z-d-11"> 0</span><span>)</span><span class="z-l-9 z-d-17"> return</span><span> previous</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  if</span><span> (</span><span>n</span><span class="z-l-9 z-d-16"> ===</span><span class="z-l-1 z-d-11"> 1</span><span>)</span><span class="z-l-9 z-d-17"> return</span><span> current</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  return</span><span class="z-l-7 z-d-18"> F</span><span>(</span><span>n</span><span class="z-l-9 z-d-16"> -</span><span class="z-l-1 z-d-11"> 1</span><span class="z-d-9">,</span><span> current</span><span class="z-d-9">,</span><span> current</span><span class="z-l-9 z-d-16"> +</span><span> previous</span><span>)</span><span class="z-d-9">;</span></span>
+<span class="giallo-l"><span>}</span><span class="z-d-9">;</span></span></code></pre>
+<p>You can wrap it in a function with only one parameter for <code>n</code>, which hides the aggregators <code>current</code> and <code>next</code> if you want.
+Like in the example above, the original function becomes an inner function of the wrapper function.</p>
+<p>As I recently found out, Fibonacci numbers also have a <a rel="external" href="https://en.wikipedia.org/wiki/Fibonacci_number#Matrix_form">closed-form expression</a>:</p>
+<div class="math math-display" role="math">&#92;[F&#95;{n}={&#92;cfrac {1}{&#92;sqrt {5}}}&#92;left({&#92;cfrac {1+{&#92;sqrt {5}}}{2}}&#92;right)^{n}-{&#92;cfrac {1}{&#92;sqrt {5}}}&#92;left({&#92;cfrac {1-{&#92;sqrt {5}}}{2}}&#92;right)^{n}&#92;]</div>
+<p>As an aside: we were <a rel="external" href="https://www.mountaingoatsoftware.com/agile/planning-poker">estimating story points</a> during a sprint planing.
+Story points roughly follow the Fibonacci numbers, so it's natural that the topic pops up from time to time.
+Someone was asking if there was a closed-form expression for Fibonacci numbers, so we searched for an answer. And voilà ...</p>
+<p>Using the trampoline device together with the modified tail-recursive Fibonacci function is left as an exercise for the reader.
+Hint: you have to modify the tail-recursive Fibonacci function to return a function/thunk instead of returning the result of a recursive function call.</p>
+<h2 id="final-thoughts">Final thoughts</h2>
+<p>I use the trampoline device because Node.js does not support tail call optimization (TCO).
+At one point I thought that Node.js would eventually support TCO through its use of Google's V8 engine. Google was actively working on supporting TCO in V8.
+But it turned out that Google is <a rel="external" href="https://www.chromestatus.com/feature/5516876633341952">no longer pursuing</a> this path.
+Since tail-recursive functions are particularly useful in functional programming, it's extremely frustrating to see so little progress.</p>
+
+    </div>
+  </article>
+</div>
+
+  
+
+  
+
+  <script type="application/ld+json">
+{
+   "@context": "https://schema.org"
+  ,"@type": "BlogPosting"
+  ,"mainEntityOfPage": {
+     "@type": "WebPage"
+    ,"@id": "https://example.org/blog/tail-recursion-with-trampoline/"
+  }
+  ,"headline": "Tail recursion with trampoline"
+  ,"datePublished": "2019-03-16"
+  ,"dateModified": "2019-03-16"
+
+  ,"author": [
+    
+      {
+         "@type": "Person"
+        ,"name": "Thomas Weitzel"
+      }
+      
+    
+  ]
+  ,"publisher": {
+     "@type": "Person"
+    ,"name": "Thomas Weitzel"
+  }
+  
+  ,"description": "Node.js does not support tail call optimization, but a trampoline has the same effect."
+  ,"articleBody": "In case your platform lacks support for proper tail call optimization and you want to do functional programming, you might run into stack space problems.\nThis can be mitigated, but you have to find a way yourself to make it work.\nThe specific platform I'm writing about here is Node.js.\nAfter a little introduction, I show one well-known solution to the problem.\nIn functional programming, recursion is a fundamental concept for handling mutability.\nPure functional languages like Haskell do not allow mutation of variables, so you have to come up with a different solution to the problem.\nWhat you do is called update as you copy.\nYou create new variables by calculating their values from the values of existing ones.\nBut you never assign a new value to a variable that already has one.\nRecursion\nTo simplify the reasoning, I will assume that a function does not rely on or modify external state, i.e. values of variables outside of its body.\nMath is organized this way: 1 + 2 = 3 independently of e.g. the current weather outside.\nIt's always true, no matter what.\nIn order to write a useful recursive function, you have to make sure that it:\n\neventually returns with a value (terminates)\ncalls itself\n\nBy using these criteria for a recursive function, you can see that it has to either call itself or terminate.\nWhen it terminates, it's done and you have a value.\nOtherwise it will call itself, and you get another stack frame with this call.\nDepending on the number of calls this function makes to itself, the used stack space grows and you might eventually run out of stack space.\nThis is not a good thing!\nTail recursion\nWhat if you do not need the current stack frame anymore, once you make your recursive call?\nYou could immediately forget it, throw it away, or reuse it, thereby saving stack space.\nBut you have to make sure that you need no information from this stack frame once you have made your next call.\nThis can be accomplished by returning the recursive call alone, not adding to it or modifying it once it returns, so the return value can be directly passed on.\nNow you have what's called a tail-recursive function.\nTail call optimization\nOnce you have made sure that your function is tail-recursive, your runtime environment or compiler can optimize the calls in such a way,\nthat the existing stack frame is reused by the next call.\nThe stack thereby never grows and you have eliminated the potential for a stack overflow.\nBut it's not enough that it can be optimized, it has to be actually done.\nThat's where the problem starts.\nNot every runtime environment or compiler performs tail call optimization.\nAs of this writing two of the platforms that I use do not support tail call optimization out-of-the-box:\n\nNode.js\nJava Virtual Machine (JVM) with Java 8\n\nThe JVM does support tail call optimization when used with Kotlin or Scala though.\nNot all is lost: where tail call optimization is not directly supported you can implement a workaround that is straightforward.\nIt's effective in saving you from stack overflow errors.\nThe rest of this article shows you how to implement it.\nIt's known under the name trampoline device.\nI use the factorial function and implement it in different ways, starting with a loop that mutates values.\nFactorial is defined for natural numbers without the 0 (1, 2, 3, ...).\nFactorial(n) calculates the product of all numbers between 1 and n.\nIt serves as an example that I chose because it's easy to understand.\nI'll then transform it to a recursive function and show you how to make this function tail-recursive.\nAfterwards I introduce the trampoline device and apply it to a function that is the modified tail-recursive function.\nLet's start.\nLoop\nIf you're an imperative programmer, you would implement the factorial function with a loop.\nYou start with a variable result that has the value 1 and then have a for-loop that starts at 2 and goes up to n.\nIn the body of the for-loop you modify result and set it to a value that was its previous value multiplied by whatever value your loop-variable has.\nIf you are done with the loop you return the result.\nconst loopFactorial = (n) =&gt; {\n  let result = 1;\n  for (let i = 2; i &lt;= n; i += 1) result *= i;\n  return result;\n};\nSomething to note here is that your result variable does not contain the result.\nIt holds the result only when the execution reaches the return statement.\nHow do you effectively name a variable that has different meanings during its life cycle?\nRecursive with info left on the stack\nHow do you slice a carrot?\nAlthough there are many possible ways to do it, one would be to cut off one slice from one end and then repeat the procedure with the rest of the carrot, until there's nothing left.\nYou do the same with whatever is left until you reach the terminating condition.\nIt's a recursive definition.\nAnd it's essentially what you do to calculate the factorial in a recursive way.\nTo calculate the factorial of n you multiply n with the factorial of n - 1.\nYou now have to calculate the factorial of n - 1.\nAnd so on.\nconst stackFactorial = (n) =&gt; {\n  if (n &gt; 1) return n * stackFactorial(n - 1);\n  return 1;\n};\nYou need the result of stackFactorial(n - 1) before you can return from the function call, because you have to multiply it with n before that can happen.\nWhat n actually is, is stored in the context of your current stack frame.\nThe next call will have another stack frame, where n has another value.\nBecause you cannot forget the n of the current call, the current stack frame has to stay around.\nWith large n this can lead to a situation where you get an error and the entire process stops: RangeError: Maximum call stack size exceeded.\nRecursive without info left on the stack\nWhat can be done about it?\nAs a first step, you can eliminate the need for the current stack frame once you made the next call.\nBut you somehow have to preserve information that's needed.\nThe solution is to pass all required information on to the next recursive call.\nAn extra parameter is needed to hold this information.\nIt's commonly called an aggregator, or agg for short.\nFor multiplication you start at 1 (identity, n * 1 === n and 1 * n === n).\nAlong the way, you multiply the aggregator with the current value of n, thereby keeping track of how far you've come with the product.\nThe aggregator will look like this over time:\n\n1\n1 * n\n1 * n * (n - 1)\n1 * n * (n - 1) * (n - 2)\netc.\n\nWhen you finally hit 1 for n, you simply return the aggregator, because it already contains the correct result.\nconst tailFactorial = (n, agg = 1) =&gt; {\n  if (n &gt; 1) return tailFactorial(n - 1, agg * n);\n  return agg;\n};\nAs you can see, the call tailFactorial(...) is directly returned, no information from the current stack frame is required anymore.\nAlternative function signature\nEven though you invoke tailFactorial(5), the definition has two parameters, n and agg.\nThe aggregator has a default value, so you need not provide it.\nBut since it's exposed in the function's interface, someone can call tailFactorial(5, 0) and get a wrong result.\nBecause nobody should mess with agg, it's better to hide it.\nWrap it with a function that only allows the parameter n and make it an inner function of that wrapper function.\nWithin that wrapper function, pass the call on to the inner function.\n// Alternative way (not exposing the aggregator)\nconst tailFactorialAlt = (n) =&gt; {\n  const innerTailFactorial = (x, agg = 1) =&gt; {\n    if (x &gt; 1) return innerTailFactorial(x - 1, agg * x);\n    return agg;\n  };\n\n  return innerTailFactorial(n);\n};\nI will not use this alternative function signature, because it's too verbose and not helping me make my point.\nStill, I highly recommend that you do not expose parameters in your function interface that are neither needed nor intended for public access.\nReturning a function without calling it\nInstead of having the tail-recursive function make the tail call itself, it returns a function (with no arguments) that can call the recursive function with all arguments already in place.\nThis is called a thunk.\nYou then simply have someone to call that thunk, because the tail call is no longer made by the function.\nIf it returns another function, you call it again. And again.\nUntil the final value is returned.\nconst thunkFactorial = (n, agg = 1) =&gt; {\n  if (n &gt; 1) return () =&gt; thunkFactorial(n - 1, agg * n);\n  return agg;\n};\nSince the function returns either a value or another function without calling it, it is neither recursive nor tail-recursive anymore.\nThe stack cannot grow and you will not run out of it.\nBut if your first call does not give you the final result, you end up with just another function and not with the result.\nDevice for pulling out functions and calling them\nSince you simply pull functions/thunks out of your factorial function until the final value is returned (instead of yet another function), you have to set up a device that's doing just that.\nThe device is called a trampoline and it is handed a function that returns either thunks or a final value.\nIf a call to that function results in another function, it is called for as long as the returned type is a function.\nOtherwise it returns the final result.\nconst trampoline = fn =&gt; (...args) =&gt; {\n  let res = fn(...args);\n  while (res instanceof Function) res = res();\n  return res;\n};Putting it into action\nYou have two things right now, a function that is returning thunks and another function that can call these thunks for as long as needed, i.e. the final result is returned.\nThe last thing that's left to do is to join these two functions together.\nconst trampolineFactorial = trampoline(thunkFactorial);\n\n// Example call\ntrampolineFactorial(5);\nAll this is for Node.js and JavaScript.\nTail recursive Fibonacci numbers\nThe Fibonacci sequence is defined like this: F(0) = 0 and F(1) = 1.\nFor all n &gt; 1 you calculate them with F(n) = F(n - 1) + F(n - 2).\nThis is a recursive definition.\nWhat is different from the factorial example used above?\nYou need two independent information, the two previous values of the function.\nWhen you want to solve the problem with tail recursion, instead of one aggregator parameter, you need to pass two aggregator parameters to the function: the two previous values.\nAs a rule, you need an additional parameter for every additional information that you need in the body of your function.\nInterestingly, n is used as a counter, going down to 1, but the function works its way up to the higher values.\nFor each call, the previous value becomes the current value from the previous call, while the current value is set to current + previous.\nUntil the function terminates for n === 1.\nconst F = (n, previous = 0, current = 1) =&gt; {\n  if (n === 0) return previous;\n  if (n === 1) return current;\n  return F(n - 1, current, current + previous);\n};\nYou can wrap it in a function with only one parameter for n, which hides the aggregators current and next if you want.\nLike in the example above, the original function becomes an inner function of the wrapper function.\nAs I recently found out, Fibonacci numbers also have a closed-form expression:\n&#92;[F&#95;{n}={&#92;cfrac {1}{&#92;sqrt {5}}}&#92;left({&#92;cfrac {1+{&#92;sqrt {5}}}{2}}&#92;right)^{n}-{&#92;cfrac {1}{&#92;sqrt {5}}}&#92;left({&#92;cfrac {1-{&#92;sqrt {5}}}{2}}&#92;right)^{n}&#92;]\nAs an aside: we were estimating story points during a sprint planing.\nStory points roughly follow the Fibonacci numbers, so it's natural that the topic pops up from time to time.\nSomeone was asking if there was a closed-form expression for Fibonacci numbers, so we searched for an answer. And voilà ...\nUsing the trampoline device together with the modified tail-recursive Fibonacci function is left as an exercise for the reader.\nHint: you have to modify the tail-recursive Fibonacci function to return a function/thunk instead of returning the result of a recursive function call.\nFinal thoughts\nI use the trampoline device because Node.js does not support tail call optimization (TCO).\nAt one point I thought that Node.js would eventually support TCO through its use of Google's V8 engine. Google was actively working on supporting TCO in V8.\nBut it turned out that Google is no longer pursuing this path.\nSince tail-recursive functions are particularly useful in functional programming, it's extremely frustrating to see so little progress.\n"
+  
+    ,"image": "https://example.org/blog/tail-recursion-with-trampoline/banner.webp"
+  
+}
+</script>
+
+
+
+  </main>
+  <footer>
+    <div class="w-3/4 h-px bg-neutral-400 ml-auto mr-auto"><div/>
+    <div class="pt-3 text-2xl flex justify-center odibee-sans-regular">
+        anisotropic
+    </div>
+    <!-- Social Media Icons -->
+    
+    <ul class="mt-4 flex justify-center space-x-8">
+         
+        <li>
+            <a
+                
+                href="https://github.com/errphoenix"
+                title="Github"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">github</span>
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 1024 1024"><path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)"/></svg>
+            </a>
+        </li>
+          
+        <li>
+            <a
+                
+                href=""
+                title="Discord: an1sotropic"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">discord: an1sotropic</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16"> <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/></svg>
+            </a>
+        </li>
+         
+    </ul>
+    
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center">
+         
+    </div>
+</footer>
+
+</body>
+</html>

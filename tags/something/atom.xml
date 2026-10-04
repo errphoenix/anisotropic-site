@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title> - something</title>
+    <link rel="self" type="application/atom+xml" href="https://example.org/tags/something/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://example.org"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2026-09-18T00:00:00+00:00</updated>
+    <id>https://example.org/tags/something/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Razed&#39;s Continuous Real-time Deformation System</title>
+        <published>2026-09-18T00:00:00+00:00</published>
+        <updated>2026-09-18T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            anisotropic
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://example.org/blog/razed-art1-cage/"/>
+        <id>https://example.org/blog/razed-art1-cage/</id>
+        
+        <content type="html" xml:base="https://example.org/blog/razed-art1-cage/">&lt;p&gt;Structures in Razed are arbitrarily shaped, they are expected to shatter, break, bend, and sway in any direction and intensity. The &quot;structural&quot; physics is approximated by a sparse lattice structure formed by nodes evaluated through an XPBD (eXtended Position-Based Dynamics) solver, where each node has some mass, integrity, and resistance values based on the integrity of the nearby structure &quot;fragments&quot; surrounding it and a coarse approximation of the intended structural material (e.g., a node located in a part of the structure that is intended to be in a weaker material, such as wood, would have a lower resistance and mass in comparison to a harder material like concrete).&lt;/p&gt;
+&lt;p&gt;In short, the sparse lattice provides a very cheap and sufficiently accurate approximation of the structural physics at the core of a structure, but that is only one part of the simulation: as the structures deforms, its &quot;fragments&quot; must deform in response.&lt;/p&gt;
+&lt;p&gt;Razed&#39;s deformation system was something I iterated on multiple times, and I&#39;ll describe each iteration below.&lt;/p&gt;
+&lt;h2 id=&quot;1-trivial-lbs-like-deformation&quot;&gt;1. Trivial LBS-like deformation&lt;/h2&gt;
+&lt;p&gt;The first iteration of the deformation system was essentially an application of Linear-Blend-Skinning between an individual fragment and &lt;code&gt;N&lt;/code&gt; nearby lattice nodes.&lt;/p&gt;
+&lt;p&gt;Each fragment was associated to &lt;code&gt;N&lt;/code&gt; nodes, and for each vertex of the fragment&#39;s mesh a quadratic IDW (Inverse Distance Weight) was computed as:&lt;/p&gt;
+&lt;p&gt;$$ w_i = \frac{1}{(p - p^n_i) \cdot (p - p^n_i)}\ $$
+$$ \text{\small where $p$ is the position of the vertex, and $p^n_i$ is the position of the $i$ node at initialisation} $$&lt;/p&gt;
+&lt;p&gt;(Note the use of the dot product to produce a squared length)&lt;/p&gt;
+&lt;p&gt;This would be used during deformation to weight that node&#39;s positional offset (in respect to its position at initialisation):
+$$\text{For each vertex:}$$
+$$\Delta p=\sum_{i=0}^{N-1}{w_{i}(s^n_i - p^n_i)}$$
+$$\text{\small where $s^n_i$ is the current position of the node}$$&lt;/p&gt;
+&lt;p&gt;This was done per-vertex, using the &lt;code&gt;N&lt;/code&gt; nearest nodes associated to the fragment (found at fragment creation in a one-time spatial query). The weight was computed in that same vertex shader, which means that a bunch of bind-time data was stored at all times and frequently read by the vertex shader. The fragment is associated to its mesh merely by ID, and meshes are not unique per-fragment (in addition to their data no longer being present on the CPU by this point), so I preferred computing weights in real-time rather than pre-computing them.&lt;/p&gt;
+&lt;p&gt;This approach extremely simple although a little suboptimal in terms of efficiency. In any case, it did not properly work, as the lattice was too sparse to directly apply its positional changes to the much more dense fragments and caused severe artifacts.&lt;/p&gt;
+&lt;h2 id=&quot;2-extension-of-iter-1-with-intermediate-dense-volume-representation&quot;&gt;2. Extension of iter. 1 with intermediate dense volume representation&lt;/h2&gt;
+&lt;p&gt;The previous approach was extended by the introduction of an intermediate layer between the structural lattice and visual fragments.&lt;/p&gt;
+&lt;p&gt;The cage layer is essentially a dense 3-dimensional array of points that cover the entire volume of the structure. I usually call these &quot;deform points&quot;.&lt;/p&gt;
+&lt;p&gt;At creation, the maximum AABB extents of the structure are computed and, based on the desired density of the deformation cage, the array is generated. For each deform point, the 4 nearest lattice nodes were selected and associated to it with a quadratic IDW, computed the same way as before. For each fragment, a spatial query fetches the 8 nearest deform points. These points form a cuboid around the fragment, which acts like a deformation cage for it. The LBS application of the previous iteration moved from $lattice \rightarrow fragment$ to $lattice \rightarrow cage$, which proved to be more stable than the previous approach.&lt;/p&gt;
+&lt;img class=&quot;float-left max-w-1/2 max-h-1/2 mr-2&quot; src=&quot;ill-aabb-trilinear-interp.png&quot; width=&quot;25%&quot; height=&quot;25%&quot;&gt;
+&lt;p&gt;While the $lattice \rightarrow cage$ deformation remains the same process described in iteration 1, the new $cage \rightarrow fragment$ deformation worked differently: for each vertex, trilinear interpolation with the fragment&#39;s associated cage is performed in the vertex shader. A series of interpolation factors, that act like the vertex&#39;s normlized cage-local coordinates, are computed for each vertex in that same vertex shader invocation from an AABB of the cage&#39;s bind-time corners (the corners of the cage at the time of its creation).&lt;/p&gt;
+&lt;p&gt;$$\text{For every vertex:}$$&lt;/p&gt;
+&lt;p&gt;$$ \mathbf{w}=\begin{pmatrix}
+\frac{s_x}{x_1 - x_0}\
+\frac{s_y}{y_1 - y_0}\
+\frac{s_z}{z_1 - z_0}
+\end{pmatrix}$$
+&lt;sub&gt;where $s$ is the local vertex position and $x,y,z$ indicates the corresponding axis of the cage as an AABB, denominated as 0 for the min extent and 1 for the max extent&lt;/sub&gt;&lt;/p&gt;
+&lt;p&gt;On the left a graphic shows how the normalized cage-local coordinates are calculated: the white box is the cage&#39;s bind-time AABB as formed by the 8 deform points associated to the fragment; the yellow dot is the local vertex position; the colored axes are local to the cage and are used to determine the interpolation weights.&lt;/p&gt;
+&lt;p&gt;Initially, the final interpolation used yet &lt;em&gt;another&lt;/em&gt; AABB using the real-time cage corners to construct it. This worked, but completely eliminated any distortion or shear. Unlike the bind-time cage corners, which are guaranteed to be an AABB anyways, once the cage deforms it can no longer be represented that way.&lt;/p&gt;
+&lt;p&gt;Instead, it was more accurate to perform the interpolation per-edge, using the $\mathbf{w}$ normalized cage-local coordinates, like in the graphic shown to the right (there the cage is assumed to not have deformed at all, purely for simplicity):&lt;/p&gt;
+&lt;img class=&quot;float-right&quot; src=&quot;ill-real-trilinear-interp.png&quot; width=&quot;24%&quot; height=&quot;24%&quot;&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;glsl&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; p000 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; /*&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;-x, -y, -z corner&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;*/&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; p100 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; /*&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;+x, -y, -z corner&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;*/&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; p010 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; /*&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;-x, +y, -z corner&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;*/&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; p110 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; /*&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;+x, +y, -z corner&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;*/&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; p001 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; /*&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;-x, -y, +z corner&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;*/&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; p101 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; /*&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;+x, -y, +z corner&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;*/&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; p011 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; /*&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;-x, +y, +z corner&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;*/&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; p111 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; /*&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;+x, +y, +z corner&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;*/&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; interpolate 3d volume to a 2d plane Q&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; only variates along the Y axis&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; q00 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-14&quot;&gt; mix&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;p000&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; p100&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; w.x&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; q10 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-14&quot;&gt; mix&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;p010&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; p110&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; w.x&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; q01 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-14&quot;&gt; mix&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;p001&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; p101&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; w.x&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; q11 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-14&quot;&gt; mix&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;p011&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; p111&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; w.x&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; interpolate 2d plane to edge R&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; only variates along the Z axis&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; r0 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-14&quot;&gt; mix&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;q00&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; q10&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; w.y&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; r1 &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-14&quot;&gt; mix&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;q01&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; q11&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; w.y&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt;//&lt;/span&gt;&lt;span class=&quot;z-l-5 z-d-4 z-d-i&quot;&gt; interpolate final point from edge&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;vec3&lt;/span&gt;&lt;span&gt; s &lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-1 z-d-14&quot;&gt; mix&lt;/span&gt;&lt;span&gt;(&lt;/span&gt;&lt;span&gt;r0&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; r1&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;,&lt;/span&gt;&lt;span&gt; w.z&lt;/span&gt;&lt;span&gt;)&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt;;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;div class=&quot;flex items-center space-x-8&quot;&gt;
+	&lt;img src=&quot;i2-debug-viz.png&quot; width=&quot;28%&quot;&gt;
+	&lt;div class=&quot;w-2/3&quot;&gt;
+		On the left an example of the deformation using this version of the system. The green lines highlight the constraints between the sparse lattice nodes, the magenta dots represent cage deformation points.&lt;br/&gt;&lt;br/&gt;
+		As it can be observed, while the deformation now gives a somewhat plausible idea, there is still something off: while the fragments themselves seem to correctly deform according to the cages, the cages dont properly deform according to the sparse lattice. This can be seen, for example, for that one single magenta dot at the right &lt;i&gt;outside&lt;/i&gt; of the structure. This makes it evident that the $lattice \rightarrow cage$ LBS-like deformation is not the correct procedure.&lt;br/&gt;&lt;br/&gt;
+		Despite this, I kept this system for a couple of months while working on other parts of Razed and the engine, before addressing the issue again, as documented in the next sections.
+	&lt;/div&gt;
+&lt;/div&gt;
+&lt;h2 id=&quot;3-wip&quot;&gt;3. WIP&lt;/h2&gt;
+&lt;p&gt;$$&lt;/p&gt;
+</content>
+        
+    </entry>
+</feed>

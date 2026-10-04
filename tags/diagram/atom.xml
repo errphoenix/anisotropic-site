@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+    <title> - diagram</title>
+    <link rel="self" type="application/atom+xml" href="https://example.org/tags/diagram/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://example.org"/>
+    <generator uri="https://www.getzola.org/">Zola</generator>
+    <updated>2023-10-29T00:00:00+00:00</updated>
+    <id>https://example.org/tags/diagram/atom.xml</id>
+    <entry xml:lang="en">
+        <title>Diagrams with Mermaid</title>
+        <published>2023-10-29T00:00:00+00:00</published>
+        <updated>2023-10-29T00:00:00+00:00</updated>
+        
+        <author>
+          <name>
+            Thomas Weitzel
+          </name>
+        </author>
+        
+        <link rel="alternate" type="text/html" href="https://example.org/blog/mermaid/"/>
+        <id>https://example.org/blog/mermaid/</id>
+        
+        <content type="html" xml:base="https://example.org/blog/mermaid/">&lt;h2 id=&quot;what-are-mermaid-diagrams&quot;&gt;What are Mermaid diagrams?&lt;/h2&gt;
+&lt;p&gt;&lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org&quot;&gt;Mermaid&lt;/a&gt; is a syntax similar to Markdown where you can use text to describe and automatically generate diagrams.
+With Mermaid, you can generate
+&lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org/syntax/flowchart.html&quot;&gt;Flow charts&lt;/a&gt;,
+&lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org/syntax/classDiagram.html&quot;&gt;UML diagrams&lt;/a&gt;,
+&lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org/syntax/pie.html&quot;&gt;Pie charts&lt;/a&gt;,
+&lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org/syntax/gantt.html&quot;&gt;Gantt diagrams&lt;/a&gt;,
+&lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org/syntax/entityRelationshipDiagram.html&quot;&gt;Entity Relationship diagrams&lt;/a&gt;,
+and more.&lt;/p&gt;
+&lt;h2 id=&quot;an-entity-relationship-diagram-example&quot;&gt;An Entity Relationship diagram example&lt;/h2&gt;
+&lt;pre class=&quot;mermaid&quot;&gt;
+  
+    %%{ init: {&#39;theme&#39;: &#39;forest&#39;} }%%
+  
+  
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINEITEM : contains
+    PRODUCT ||--o{ LINEITEM : is_listed_in
+    CUSTOMER {
+        string Name
+        string Email
+        string Address
+    }
+    PRODUCT {
+        string ProductName
+        float Price
+    }
+    ORDER {
+        date DateOrdered
+        string Status
+    }
+    LINEITEM {
+        int Quantity
+    }
+
+&lt;/pre&gt;
+&lt;h2 id=&quot;using-mermaid-in-your-blog-post&quot;&gt;Using Mermaid in your blog post&lt;/h2&gt;
+&lt;p&gt;The diagram component allows you to easily embed Mermaid diagrams in your blog posts, with an option to configure its appearance.&lt;/p&gt;
+&lt;h3 id=&quot;basic-usage&quot;&gt;Basic Usage&lt;/h3&gt;
+&lt;p&gt;To use the component in your blog post, use the following format:&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span&gt;diagram&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;Your&lt;/span&gt;&lt;span&gt; Mermaid&lt;/span&gt;&lt;span&gt; diagram&lt;/span&gt;&lt;span&gt; code&lt;/span&gt;&lt;span&gt; here&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;/&lt;/span&gt;&lt;span&gt;diagram&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Replace &lt;em&gt;Your Mermaid diagram code here&lt;/em&gt; with your actual Mermaid diagram code.&lt;/p&gt;
+&lt;p&gt;To load the necessary JavaScript to render the Mermaid diagram, you need to enable it in the front matter of your blog post by setting the value for &lt;code&gt;extra.diagram&lt;/code&gt; to &lt;code&gt;true&lt;/code&gt;:&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;ini&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;+++&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-8 z-d-3&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-3&quot;&gt;extra&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-3&quot;&gt;]&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-9 z-d-17&quot;&gt;diagram&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt; =&lt;/span&gt;&lt;span&gt; true&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;+++&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;configuring-the-appearance&quot;&gt;Configuring the Appearance&lt;/h3&gt;
+&lt;p&gt;The component supports an optional &lt;code&gt;init&lt;/code&gt; parameter that allows you to specify configuration options for Mermaid,
+particularly changing the appearance of the diagrams through the theme.&lt;/p&gt;
+&lt;p&gt;For example, to apply the &lt;code&gt;forest&lt;/code&gt; theme:&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span&gt;diagram&lt;/span&gt;&lt;span&gt; init&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;{&amp;#39;theme&amp;#39;: &amp;#39;forest&amp;#39;}&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;Your&lt;/span&gt;&lt;span&gt; Mermaid&lt;/span&gt;&lt;span&gt; diagram&lt;/span&gt;&lt;span&gt; code&lt;/span&gt;&lt;span&gt; here&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;/&lt;/span&gt;&lt;span&gt;diagram&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;h3 id=&quot;providing-init-configuration&quot;&gt;Providing init Configuration&lt;/h3&gt;
+&lt;p&gt;When using the &lt;code&gt;init&lt;/code&gt; parameter, the configuration should be a string wrapped in double quotes.
+Inside this string, use single quotes for keys and values.&lt;/p&gt;
+&lt;p&gt;Here&#39;s a more advanced example with multiple configuration options:&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span&gt;diagram&lt;/span&gt;&lt;span&gt; init&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;{&amp;#39;theme&amp;#39;: &amp;#39;forest&amp;#39;, &amp;#39;themeVariables&amp;#39;: {&amp;#39;primaryColor&amp;#39;: &amp;#39;#FF0000&amp;#39;}}&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;Your&lt;/span&gt;&lt;span&gt; Mermaid&lt;/span&gt;&lt;span&gt; diagram&lt;/span&gt;&lt;span&gt; code&lt;/span&gt;&lt;span&gt; here&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;/&lt;/span&gt;&lt;span&gt;diagram&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In this example, we&#39;re using the &lt;code&gt;forest&lt;/code&gt; theme and changing the primary color to red (&lt;code&gt;#FF0000&lt;/code&gt;).&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Note&lt;/strong&gt;: Ensure that you use single quotes inside the double quotes for the configuration to work correctly.&lt;/p&gt;
+&lt;h3 id=&quot;putting-it-all-together&quot;&gt;Putting it all together&lt;/h3&gt;
+&lt;p&gt;Use the component by enclosing your Mermaid diagram code with it.
+To change the look of the Mermaid theme, provide values for the &lt;code&gt;init&lt;/code&gt; parameter.
+Always enclose the &lt;code&gt;init&lt;/code&gt; value with double quotes, and use single quotes inside the configuration string.
+With this component in place, integrating and customizing Mermaid diagrams in your blog posts becomes easy.&lt;/p&gt;
+&lt;h2 id=&quot;explaining-mermaid-diagram-code&quot;&gt;Explaining Mermaid diagram code&lt;/h2&gt;
+&lt;p&gt;Here is how the diagram rendered above is embedded in this blog post as a code block.
+Because it is the same code as the diagram above, extra care has to be taken to prevent Mermaid from rendering it as a diagram.
+Use Tera raw blocks in the code block, so the code stays visible but is not executed.
+For example, wrap each component tag in &lt;code&gt;{% raw %}&lt;/code&gt; and &lt;code&gt;{% endraw %}&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&quot;giallo z-l-code z-d-code&quot; &gt;&lt;code data-lang=&quot;javascript&quot;&gt;&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span&gt;diagram&lt;/span&gt;&lt;span&gt; init&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;{&amp;#39;theme&amp;#39;: &amp;#39;forest&amp;#39;}&lt;/span&gt;&lt;span class=&quot;z-l-2 z-d-8&quot;&gt;&amp;quot;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-1&quot;&gt;    CUSTOMER&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; ||&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;--&lt;/span&gt;&lt;span&gt;o&lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-3&quot;&gt; ORDER&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt; :&lt;/span&gt;&lt;span&gt; places&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-1&quot;&gt;    ORDER&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; ||&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;--&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;|&lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-3&quot;&gt; LINEITEM&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt; :&lt;/span&gt;&lt;span&gt; contains&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-1&quot;&gt;    PRODUCT&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; ||&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;--&lt;/span&gt;&lt;span&gt;o&lt;/span&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-8 z-d-3&quot;&gt; LINEITEM&lt;/span&gt;&lt;span class=&quot;z-d-9&quot;&gt; :&lt;/span&gt;&lt;span&gt; is_listed_in&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-1&quot;&gt;    CUSTOMER&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        string&lt;/span&gt;&lt;span&gt; Name&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        string&lt;/span&gt;&lt;span&gt; Email&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        string&lt;/span&gt;&lt;span&gt; Address&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-1&quot;&gt;    PRODUCT&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        string&lt;/span&gt;&lt;span&gt; ProductName&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        float&lt;/span&gt;&lt;span&gt; Price&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-1&quot;&gt;    ORDER&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        date&lt;/span&gt;&lt;span&gt; DateOrdered&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        string&lt;/span&gt;&lt;span&gt; Status&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span class=&quot;z-l-1&quot;&gt;    LINEITEM&lt;/span&gt;&lt;span&gt; {&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;        int&lt;/span&gt;&lt;span&gt; Quantity&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;    }&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;giallo-l&quot;&gt;&lt;span&gt;{&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;%&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; &amp;lt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;/&lt;/span&gt;&lt;span&gt;diagram&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;z-l-9 z-d-16&quot;&gt; %&lt;/span&gt;&lt;span&gt;}&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;</content>
+        
+    </entry>
+</feed>

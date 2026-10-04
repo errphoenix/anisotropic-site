@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="generator" content="Zola v0.23.5">
+
+  
+  
+    <meta name="description" content="Three ways to add audio to your blog: native elements, components, and Howler.js.">
+  
+
+
+  <title>
+    
+      
+  
+  
+    Adding audio to your blog | anisotropic
+  
+
+    
+  </title>
+  
+  
+    <link rel="canonical" href="https://example.org/blog/audio-player-shortcode/" />
+  
+
+  <link rel="stylesheet" href="https://example.org/css/generated.css">
+  
+  
+  
+<link rel="stylesheet" id="code-highlighting-light" href="https://example.org/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
+<link rel="stylesheet" id="code-highlighting-dark" href="https://example.org/giallo-dark.css" integrity="sha384-wBRtfVoniCE66QxHWGQ5FfeY2FVH6BfaeZ3HI/2foTW0BdomliX8zJCXaUF3AR+v" disabled>
+
+
+  
+    <link rel="icon" href="https://example.org/img/yin-yang.svg" />
+  
+
+  
+    <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://example.org/atom.xml" />
+  
+
+  <script defer src="https://example.org/js/zolarwind/logic.js" integrity="sha384-XH2tq2oOnPBlH115yPIJ9+CEYbCxU/Ap6b+5NY214ERXB9j5kFcequfsqiHhg8BD"></script>
+<script defer src="https://example.org/js/blog_select.js"></script>
+
+<link rel="stylesheet" id="code-highlighting-light" href="https://example.org/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
+<link rel="stylesheet" id="code-highlighting-dark" href="https://example.org/giallo-dark.css" integrity="sha384-wBRtfVoniCE66QxHWGQ5FfeY2FVH6BfaeZ3HI/2foTW0BdomliX8zJCXaUF3AR+v" disabled>
+<link rel="stylesheet" href="https://example.org/js/katex/katex.min.css" integrity="sha384-1vdNCNel6Tx/NQa8IR1mGOGKsbGreCkOPfbtPPnUURJ5Tu2PRVfQ/7KLZC+Pi1p1">
+<script defer src="https://example.org/js/katex/katex.min.js" integrity="sha384-ycJ6GAwiS15LoUPipwJOrWTvkUHl/YqELValBwI5I4awP1EeEQJYarj+w85ntcz7"></script>
+<script defer src="https://example.org/js/katex/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz"></script>
+<script defer src="https://example.org/js/katex-config.js" integrity="sha384-nvMU92JREtcI6oa8M5sYH7zIpj3Sj8Lm+jqpbEM3qFFZnbRTncJiX0qgBmStmTdZ"></script>
+  
+</head>
+<body>
+     
+
+<header class="sticky top-0 w-full z-10">
+    <nav class="bg-neutral-950">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="pt-4 pb-3">
+                <a href="https://example.org" aria-label="Go to homepage"
+                    class="text-6xl odibee-sans-regular text-neutral-100 hover:text-neutral-400 transition"
+                >
+                    anisotropic
+                </a>
+                <div class="-mr-2 flex items-center space-x-1 md:hidden">
+                    <button
+                        id="toggleMobileMenu"
+                        class="icon inline-flex items-center justify-center p-2 rounded-md text-neutral-200 hover:text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:bg-neutral-200 focus:text-neutral-800"
+                        aria-label="Menu"
+                    >
+                        <span id="mobile-icon-menu-unselected">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                            </svg>
+                        </span>
+                        <span id="mobile-icon-menu-selected" class="hidden">
+                            <svg
+                                class="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+    </nav>
+</header>
+
+  <main id="content">
+    
+
+
+
+
+  
+
+
+<div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+  <article
+      id="blog-content"
+      data-title="Adding audio to your blog"
+      class="prose"
+      data-clipboard-copy="Copy to clipboard"
+      data-clipboard-copied="Copied to clipboard"
+      data-clipboard-error="Error copying to clipboard"
+  >    
+    <div class="flex h-64">
+      <div class="flex flex-col justify-between w-1/2">
+        <div>
+          <h1>Adding audio to your blog</h1>
+          <time datetime="2026-02-11">February 11, 2026</time>
+          <div>
+            <div class="text-sm my-1">
+              287 words &middot;
+              2 minutes reading time
+            </div>
+            
+  
+    
+    <ul class="tags-list text-sm leading-5 font-medium text-primary-600 flex flex-wrap gap-2 m-0 p-0 list-none" aria-label="tags">
+      
+        <li class="badge badge-primary">
+          <a href="https://example.org/tags/audio/">audio</a>
+        </li>
+      
+        <li class="badge badge-primary">
+          <a href="https://example.org/tags/javascript/">javascript</a>
+        </li>
+      
+    </ul>
+  
+
+  
+          </div>
+         </div>
+        <span class="my-auto mt-6 justify-self-center">
+          Three ways to add audio to your blog: native elements, components, and Howler.js.
+        </span>
+      </div>
+      <div class="rounded-md shadow-md mx-auto overflow-hidden">
+        <img src="https://example.org/blog/audio-player-shortcode/banner.webp" alt="Adding audio to your blog" fetchpriority="high" loading="eager">
+      </div>
+    </div>
+      
+    
+    <div>
+      <p>There are two practical ways to add audio to a blog: use the native <code>&lt;audio&gt;</code> element or render a custom player with JavaScript.
+The <a rel="external" href="https://www.getzola.org/">Zola</a> theme <a rel="external" href="https://github.com/thomasweitzel/zolarwind">Zolarwind</a> provides two components that map to those choices: <code>audio_simple</code> uses the native element, <code>audio</code> uses a custom player.
+Both are usable as-is, and the choice comes down to how much control you want over the player UI.</p>
+<h2 id="the-baseline-native-audio">The baseline native <code>&lt;audio&gt;</code></h2>
+<p>You get built-in controls and good accessibility.
+If you are fine with browser-native styling, this is the fastest path.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="html"><span class="giallo-l"><span class="z-d-2">&lt;</span><span class="z-l-3 z-d-1">audio</span><span class="z-l-1 z-d-18"> controls</span><span class="z-d-2">&gt;</span></span>
+<span class="giallo-l"><span class="z-d-2">  &lt;</span><span class="z-l-3 z-d-1">source</span><span class="z-l-1 z-d-18"> src</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">audio.mp3</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-1 z-d-18"> type</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">audio/mpeg</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-d-2">&gt;</span></span>
+<span class="giallo-l"><span class="z-d-2">&lt;/</span><span class="z-l-3 z-d-1">audio</span><span class="z-d-2">&gt;</span></span></code></pre><audio controls>
+  <source src="audio.mp3" type="audio/mpeg">
+</audio>
+<p>The tradeoff is consistency. Browsers style the element differently, and you get limited control over the UI.</p>
+<h2 id="audio-simple-component"><code>audio_simple</code> component</h2>
+<p>This wraps the native element and keeps the setup small.
+It uses no JavaScript, like the baseline audio element, but adds a small amount of CSS for layout.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="ini"><span class="giallo-l"><span>{{&lt;audio_simple</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  config</span><span class="z-d-9">=</span><span>{config}</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  src</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">audio.mp3</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  title</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">Audio in your blog</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  year</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">2026</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  artist</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">Female Speaker</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  label</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">Blog of Thomas Weitzel</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span>/&gt;}}</span></span></code></pre><div class="container max-w-md my-6 py-6 px-6 text-black dark:text-black bg-gradient-to-tr from-ok-600 to-primary-800 rounded-2xl overflow-hidden">
+    <div class="text-center relative">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-16 w-16 inline-block">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+        </svg>
+    </div>
+    <div class="mb-6 text-center relative">
+        <h2 class="inline-block font-medium">Audio in your blog</h2>
+        <p class="inline-block font-medium text-sm">Female Speaker | Blog of Thomas Weitzel | 2026</p>
+    </div>
+    <audio controls src="audio.mp3" style="width: 100%">Your browser does not support the audio element.</audio>
+</div>
+<h2 id="custom-player">Custom player</h2>
+<p>If you want a consistent player UI across browsers, the <code>audio</code> component renders a custom player with JavaScript.
+The native <code>&lt;audio&gt;</code> controls are not used; the UI is fully custom.</p>
+<pre class="giallo z-l-code z-d-code" ><code data-lang="ini"><span class="giallo-l"><span>{{&lt;audio</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  config</span><span class="z-d-9">=</span><span>{config}</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  src</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">audio.mp3</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  length</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">0:48</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  title</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">Audio in your blog</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  year</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">2026</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  artist</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">Female Speaker</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span class="z-l-9 z-d-17">  label</span><span class="z-d-9">=</span><span class="z-l-2 z-d-8">&quot;</span><span class="z-l-2 z-d-8">Blog of Thomas Weitzel</span><span class="z-l-2 z-d-8">&quot;</span></span>
+<span class="giallo-l"><span>/&gt;}}</span></span></code></pre><div
+  class="container max-w-md my-6 py-6 px-6 text-black dark:text-black bg-gradient-to-tr from-primary-600 to-warn-800 rounded-2xl overflow-hidden"
+  data-audio-id="1"
+  data-audio-src="audio.mp3"
+>
+    <div class="text-center relative">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-16 w-16 inline-block">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 006-6v-1.5m-6 7.5a6 6 0 01-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 01-3-3V4.5a3 3 0 116 0v8.25a3 3 0 01-3 3z" />
+        </svg>
+    </div>
+    <div class="mb-6 text-center relative">
+        <h2 class="inline-block font-medium">Audio in your blog</h2>
+        <p class="inline-block font-medium text-sm">Female Speaker | Blog of Thomas Weitzel | 2026</p>
+    </div>
+    <div class="audio-controls1 flex space-x-1">
+        <div class="play-div1 flex-none hover:text-fail-600">Loading ...</div>
+        <div class="time-div1 flex-none pr-2">00:00 | 0:48</div>
+        <div class="flex-auto cursor-pointer select-none mt-2">
+            <div class="progress-container1 w-full bg-primary-700 rounded-full h-2 dark:bg-neutral-200">
+                <div class="progress-bar1 bg-neutral-800 h-2 rounded-full hover:bg-fail-600" style="width: 0%"></div>
+            </div>
+        </div>
+        <div class="speaker-div1 flex-none pl-2 hover:text-fail-600"></div>
+    </div><script src="https://example.org/js/audio/howler.js" integrity="sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF"></script>
+        <script src="https://example.org/js/audio/audio-player.js" integrity="sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI"></script>
+        <script src="https://example.org/js/audio/audio-init.js" integrity="sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc"></script></div>
+<p>I prefer the <code>audio</code> component, because I want a stable player UI across browsers.
+<code>audio_simple</code> stays in the toolbox because it keeps the setup small and uses no extra JavaScript.</p>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>The components expect local assets, not remote URLs.</li>
+<li><code>zola serve</code> does not support range requests as of 0.22.1, so Chrome cannot seek properly. Use a static server for testing.</li>
+</ul>
+
+    </div>
+  </article>
+</div>
+
+  
+
+  
+
+  <script type="application/ld+json">
+{
+   "@context": "https://schema.org"
+  ,"@type": "BlogPosting"
+  ,"mainEntityOfPage": {
+     "@type": "WebPage"
+    ,"@id": "https://example.org/blog/audio-player-shortcode/"
+  }
+  ,"headline": "Adding audio to your blog"
+  ,"datePublished": "2026-02-11"
+  ,"dateModified": "2026-02-11"
+
+  ,"author": [
+    
+      {
+         "@type": "Person"
+        ,"name": "Thomas Weitzel"
+      }
+      
+    
+  ]
+  ,"publisher": {
+     "@type": "Person"
+    ,"name": "Thomas Weitzel"
+  }
+  
+  ,"description": "Three ways to add audio to your blog: native elements, components, and Howler.js."
+  ,"articleBody": "There are two practical ways to add audio to a blog: use the native &lt;audio&gt; element or render a custom player with JavaScript.\nThe Zola theme Zolarwind provides two components that map to those choices: audio_simple uses the native element, audio uses a custom player.\nBoth are usable as-is, and the choice comes down to how much control you want over the player UI.\nThe baseline native &lt;audio&gt;\nYou get built-in controls and good accessibility.\nIf you are fine with browser-native styling, this is the fastest path.\n&lt;audio controls&gt;\n  &lt;source src=&quot;audio.mp3&quot; type=&quot;audio/mpeg&quot;&gt;\n&lt;/audio&gt;\n  \n\nThe tradeoff is consistency. Browsers style the element differently, and you get limited control over the UI.\naudio_simple component\nThis wraps the native element and keeps the setup small.\nIt uses no JavaScript, like the baseline audio element, but adds a small amount of CSS for layout.\n{{&lt;audio_simple\n  config={config}\n  src=&quot;audio.mp3&quot;\n  title=&quot;Audio in your blog&quot;\n  year=&quot;2026&quot;\n  artist=&quot;Female Speaker&quot;\n  label=&quot;Blog of Thomas Weitzel&quot;\n/&gt;}}\n    \n        \n            \n        \n    \n    \n        Audio in your blog\n        Female Speaker | Blog of Thomas Weitzel | 2026\n    \n    Your browser does not support the audio element.\n\nCustom player\nIf you want a consistent player UI across browsers, the audio component renders a custom player with JavaScript.\nThe native &lt;audio&gt; controls are not used; the UI is fully custom.\n{{&lt;audio\n  config={config}\n  src=&quot;audio.mp3&quot;\n  length=&quot;0:48&quot;\n  title=&quot;Audio in your blog&quot;\n  year=&quot;2026&quot;\n  artist=&quot;Female Speaker&quot;\n  label=&quot;Blog of Thomas Weitzel&quot;\n/&gt;}}\n    \n        \n            \n        \n    \n    \n        Audio in your blog\n        Female Speaker | Blog of Thomas Weitzel | 2026\n    \n    \n        Loading ...\n        00:00 | 0:48\n        \n            \n                \n            \n        \n        \n    \n        \n        \nI prefer the audio component, because I want a stable player UI across browsers.\naudio_simple stays in the toolbox because it keeps the setup small and uses no extra JavaScript.\nNotes\n\nThe components expect local assets, not remote URLs.\nzola serve does not support range requests as of 0.22.1, so Chrome cannot seek properly. Use a static server for testing.\n\n"
+  
+    ,"image": "https://example.org/blog/audio-player-shortcode/banner.webp"
+  
+}
+</script>
+
+
+
+  </main>
+  <footer>
+    <div class="w-3/4 h-px bg-neutral-400 ml-auto mr-auto"><div/>
+    <div class="pt-3 text-2xl flex justify-center odibee-sans-regular">
+        anisotropic
+    </div>
+    <!-- Social Media Icons -->
+    
+    <ul class="mt-4 flex justify-center space-x-8">
+         
+        <li>
+            <a
+                
+                href="https://github.com/errphoenix"
+                title="Github"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">github</span>
+                <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 1024 1024"><path d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z" transform="scale(64)"/></svg>
+            </a>
+        </li>
+          
+        <li>
+            <a
+                
+                href=""
+                title="Discord: an1sotropic"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">discord: an1sotropic</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-discord" viewBox="0 0 16 16"> <path d="M13.545 2.907a13.2 13.2 0 0 0-3.257-1.011.05.05 0 0 0-.052.025c-.141.25-.297.577-.406.833a12.2 12.2 0 0 0-3.658 0 8 8 0 0 0-.412-.833.05.05 0 0 0-.052-.025c-1.125.194-2.22.534-3.257 1.011a.04.04 0 0 0-.021.018C.356 6.024-.213 9.047.066 12.032q.003.022.021.037a13.3 13.3 0 0 0 3.995 2.02.05.05 0 0 0 .056-.019q.463-.63.818-1.329a.05.05 0 0 0-.01-.059l-.018-.011a9 9 0 0 1-1.248-.595.05.05 0 0 1-.02-.066l.015-.019q.127-.095.248-.195a.05.05 0 0 1 .051-.007c2.619 1.196 5.454 1.196 8.041 0a.05.05 0 0 1 .053.007q.121.1.248.195a.05.05 0 0 1-.004.085 8 8 0 0 1-1.249.594.05.05 0 0 0-.03.03.05.05 0 0 0 .003.041c.24.465.515.909.817 1.329a.05.05 0 0 0 .056.019 13.2 13.2 0 0 0 4.001-2.02.05.05 0 0 0 .021-.037c.334-3.451-.559-6.449-2.366-9.106a.03.03 0 0 0-.02-.019m-8.198 7.307c-.789 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.45.73 1.438 1.613 0 .888-.637 1.612-1.438 1.612m5.316 0c-.788 0-1.438-.724-1.438-1.612s.637-1.613 1.438-1.613c.807 0 1.451.73 1.438 1.613 0 .888-.631 1.612-1.438 1.612"/></svg>
+            </a>
+        </li>
+         
+    </ul>
+    
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center">
+         
+    </div>
+</footer>
+
+</body>
+</html>
