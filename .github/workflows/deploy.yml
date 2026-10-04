@@ -1,0 +1,31 @@
+name: deploy Zola site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: write-all
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: install Zola
+        run: |
+          ZOLA_VERSION=0.23.6
+          curl -sL "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz" -o /tmp/zola.tar.gz
+          tar -xzf /tmp/zola.tar.gz -C /usr/local/bin
+          zola --version
+
+      - name: build
+        run: zola build
+
+      - name: deploy to pages
+        uses: peaceiris/actions-gh-pages@v4.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+  
