@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title> - diagram</title>
-    <link rel="self" type="application/atom+xml" href="https://example.org/tags/diagram/atom.xml"/>
-    <link rel="alternate" type="text/html" href="https://example.org"/>
+    <link rel="self" type="application/atom+xml" href="https://errphoenix.github.io/anisotropic-site/tags/diagram/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>2023-10-29T00:00:00+00:00</updated>
-    <id>https://example.org/tags/diagram/atom.xml</id>
+    <id>https://errphoenix.github.io/anisotropic-site/tags/diagram/atom.xml</id>
     <entry xml:lang="en">
         <title>Diagrams with Mermaid</title>
         <published>2023-10-29T00:00:00+00:00</published>
@@ -17,10 +17,10 @@
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://example.org/blog/mermaid/"/>
-        <id>https://example.org/blog/mermaid/</id>
+        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/mermaid/"/>
+        <id>https://errphoenix.github.io/anisotropic-site/blog/mermaid/</id>
         
-        <content type="html" xml:base="https://example.org/blog/mermaid/">&lt;h2 id=&quot;what-are-mermaid-diagrams&quot;&gt;What are Mermaid diagrams?&lt;/h2&gt;
+        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/mermaid/">&lt;h2 id=&quot;what-are-mermaid-diagrams&quot;&gt;What are Mermaid diagrams?&lt;/h2&gt;
 &lt;p&gt;&lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org&quot;&gt;Mermaid&lt;/a&gt; is a syntax similar to Markdown where you can use text to describe and automatically generate diagrams.
 With Mermaid, you can generate
 &lt;a rel=&quot;external&quot; href=&quot;https://mermaid.js.org/syntax/flowchart.html&quot;&gt;Flow charts&lt;/a&gt;,

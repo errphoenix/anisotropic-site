@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title> - something</title>
-    <link rel="self" type="application/atom+xml" href="https://example.org/tags/something/atom.xml"/>
-    <link rel="alternate" type="text/html" href="https://example.org"/>
+    <link rel="self" type="application/atom+xml" href="https://errphoenix.github.io/anisotropic-site/tags/something/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>2026-09-18T00:00:00+00:00</updated>
-    <id>https://example.org/tags/something/atom.xml</id>
+    <id>https://errphoenix.github.io/anisotropic-site/tags/something/atom.xml</id>
     <entry xml:lang="en">
         <title>Razed&#39;s Continuous Real-time Deformation System</title>
         <published>2026-09-18T00:00:00+00:00</published>
@@ -17,10 +17,10 @@
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://example.org/blog/razed-art1-cage/"/>
-        <id>https://example.org/blog/razed-art1-cage/</id>
+        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/razed-art1-cage/"/>
+        <id>https://errphoenix.github.io/anisotropic-site/blog/razed-art1-cage/</id>
         
-        <content type="html" xml:base="https://example.org/blog/razed-art1-cage/">&lt;p&gt;Structures in Razed are arbitrarily shaped, they are expected to shatter, break, bend, and sway in any direction and intensity. The &quot;structural&quot; physics is approximated by a sparse lattice structure formed by nodes evaluated through an XPBD (eXtended Position-Based Dynamics) solver, where each node has some mass, integrity, and resistance values based on the integrity of the nearby structure &quot;fragments&quot; surrounding it and a coarse approximation of the intended structural material (e.g., a node located in a part of the structure that is intended to be in a weaker material, such as wood, would have a lower resistance and mass in comparison to a harder material like concrete).&lt;/p&gt;
+        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/razed-art1-cage/">&lt;p&gt;Structures in Razed are arbitrarily shaped, they are expected to shatter, break, bend, and sway in any direction and intensity. The &quot;structural&quot; physics is approximated by a sparse lattice structure formed by nodes evaluated through an XPBD (eXtended Position-Based Dynamics) solver, where each node has some mass, integrity, and resistance values based on the integrity of the nearby structure &quot;fragments&quot; surrounding it and a coarse approximation of the intended structural material (e.g., a node located in a part of the structure that is intended to be in a weaker material, such as wood, would have a lower resistance and mass in comparison to a harder material like concrete).&lt;/p&gt;
 &lt;p&gt;In short, the sparse lattice provides a very cheap and sufficiently accurate approximation of the structural physics at the core of a structure, but that is only one part of the simulation: as the structures deforms, its &quot;fragments&quot; must deform in response.&lt;/p&gt;
 &lt;p&gt;Razed&#39;s deformation system was something I iterated on multiple times, and I&#39;ll describe each iteration below.&lt;/p&gt;
 &lt;h2 id=&quot;1-trivial-lbs-like-deformation&quot;&gt;1. Trivial LBS-like deformation&lt;/h2&gt;

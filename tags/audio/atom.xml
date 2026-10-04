@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
     <title> - audio</title>
-    <link rel="self" type="application/atom+xml" href="https://example.org/tags/audio/atom.xml"/>
-    <link rel="alternate" type="text/html" href="https://example.org"/>
+    <link rel="self" type="application/atom+xml" href="https://errphoenix.github.io/anisotropic-site/tags/audio/atom.xml"/>
+    <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/"/>
     <generator uri="https://www.getzola.org/">Zola</generator>
     <updated>2026-02-11T00:00:00+00:00</updated>
-    <id>https://example.org/tags/audio/atom.xml</id>
+    <id>https://errphoenix.github.io/anisotropic-site/tags/audio/atom.xml</id>
     <entry xml:lang="en">
         <title>Adding audio to your blog</title>
         <published>2026-02-11T00:00:00+00:00</published>
@@ -17,10 +17,10 @@
           </name>
         </author>
         
-        <link rel="alternate" type="text/html" href="https://example.org/blog/audio-player-shortcode/"/>
-        <id>https://example.org/blog/audio-player-shortcode/</id>
+        <link rel="alternate" type="text/html" href="https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/"/>
+        <id>https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/</id>
         
-        <content type="html" xml:base="https://example.org/blog/audio-player-shortcode/">&lt;p&gt;There are two practical ways to add audio to a blog: use the native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; element or render a custom player with JavaScript.
+        <content type="html" xml:base="https://errphoenix.github.io/anisotropic-site/blog/audio-player-shortcode/">&lt;p&gt;There are two practical ways to add audio to a blog: use the native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; element or render a custom player with JavaScript.
 The &lt;a rel=&quot;external&quot; href=&quot;https://www.getzola.org/&quot;&gt;Zola&lt;/a&gt; theme &lt;a rel=&quot;external&quot; href=&quot;https://github.com/thomasweitzel/zolarwind&quot;&gt;Zolarwind&lt;/a&gt; provides two components that map to those choices: &lt;code&gt;audio_simple&lt;/code&gt; uses the native element, &lt;code&gt;audio&lt;/code&gt; uses a custom player.
 Both are usable as-is, and the choice comes down to how much control you want over the player UI.&lt;/p&gt;
 &lt;h2 id=&quot;the-baseline-native-audio&quot;&gt;The baseline native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt;&lt;/h2&gt;
@@ -88,9 +88,9 @@ The native &lt;code&gt;&amp;lt;audio&amp;gt;&lt;/code&gt; controls are not used;
             &lt;/div&gt;
         &lt;/div&gt;
         &lt;div class=&quot;speaker-div1 flex-none pl-2 hover:text-fail-600&quot;&gt;&lt;/div&gt;
-    &lt;/div&gt;&lt;script src=&quot;https://example.org/js/audio/howler.js&quot; integrity=&quot;sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;https://example.org/js/audio/audio-player.js&quot; integrity=&quot;sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;https://example.org/js/audio/audio-init.js&quot; integrity=&quot;sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc&quot;&gt;&lt;/script&gt;&lt;/div&gt;
+    &lt;/div&gt;&lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/howler.js&quot; integrity=&quot;sha384-B3AhJtVepaXjzRprLH6ZMkrOI+XDduqXmwhe4m+RDATUkM8o1I2STFsig6dra4XF&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/audio-player.js&quot; integrity=&quot;sha384-uM+RjXS/SiYym8NXLgoHFdNXVU0dZFjg9FyWhppQgkb0RJd1dnp7H+Pom5azyaMI&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;https://errphoenix.github.io/anisotropic-site/js/audio/audio-init.js&quot; integrity=&quot;sha384-MxFc2CYeIiCM4XDzrORmIy9R06BD/FQLTHq71ZIlTY/tJCqi3Isa8/o+yKSFg1Vc&quot;&gt;&lt;/script&gt;&lt;/div&gt;
 &lt;p&gt;I prefer the &lt;code&gt;audio&lt;/code&gt; component, because I want a stable player UI across browsers.
 &lt;code&gt;audio_simple&lt;/code&gt; stays in the toolbox because it keeps the setup small and uses no extra JavaScript.&lt;/p&gt;
 &lt;h2 id=&quot;notes&quot;&gt;Notes&lt;/h2&gt;
