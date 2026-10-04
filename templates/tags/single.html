@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}{{<head.page_title config={config} res={res} page={false} section={false} taxonomy={taxonomy} term={term} />}}{% endblock title %}
+
+{% block content %}
+{% set pages = term.pages %}
+{% set taxonomy_with = res.with_tag %}
+{% include "partials/taxonomy-heading.html" %}
+{% include "partials/list.html" %}
+{% endblock %}

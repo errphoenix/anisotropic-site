@@ -1,0 +1,66 @@
+{%- component toc.render_items(items, min_level, max_level) -%}
+  {%- for item in items -%}
+    {%- if item.children and item.children | length > 0 -%}
+      {%- set has_children = true -%}
+    {%- else -%}
+      {%- set has_children = false -%}
+    {%- endif -%}
+    {%- set in_range = item.level >= min_level and item.level <= max_level -%}
+    {%- if in_range -%}
+      <li>
+        <a href="#{{ item.id }}">{{ item.title | striptags }}</a>
+        {%- if has_children -%}
+          <ul>
+            {{<toc.render_items items={item.children} min_level={min_level} max_level={max_level} />}}
+          </ul>
+        {%- endif -%}
+      </li>
+    {%- else -%}
+      {%- if has_children -%}
+        {{<toc.render_items items={item.children} min_level={min_level} max_level={max_level} />}}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcomponent toc.render_items -%}
+
+{%- component toc.render_block(config, page, res) -%}
+  {%- set show_toc = page.extra.toc | default(value=config.extra.toc | default(value=false)) -%}
+  {%- if show_toc and page.toc and page.toc | length > 0 -%}
+    {%- set min_level = 2 -%}
+    {%- set max_level = 3 -%}
+    {%- if config.extra.toc_levels is defined -%}
+      {%- set toc_levels = config.extra.toc_levels -%}
+    {%- endif -%}
+    {%- if page.extra.toc_levels is defined -%}
+      {%- set toc_levels = page.extra.toc_levels -%}
+    {%- endif -%}
+    {%- if toc_levels is defined -%}
+      {%- if toc_levels.min is defined -%}
+        {%- set min_level = toc_levels.min | int -%}
+      {%- endif -%}
+      {%- if toc_levels.max is defined -%}
+        {%- set max_level = toc_levels.max | int -%}
+      {%- endif -%}
+    {%- endif -%}
+
+    {%- if min_level < 1 -%}{%- set min_level = 1 -%}{%- endif -%}
+    {%- if min_level > 6 -%}{%- set min_level = 6 -%}{%- endif -%}
+    {%- if max_level < 1 -%}{%- set max_level = 1 -%}{%- endif -%}
+    {%- if max_level > 6 -%}{%- set max_level = 6 -%}{%- endif -%}
+    {%- if min_level > max_level -%}{%- set max_level = min_level -%}{%- endif -%}
+
+    {%- set toc_body -%}
+      {{<toc.render_items items={page.toc} min_level={min_level} max_level={max_level} />}}
+    {%- endset -%}
+    {%- if toc_body | trim | length > 0 -%}
+      <nav class="toc mt-6 mb-8 rounded-md border border-neutral-800 bg-neutral-900/40 p-4" aria-label="{{ res.toc_title }}">
+        <h2 class="mt-0 text-neutral-100">{{ res.toc_title }}</h2>
+        <div class="mt-2 text-neutral-300">
+          <ul>
+            {{ toc_body | safe }}
+          </ul>
+        </div>
+      </nav>
+    {%- endif -%}
+  {%- endif -%}
+{%- endcomponent toc.render_block -%}

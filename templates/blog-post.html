@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block head_extra %}
+  {{ super() }}
+  {% include "partials/highlight-css.html" %}
+{% endblock head_extra %}
+
+{% block content %}
+
+{% set banner_path = "/img/default-banner.webp" %}
+{% set banner_image = page.extra | get(key="image", default="") %}
+{% if banner_image | length > 0 %}
+  {% set banner_path = page.path ~ banner_image %}
+{% endif %}
+
+<div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
+  <article
+      id="blog-content"
+      data-title="{{ page.title }}"
+      class="prose"
+      data-clipboard-copy="{{ res.clipboard_copy }}"
+      data-clipboard-copied="{{ res.clipboard_copied }}"
+      data-clipboard-error="{{ res.clipboard_error }}"
+  >    
+    <div class="flex h-64">
+      <div class="flex flex-col justify-between w-1/2">
+        <div>
+          <h1>{{ page.title | default(value=res.empty_page_title) | striptags }}</h1>
+          <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">{{ page.date | date(locale=date_locale, format=date_format) }}</time>
+          <div>
+            <div class="text-sm my-1">
+              {{ page.word_count | num_format(locale=locale) }} {{ page.word_count | pluralize(singular=res.words.one, plural=res.words.other) }} &middot;
+              {{ page.reading_time | num_format(locale=locale) }} {{ page.reading_time | pluralize(singular=res.minutes.one, plural=res.minutes.other) }} {{ res.reading_time }}
+            </div>
+            {% include "partials/tags.html" %}  
+          </div>
+         </div>
+        <span class="my-auto mt-6 justify-self-center">
+          {{page.description}}
+        </span>
+      </div>
+      <div class="rounded-md shadow-md mx-auto overflow-hidden">
+        <img src="{{ get_url(path=banner_path) }}" alt="{{ page.title | default(value=res.empty_page_title) | striptags }}" fetchpriority="high" loading="eager">
+      </div>
+    </div>
+      
+    {{<toc.render_block config={config} page={page} res={res} />}}
+    <div>
+      {{ page.content | safe }}
+    </div>
+  </article>
+</div>
+
+  {% include "partials/series-nav.html" %}
+  {% include "partials/comments-artalk.html" %}
+  {% include "partials/ld-blog-posting.html" %}
+
+{% endblock %}

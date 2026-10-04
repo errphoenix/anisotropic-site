@@ -1,0 +1,43 @@
+<footer>
+    <div class="w-3/4 h-px bg-neutral-400 ml-auto mr-auto"><div/>
+    <div class="pt-3 text-2xl flex justify-center odibee-sans-regular">
+        anisotropic
+    </div>
+    <!-- Social Media Icons -->
+    {% if config.extra.social_links %}
+    <ul class="mt-4 flex justify-center space-x-8">
+        {% for entry in config.extra.social_links %} {% if entry.enabled %}
+        <li>
+            <a
+                {% if entry.rel is defined %}
+                rel="{{ entry.rel }}"
+                {% endif %}
+                href="{{ entry.link }}"
+                title="{{ entry.name | capitalize }}"
+                class="text-neutral-500 hover:text-neutral-400"
+            >
+                <span class="sr-only">{{ entry.name }}</span>
+                {{ entry.svg | safe }}
+            </a>
+        </li>
+        {% endif %} {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 text-center">
+        {% if config.extra.footer_pages %}
+        <p class="text-center text-base leading-6">
+            {% for entry in config.extra.footer_pages %} {% if loop.index > 1 %}
+            &middot; {% endif %}
+            <a href="{{ get_url(path=entry.url) }}">{{ entry.title }}</a>
+            {% endfor %}
+        </p>
+        {% endif %} {% if config.extra.copyright %}
+        <div class="mt-4">
+            <p class="text-center text-base leading-6 text-neutral-400">
+                {{ config.extra.copyright | replace(from="{year}", to=now() |
+                date(format="%Y")) }}
+            </p>
+        </div>
+        {% endif %}
+    </div>
+</footer>

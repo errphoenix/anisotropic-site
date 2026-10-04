@@ -1,0 +1,63 @@
+{% if config.extra.comments
+  and config.extra.comments.enabled
+  and config.extra.comments.provider == "artalk"
+  and page.extra.comments | default(value=false)
+%}
+  {% set artalk = config.extra.comments.artalk %}
+  {% set consent_required = artalk.consent_required | default(value=false) %}
+  {% if not consent_required %}
+    <link rel="stylesheet" href="{{ get_url(path='/js/comment/artalk-2.9.1.css') }}" integrity="sha384-{{ get_hash(path='/js/comment/artalk-2.9.1.css') }}">
+    <script defer src="{{ get_url(path='/js/comment/artalk-2.9.1.js') }}" integrity="sha384-{{ get_hash(path='/js/comment/artalk-2.9.1.js') }}"></script>
+  {% endif %}
+
+  {% set page_key = page.extra.comments_page_key | default(value=page.permalink) %}
+  {% set page_title = page.extra.comments_page_title | default(value=page.title | default(value="")) %}
+  <div class="max-w-7xl mx-auto pt-8 pb-2 px-4 sm:px-6 lg:px-8">
+    {% if consent_required %}
+      <div class="mb-4 rounded-md bg-neutral-800 p-4 text-sm text-neutral-200">
+        <label class="inline-flex items-start gap-2">
+          <input
+            type="checkbox"
+            data-artalk-consent-toggle="true"
+            class="mt-0.5 h-4 w-4 rounded-sm bg-neutral-900 text-primary-600"
+          >
+          <span>{{ res.comments_consent_label }}</span>
+        </label>
+        <noscript>
+          <p class="mt-2 text-neutral-400">{{ res.comments_consent_no_js }}</p>
+        </noscript>
+      </div>
+    {% endif %}
+    <div
+      id="Comments"
+      data-artalk-server="{{ artalk.server }}"
+      data-artalk-site="{{ artalk.site }}"
+      data-artalk-page-key="{{ page_key }}"
+      data-artalk-page-title="{{ page_title }}"
+      data-artalk-consent-required="{{ consent_required }}"
+      data-artalk-css-url="{{ get_url(path='/js/comment/artalk-2.9.1.css') }}"
+      data-artalk-css-integrity="sha384-{{ get_hash(path='/js/comment/artalk-2.9.1.css') }}"
+      data-artalk-js-url="{{ get_url(path='/js/comment/artalk-2.9.1.js') }}"
+      data-artalk-js-integrity="sha384-{{ get_hash(path='/js/comment/artalk-2.9.1.js') }}"
+      {% if artalk.locale is defined %}
+      data-artalk-locale="{{ artalk.locale }}"
+      {% endif %}
+      data-artalk-list-sort="{{ artalk.list_sort | default(value=true) }}"
+      data-artalk-flat-mode="{{ artalk.flat_mode | default(value="auto") }}"
+      data-artalk-preview="{{ artalk.preview | default(value=true) }}"
+      data-artalk-emoticons="{{ artalk.emoticons | default(value=false) }}"
+      data-artalk-vote="{{ artalk.vote | default(value=true) }}"
+      data-artalk-vote-down="{{ artalk.vote_down | default(value=false) }}"
+      data-artalk-page-size="{{ artalk.page_size | default(value=20) }}"
+      data-artalk-read-more="{{ artalk.read_more | default(value=true) }}"
+      data-artalk-auto-load="{{ artalk.auto_load | default(value=true) }}"
+      data-artalk-placeholder="{{ artalk.placeholder | default(value="") }}"
+      data-artalk-send-btn="{{ artalk.send_btn | default(value="") }}"
+      data-artalk-no-comment="{{ artalk.no_comment | default(value="") }}"
+      data-artalk-show-copyright="{% if artalk.show_copyright is defined %}{{ artalk.show_copyright }}{% else %}false{% endif %}"
+      data-artalk-avatar-url="{{ artalk.avatar_url | default(value="") }}"
+      data-artalk-show-sidebar-button="{{ artalk.show_sidebar_button | default(value=true) }}"
+    ></div>
+  </div>
+  <script defer src="{{ get_url(path='/js/comment/artalk-init.js') }}" integrity="sha384-{{ get_hash(path='/js/comment/artalk-init.js') }}"></script>
+{% endif %}

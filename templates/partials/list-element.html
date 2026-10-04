@@ -1,0 +1,11 @@
+{% if page.extra.page_id is defined %}
+    <div id="{{ page.extra.page_id }}" 
+        class="rounded-md shadow-md shadow-neutral-800 border-neutral-900 border-1">
+    <a href="{{ page.permalink }}" 
+        class="block tree-link {% if current_url == page.permalink %}active{% endif %}">
+        <span class="mt-2 leading-7 font-semibold text-neutral-100">
+        {{ page.title | default(value=res.empty_page_title) }}
+        <span/>
+    </a>
+    </div>
+{% endif %}

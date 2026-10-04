@@ -1,0 +1,11 @@
+{% if paginator is defined %}
+  <div class="">
+    <div>
+      {% for page in paginator.pages %}
+        {% set is_first = loop.first %}
+        {% include "partials/list-element.html" %}
+      {% endfor %}
+    </div>
+    <!--{% include "partials/navigation.html" %}-->
+  </div>
+{% endif %}

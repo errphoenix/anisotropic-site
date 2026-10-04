@@ -1,0 +1,67 @@
+# Global settings
+settings_locale = "en"
+settings_date_locale = "en_US"
+settings_date_format = "MMMM d, yyyy"
+
+# Simple language resources
+empty_page_title = "Empty title"
+empty_page_description = "Empty description"
+read_more = "Read more"
+previous_posts = "Previous posts"
+next_posts = "Next posts"
+reading_time = "reading time"
+aria_to_homepage = "Go to homepage"
+aria_menu = "Menu"
+aria_toggle_theme = "Toggle dark/light mode"
+aria_search = "Search"
+atom_feed_title = "Atom Feed"
+switch_light = "Switch to light mode. Stores setting for this session."
+switch_dark = "Switch to dark mode. Stores setting for this session."
+with_tag = "with tag"
+with_series = "in series"
+not_found_header = "The page you requested could not be found."
+not_found_text = "Oops! Seems like this page vanished into the internet abyss. Maybe it's on vacation? Please check the URL or ping me, and I'll see if I can locate it, or at least send out a search party."
+search_title = "Search"
+search_placeholder = "Search posts ..."
+search_input_label = "Search posts"
+search_clear_label = "Clear search"
+search_pagination_label = "Search results pages"
+search_page_label = "Page"
+series_nav_title = "Series"
+clipboard_copy = "Copy to clipboard"
+clipboard_copied = "Copied to clipboard"
+clipboard_error = "Error copying to clipboard"
+search_no_results = "No results found"
+search_index_disabled = "Search index is disabled. Set build_search_index = true in zola.toml."
+search_error = "Search index could not be loaded."
+search_loading = "Loading search index ..."
+comments_consent_label = "I agree to load comments and store data on this device."
+comments_consent_no_js = "Comments require JavaScript to load."
+audio_loading = "Loading ..."
+audio_no_element = "Your browser does not support the audio element."
+toc_title = "Table of contents"
+
+# Phrases with singular/plural variants
+search_results_one = "Found {count} result"
+search_results_other = "Found {count} results"
+
+# Nouns with singular and plural
+[words]
+one = "word"
+other = "words"
+
+[minutes]
+one = "minute"
+other = "minutes"
+
+[posts]
+one = "post"
+other = "posts"
+
+[tags]
+one = "tag"
+other = "tags"
+
+[series]
+one = "series"
+other = "series"

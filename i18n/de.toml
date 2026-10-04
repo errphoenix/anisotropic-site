@@ -1,0 +1,67 @@
+# Global settings
+settings_locale = "de"
+settings_date_locale = "de_DE"
+settings_date_format = "d. MMMM yyyy"
+
+# Simple language resources
+empty_page_title = "Kein Titel"
+empty_page_description = "Keine Zusammenfassung"
+read_more = "Mehr lesen"
+previous_posts = "Jüngere Beiträge"
+next_posts = "Ältere Beiträge"
+reading_time = "Lesezeit"
+aria_to_homepage = "Zur Homepage"
+aria_menu = "Menü"
+aria_toggle_theme = "Dunklen/hellen Modus wechseln"
+aria_search = "Suche"
+atom_feed_title = "Atom-Feed"
+switch_light = "Zum hellen Modus wechseln. Speichert die Einstellung für diese Sitzung."
+switch_dark = "Zum dunklen Modus wechseln. Speichert die Einstellung für diese Sitzung."
+with_tag = "mit Schlagwort"
+with_series = "in der Serie"
+not_found_header = "Die angefragte Seite konnte nicht gefunden werden."
+not_found_text = "Oops! Sieht so aus, als wäre diese Seite abgetaucht. Vielleicht ist sie im Urlaub? Bitte überprüfe die URL oder kontaktiere mich, und ich werde sehen, ob ich sie finden oder zumindest einen Suchtrupp losschicken kann."
+search_title = "Suche"
+search_placeholder = "Beiträge durchsuchen ..."
+search_input_label = "Beiträge durchsuchen"
+search_clear_label = "Suche leeren"
+search_pagination_label = "Suchergebnisseiten"
+search_page_label = "Seite"
+series_nav_title = "Serie"
+clipboard_copy = "In Zwischenablage kopieren"
+clipboard_copied = "In Zwischenablage kopiert"
+clipboard_error = "Fehler beim Kopieren"
+search_no_results = "Keine Ergebnisse gefunden"
+search_index_disabled = "Der Suchindex ist deaktiviert. Setze build_search_index = true in zola.toml."
+search_error = "Der Suchindex konnte nicht geladen werden."
+search_loading = "Suchindex wird geladen ..."
+comments_consent_label = "Ich stimme zu, Kommentare zu laden und Daten auf diesem Gerät zu speichern."
+comments_consent_no_js = "Kommentare benötigen JavaScript."
+audio_loading = "Laden ..."
+audio_no_element = "Ihr Browser unterstützt das Audio-Element nicht."
+toc_title = "Inhaltsverzeichnis"
+
+# Phrases with singular/plural variants
+search_results_one = "{count} Ergebnis gefunden"
+search_results_other = "{count} Ergebnisse gefunden"
+
+# Nouns with singular and plural
+[words]
+one = "Wort"
+other = "Wörter"
+
+[minutes]
+one = "Minute"
+other = "Minuten"
+
+[posts]
+one = "Beitrag"
+other = "Beiträge"
+
+[tags]
+one = "Schlagwort"
+other = "Schlagwörter"
+
+[series]
+one = "Serie"
+other = "Serien"

@@ -1,0 +1,16 @@
+<nav class="mt-10 flex justify-between">
+  {% if paginator.previous %}
+    <span>
+      <a href="{{ paginator.previous }}" class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-neutral-950 bg-primary-300 hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950 active:bg-primary-600 transition ease-in-out duration-150">
+        {{ res.previous_posts }}
+      </a>
+    </span>
+  {% endif %}
+  {% if paginator.next %}
+    <span>
+      <a href="{{ paginator.next }}" class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-neutral-950 bg-primary-300 hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-neutral-950 active:bg-primary-600 transition ease-in-out duration-150">
+        {{ res.next_posts }}
+      </a>
+    </span>
+  {% endif %}
+</nav>
