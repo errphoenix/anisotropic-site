@@ -73,20 +73,6 @@ window.addEventListener("DOMContentLoaded", () => {
     darkHighlight.disabled = !useDark;
   };
 
-  const toggleMobileMenu = () => {
-    const ids = [
-      "mobile-menu",
-      "mobile-icon-menu-unselected",
-      "mobile-icon-menu-selected",
-    ];
-    ids.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) {
-        element.classList.toggle("hidden");
-      }
-    });
-  };
-
   const saveTheme = (theme) => {
     try {
       sessionStorage.setItem(APPLICATION_NAME, theme);
@@ -109,11 +95,6 @@ window.addEventListener("DOMContentLoaded", () => {
       saveTheme(theme);
     }
   };
-
-  const mobileButton = document.getElementById("toggleMobileMenu");
-  if (mobileButton) {
-    mobileButton.addEventListener("click", toggleMobileMenu);
-  }
 
   setHighlightTheme(forceTheme);
 

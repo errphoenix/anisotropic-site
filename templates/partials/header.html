@@ -10,63 +10,7 @@ section is defined %} {% set current_path = section.path %} {% endif %}
                 >
                     anisotropic
                 </a>
-                <div class="-mr-2 flex items-center space-x-1 md:hidden">
-                    <button
-                        id="toggleMobileMenu"
-                        class="icon inline-flex items-center justify-center p-2 rounded-md text-neutral-200 hover:text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:bg-neutral-200 focus:text-neutral-800"
-                        aria-label="{{ res.aria_menu }}"
-                    >
-                        <span id="mobile-icon-menu-unselected">
-                            <svg
-                                class="h-6 w-6"
-                                stroke="currentColor"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-                        </span>
-                        <span id="mobile-icon-menu-selected" class="hidden">
-                            <svg
-                                class="h-6 w-6"
-                                stroke="currentColor"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </span>
-                    </button>
-                </div>
             </div>
         </div>
-        {% if config.extra.menu_pages %}
-        <div id="mobile-menu" class="hidden md:hidden px-2 pt-2 pb-3 sm:px-3">
-            {% for entry in config.extra.menu_pages %} {% if entry.url == current_path %}
-            <span
-                aria-current="page"
-                class="block px-3 py-2 rounded-md font-medium text-neutral-200 bg-neutral-800 focus:outline-none focus:text-neutral-950 focus:bg-neutral-300"
-                >{{ entry.title }}</span
-            >
-            {% else %}
-            <a
-                class="mt-1 block px-3 py-2 rounded-md font-medium text-neutral-200 hover:text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:text-neutral-800 focus:bg-neutral-200"
-                href="{{ get_url(path=entry.url) }}"
-                title="{{ entry.title }}"
-                >{{ entry.title }}</a
-            >
-            {% endif %} {% endfor %}
-        </div>
-        {% endif %}
     </nav>
 </header>

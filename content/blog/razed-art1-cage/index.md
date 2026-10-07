@@ -44,7 +44,7 @@ The cage layer is essentially a dense 3-dimensional array of points that cover t
 
 At creation, the maximum AABB extents of the structure are computed and, based on the desired density of the deformation cage, the array is generated. For each deform point, the 4 nearest lattice nodes were selected and associated to it with a quadratic IDW, computed the same way as before. For each fragment, a spatial query fetches the 8 nearest deform points. These points form a cuboid around the fragment, which acts like a deformation cage for it. The LBS application of the previous iteration moved from $lattice \rightarrow fragment$ to $lattice \rightarrow cage$, which proved to be more stable than the previous approach.
 
-<img class="float-left max-w-1/2 max-h-1/2 mr-2" src="ill-aabb-trilinear-interp.png" width="25%" height="25%">
+<img class="float-left max-w-1/2 max-h-1/2 mr-2" src="img/razed-art1-cage_ill-aabb-trilinear-interp.png" width="25%" height="25%">
 
 While the $lattice \rightarrow cage$ deformation remains the same process described in iteration 1, the new $cage \rightarrow fragment$ deformation worked differently: for each vertex, trilinear interpolation with the fragment's associated cage is performed in the vertex shader. A series of interpolation factors, that act like the vertex's normlized cage-local coordinates, are computed for each vertex in that same vertex shader invocation from an AABB of the cage's bind-time corners (the corners of the cage at the time of its creation).
 
@@ -63,7 +63,7 @@ Initially, the final interpolation used yet _another_ AABB using the real-time c
 
 Instead, it was more accurate to perform the interpolation per-edge, using the $\mathbf{w}$ normalized cage-local coordinates, like in the graphic shown to the right (there the cage is assumed to not have deformed at all, purely for simplicity):
 
-<img class="float-right" src="ill-real-trilinear-interp.png" width="24%" height="24%">
+<img class="float-right" src="img/razed-art1-cage_ill-real-trilinear-interp.png" width="24%" height="24%">
 
 ```glsl
 vec3 p000 = /*-x, -y, -z corner*/
@@ -92,7 +92,7 @@ vec3 s = mix(r0, r1, w.z);
 ```
 
 <div class="flex items-center space-x-8">
-	<img src="i2-debug-viz.png" width="28%">
+	<img src="img/razed-art1-cage_i2-debug-viz.png" width="28%">
 	<div class="w-2/3">
 		On the left an example of the deformation using this version of the system. The green lines highlight the constraints between the sparse lattice nodes, the magenta dots represent cage deformation points.<br/><br/>
 		As it can be observed, while the deformation now gives a somewhat plausible idea, there is still something off: while the fragments themselves seem to correctly deform according to the cages, the cages dont properly deform according to the sparse lattice. This can be seen, for example, for that one single magenta dot at the right <i>outside</i> of the structure. This makes it evident that the $lattice \rightarrow cage$ LBS-like deformation is not the correct procedure.<br/><br/>
