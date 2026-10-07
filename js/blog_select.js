@@ -36,13 +36,8 @@ async function loadArticle(url, push = true) {
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log("DOM LOAD");
-});
-
 document.addEventListener("click", (ev) => {
   const link = ev.target.closest("a.tree-link");
-  console.log(link);
   if (!link) return;
   ev.preventDefault();
   loadArticle(link.href);
