@@ -12,7 +12,9 @@
                 {% if entry.rel is defined %}
                 rel="{{ entry.rel }}"
                 {% endif %}
+                {% if entry.link is defined %}
                 href="{{ entry.link }}"
+                {% endif %}
                 title="{{ entry.name | capitalize }}"
                 class="text-neutral-500 hover:text-neutral-400"
             >

@@ -22,8 +22,8 @@
       data-clipboard-copied="{{ res.clipboard_copied }}"
       data-clipboard-error="{{ res.clipboard_error }}"
   >    
-    <div class="flex h-64">
-      <div class="flex flex-col justify-between w-1/2">
+    <div class="flex flex-wrap">
+      <div class="flex flex-col justify-between">
         <div>
           <h1>{{ page.title | default(value=res.empty_page_title) | striptags }}</h1>
           <time datetime="{{ page.date | date(format='%Y-%m-%d') }}">{{ page.date | date(locale=date_locale, format=date_format) }}</time>
@@ -32,7 +32,7 @@
               {{ page.word_count | num_format(locale=locale) }} {{ page.word_count | pluralize(singular=res.words.one, plural=res.words.other) }} &middot;
               {{ page.reading_time | num_format(locale=locale) }} {{ page.reading_time | pluralize(singular=res.minutes.one, plural=res.minutes.other) }} {{ res.reading_time }}
             </div>
-            {% include "partials/tags.html" %}  
+            <!--{% include "partials/tags.html" %}  -->
           </div>
          </div>
         <span class="my-auto mt-6 justify-self-center">
