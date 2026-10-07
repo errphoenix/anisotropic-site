@@ -53,7 +53,7 @@
     <link rel="alternate" type="application/atom+xml" title="Atom Feed" href="https://anisotropic.lol/atom.xml" />
   
 
-  <script defer src="https://anisotropic.lol/js/zolarwind/logic.js" integrity="sha384-XH2tq2oOnPBlH115yPIJ9+CEYbCxU/Ap6b+5NY214ERXB9j5kFcequfsqiHhg8BD"></script>
+  <script defer src="https://anisotropic.lol/js/zolarwind/logic.js" integrity="sha384-gGoIzJC52yvyJbBMlUyaugHwGh+7ukNaI5v+22WK694oXWG46Cat/C+2UTse773T"></script>
 <script defer src="https://anisotropic.lol/js/blog_select.js"></script>
 
 <link rel="stylesheet" id="code-highlighting-light" href="https://anisotropic.lol/giallo-light.css" integrity="sha384-NCxgUyJl+Vh1Zv9FUMaF7LoXHCKkLmO0poFbxdjc6+QnetQdvJih6YBZtOjVj/oj">
@@ -76,47 +76,8 @@
                 >
                     anisotropic
                 </a>
-                <div class="-mr-2 flex items-center space-x-1 md:hidden">
-                    <button
-                        id="toggleMobileMenu"
-                        class="icon inline-flex items-center justify-center p-2 rounded-md text-neutral-200 hover:text-neutral-50 hover:bg-neutral-700 focus:outline-none focus:bg-neutral-200 focus:text-neutral-800"
-                        aria-label="Menu"
-                    >
-                        <span id="mobile-icon-menu-unselected">
-                            <svg
-                                class="h-6 w-6"
-                                stroke="currentColor"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-                        </span>
-                        <span id="mobile-icon-menu-selected" class="hidden">
-                            <svg
-                                class="h-6 w-6"
-                                stroke="currentColor"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                            >
-                                <path
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    stroke-width="2"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        </span>
-                    </button>
-                </div>
             </div>
         </div>
-        
     </nav>
 </header>
 
@@ -143,7 +104,7 @@
           <time datetime="2026-09-18">September 18, 2026</time>
           <div>
             <div class="text-sm my-1">
-              1,111 words &middot;
+              1,120 words &middot;
               5 minutes reading time
             </div>
             <!--
@@ -191,7 +152,7 @@ $$\text{\small where $s^n_i$ is the current position of the node}$$</p>
 <p>The previous approach was extended by the introduction of an intermediate layer between the structural lattice and visual fragments.</p>
 <p>The cage layer is essentially a dense 3-dimensional array of points that cover the entire volume of the structure. I usually call these "deform points".</p>
 <p>At creation, the maximum AABB extents of the structure are computed and, based on the desired density of the deformation cage, the array is generated. For each deform point, the 4 nearest lattice nodes were selected and associated to it with a quadratic IDW, computed the same way as before. For each fragment, a spatial query fetches the 8 nearest deform points. These points form a cuboid around the fragment, which acts like a deformation cage for it. The LBS application of the previous iteration moved from $lattice \rightarrow fragment$ to $lattice \rightarrow cage$, which proved to be more stable than the previous approach.</p>
-<img class="float-left max-w-1/2 max-h-1/2 mr-2" src="ill-aabb-trilinear-interp.png" width="25%" height="25%">
+<img class="float-left max-w-1/2 max-h-1/2 mr-2" src="img/razed-art1-cage_ill-aabb-trilinear-interp.png" width="25%" height="25%">
 <p>While the $lattice \rightarrow cage$ deformation remains the same process described in iteration 1, the new $cage \rightarrow fragment$ deformation worked differently: for each vertex, trilinear interpolation with the fragment's associated cage is performed in the vertex shader. A series of interpolation factors, that act like the vertex's normlized cage-local coordinates, are computed for each vertex in that same vertex shader invocation from an AABB of the cage's bind-time corners (the corners of the cage at the time of its creation).</p>
 <p>$$\text{For every vertex:}$$</p>
 <p>$$ \mathbf{w}=\begin{pmatrix}
@@ -203,7 +164,7 @@ $$\text{\small where $s^n_i$ is the current position of the node}$$</p>
 <p>On the left a graphic shows how the normalized cage-local coordinates are calculated: the white box is the cage's bind-time AABB as formed by the 8 deform points associated to the fragment; the yellow dot is the local vertex position; the colored axes are local to the cage and are used to determine the interpolation weights.</p>
 <p>Initially, the final interpolation used yet <em>another</em> AABB using the real-time cage corners to construct it. This worked, but completely eliminated any distortion or shear. Unlike the bind-time cage corners, which are guaranteed to be an AABB anyways, once the cage deforms it can no longer be represented that way.</p>
 <p>Instead, it was more accurate to perform the interpolation per-edge, using the $\mathbf{w}$ normalized cage-local coordinates, like in the graphic shown to the right (there the cage is assumed to not have deformed at all, purely for simplicity):</p>
-<img class="float-right" src="ill-real-trilinear-interp.png" width="24%" height="24%">
+<img class="float-right" src="img/razed-art1-cage_ill-real-trilinear-interp.png" width="24%" height="24%">
 <pre class="giallo z-l-code z-d-code" ><code data-lang="glsl"><span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p000 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">-x, -y, -z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
 <span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p100 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">+x, -y, -z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
 <span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> p010 </span><span class="z-l-9 z-d-16">=</span><span class="z-l-5 z-d-4 z-d-i"> /*</span><span class="z-l-5 z-d-4 z-d-i">-x, +y, -z corner</span><span class="z-l-5 z-d-4 z-d-i">*/</span></span>
@@ -227,7 +188,7 @@ $$\text{\small where $s^n_i$ is the current position of the node}$$</p>
 <span class="giallo-l"></span>
 <span class="giallo-l"><span class="z-l-5 z-d-4 z-d-i">//</span><span class="z-l-5 z-d-4 z-d-i"> interpolate final point from edge</span></span>
 <span class="giallo-l"><span class="z-l-9 z-d-17">vec3</span><span> s </span><span class="z-l-9 z-d-16">=</span><span class="z-l-1 z-d-14"> mix</span><span>(</span><span>r0</span><span class="z-d-9">,</span><span> r1</span><span class="z-d-9">,</span><span> w.z</span><span>)</span><span class="z-d-9">;</span></span></code></pre><div class="flex items-center space-x-8">
-	<img src="i2-debug-viz.png" width="28%">
+	<img src="img/razed-art1-cage_i2-debug-viz.png" width="28%">
 	<div class="w-2/3">
 		On the left an example of the deformation using this version of the system. The green lines highlight the constraints between the sparse lattice nodes, the magenta dots represent cage deformation points.<br/><br/>
 		As it can be observed, while the deformation now gives a somewhat plausible idea, there is still something off: while the fragments themselves seem to correctly deform according to the cages, the cages dont properly deform according to the sparse lattice. This can be seen, for example, for that one single magenta dot at the right <i>outside</i> of the structure. This makes it evident that the $lattice \rightarrow cage$ LBS-like deformation is not the correct procedure.<br/><br/>
