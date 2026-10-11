@@ -5,9 +5,29 @@
     font-style: normal;
     font-display: swap;
 }
+@font-face {
+    font-family: "Inconsolata Mono";
+    src: url("../Inconsolata-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: "Inconsolata Mono Bold";
+    src: url("../Inconsolata-Bold.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
 .odibee-sans-regular {
     font-family: "Odibee Sans", sans-serif;
+}
+.inconsolata-mono-regular {
+    font-family: "Inconsolata Mono", mono;
+}
+.inconsolata-mono-bold {
+    font-family: "Inconsolata Mono Bold", mono;
 }
 
 @import "tailwindcss";
