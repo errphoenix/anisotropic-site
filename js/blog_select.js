@@ -33,10 +33,17 @@ const map = [
 const blogView = document.getElementById("blog-view");
 const selectorTree = document.getElementById("selector-tree");
 const pathLabel = document.getElementById("tree-path-label");
+const treeToggle = document.getElementById("tree-toggle-btn");
+const treeContainer = document.getElementById("tree-container");
 
 const TREE_ELEMENT_MARGIN = 2;
 
 var currentTreePath = "";
+
+treeToggle.addEventListener("click", () => {
+  selectorTree.hidden = !selectorTree.hidden;
+  pathLabel.innerHTML = selectorTree.hidden ? "" : currentTreePath;
+});
 
 document.addEventListener("click", (ev) => {
   const link = ev.target.closest("a.tree-link");
